@@ -64,14 +64,21 @@ export function place(W: number, H: number, obstacles: Box[], topPad: number, gu
   const maxW = narrow ? W - 2 * gutter : Math.min(W - 2 * gutter, W * 0.62);
   let fs = Math.min(maxW / base.w * 100, (H * 0.42) / base.h * 100, 420);
   const margin = narrow ? 14 : 22;
+  // Pontozás: nagy betű, de minél feljebb (a felső/jobb térrész a cél).
+  let best: Placement | null = null, bestScore = -1;
   for (; fs > 24; fs -= 2) {
     const w = base.w * fs / 100, h = base.h * fs / 100;
     const x = narrow ? (W - w) / 2 : W - gutter - w;
     for (let y = topPad; y + h < H * 0.8; y += 4) {
       const b = { x, y, w, h };
-      if (!obstacles.some((o) => hit(b, o, margin))) return { x, y, w, h, fs };
+      if (obstacles.some((o) => hit(b, o, margin))) continue;
+      const score = fs * (1 - 0.9 * (y - topPad) / H);
+      if (score > bestScore) { bestScore = score; best = { x, y, w, h, fs }; }
+      break; // ennél a méretnél ez a legmagasabb hely
     }
+    if (best && fs < best.fs * 0.6) break;
   }
+  if (best) return best;
   const w = base.w * 0.6, h = base.h * 0.6;
   return { x: W - gutter - w, y: topPad, w, h, fs: 60 };
 }
@@ -117,7 +124,7 @@ export function sampleWord(p: Placement, n: number): Samples {
   const pts = new Float32Array(n * 2);
   const edge = new Float32Array(n);
   if (!filled.length) return { pts, edge, count: 0 };
-  const band = Math.max(2, fs * 0.05);
+  const band = Math.max(2, fs * 0.034);
   let k = 0, guard = 0;
   while (k < n && guard < n * 20) {
     guard++;

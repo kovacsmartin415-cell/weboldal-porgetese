@@ -155,7 +155,7 @@ export async function init(el: HTMLElement): Promise<void> {
         v[o] = 0; v[o + 1] = 0;
       } else {
         const ax = auxData[o], ay = auxData[o + 1];
-        const x = letter ? targetData[o] - 0.35 - Math.random() * (aspect + 1.2) : (Math.random() * 2 - 1) * (aspect + 0.12);
+        const x = letter ? targetData[o] - 0.2 - Math.random() * (aspect * 1.4 + 0.5) : (Math.random() * 2 - 1) * (aspect + 0.12);
         const ry = river.x + river.w * x + river.y * Math.sin(x * river.z);
         p[o] = x;
         p[o + 1] = ry + (ax - 0.5) * 0.55 + (Math.random() - 0.5) * (letter ? 0.5 : 0.25);
@@ -175,7 +175,7 @@ export async function init(el: HTMLElement): Promise<void> {
   geo.setAttribute('ref', new THREE.BufferAttribute(refs, 2));
   const pointsMat = new THREE.ShaderMaterial({
     vertexShader: POINTS_VERT, fragmentShader: POINTS_FRAG,
-    uniforms: { tPos: { value: null }, tVel: { value: null }, tTarget: { value: tTarget }, tAux: { value: tAux }, uAspect: { value: 1 }, uPx: { value: 2 }, uGain: { value: 1 } },
+    uniforms: { tPos: { value: null }, tVel: { value: null }, tTarget: { value: tTarget }, tAux: { value: tAux }, uAspect: { value: 1 }, uPx: { value: 2 }, uGain: { value: 1 }, uTime: { value: 0 } },
     blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor,
     depthTest: false, depthWrite: false, transparent: true,
   });
@@ -195,7 +195,7 @@ export async function init(el: HTMLElement): Promise<void> {
   const trail = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthBuffer: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
   const blitMat = new THREE.ShaderMaterial({
     vertexShader: QUAD_VERT, fragmentShader: BLIT_FRAG,
-    uniforms: { tTrail: { value: trail.texture }, uTextRect: { value: textRect }, uAspect: { value: 1 } },
+    uniforms: { tTrail: { value: trail.texture }, uTextRect: { value: textRect }, uAspect: { value: 1 }, uTexel: { value: new THREE.Vector2(1, 1) } },
     depthTest: false, depthWrite: false,
   });
   const blitMesh = new THREE.Mesh(quad, blitMat); blitMesh.frustumCulled = false;
@@ -208,6 +208,7 @@ export async function init(el: HTMLElement): Promise<void> {
     renderer.setSize(r.width, r.height, false);
     const buf = renderer.getDrawingBufferSize(new THREE.Vector2());
     trail.setSize(buf.x, buf.y);
+    (blitMat.uniforms.uTexel.value as THREE.Vector2).set(dpr / buf.x, dpr / buf.y);
     layoutTargets();
     pu.uAspect.value = aspect;
     pointsMat.uniforms.uAspect.value = aspect;
@@ -279,6 +280,7 @@ export async function init(el: HTMLElement): Promise<void> {
     const s = scrollRatio();
     vu.uTime.value = simTime; vu.uDt.value = dt; vu.uScroll.value = s;
     pu.uTime.value = simTime; pu.uDt.value = dt;
+    pointsMat.uniforms.uTime.value = simTime;
     gpu.compute();
     const decay = Math.pow(0.8, dt * 60);
     draw(1 - decay, decay);

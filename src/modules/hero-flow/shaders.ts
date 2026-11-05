@@ -73,14 +73,16 @@ void main(){
   float ry = riverY(pos.x, uTime) + (A.x - 0.5) * 0.55;
   vec2 river = vec2(0.30 + 0.26 * A.y, 0.0) + c * 0.20;
   river.y += (ry - pos.y) * 0.45;
-  river.y -= uScroll * 0.55 * (1.0 - isLetter);
+  river.y -= uScroll * 0.9 * (1.0 - isLetter);
 
   // Belépés és görgetéses feloldás (csak a betűrészecskéknek).
   float form = isLetter * smoothstep(0.0, 1.0, clamp((uTime - A.w) / 0.85, 0.0, 1.0));
   float rel = isLetter * smoothstep(A.z, A.z + 0.16, uScroll);
   float hold = form * (1.0 - rel);
 
-  vec2 fall = vec2(0.10 + c.x * 0.30, -0.45 - 0.55 * A.y + c.y * 0.12);
+  // Lefelé folyás: gyorsuló, kanyargó csorgás a következő szekció felé.
+  float drop = 0.7 + 0.9 * A.y + 1.4 * rel * uScroll;
+  vec2 fall = vec2(0.06 + c.x * 0.32, -drop + c.y * 0.15);
   vec2 free = mix(river, fall, rel);
   vec2 acc = (free - vel) * 2.4 * (1.0 - hold);
 
@@ -155,6 +157,7 @@ uniform sampler2D tTarget;
 uniform sampler2D tAux;
 uniform float uAspect;
 uniform float uPx;
+uniform float uTime;
 varying vec3 vCol;
 varying float vA;
 const vec3 GOZ = vec3(0.925, 0.918, 0.890);
@@ -167,14 +170,19 @@ void main(){
   vec4 A = texture2D(tAux, ref);
   float isLetter = step(0.5, T.w);
   float spd = length(V.xy);
-  float edge = smoothstep(0.15, 0.85, T.z);
-  vec3 letter = mix(GOZ * 0.92, KEN, edge);
-  letter = mix(letter, KEN, smoothstep(0.35, 1.4, spd) * 0.55);
-  float la = 0.42 + 0.30 * edge + 0.10 * A.x;
-  float sa = 0.16 + 0.22 * A.y;
+  float edge = smoothstep(0.45, 0.95, T.z);
+  // Gőz: lassan sodródó, összefüggő világos-sötét foltok a betű belsejében.
+  vec2 q = P.xy * vec2(5.0, 7.0);
+  float steam = 0.5 + 0.25 * sin(q.x + uTime * 0.9 + sin(q.y * 0.8 - uTime * 0.6) * 1.7)
+                    + 0.25 * sin(q.y * 1.3 - uTime * 0.7 + sin(q.x * 0.6 + uTime * 0.4) * 2.0);
+  vec3 inner = mix(GOZ * 0.62, GOZ, steam);
+  vec3 letter = mix(inner, KEN, edge);
+  letter = mix(letter, KEN, smoothstep(0.35, 1.4, spd) * 0.6);
+  float la = mix(0.30 + 0.12 * steam, 0.62, edge);
+  float sa = 0.20 + 0.26 * A.y;
   vCol = mix(ZUZMO, letter, isLetter);
   vA = mix(sa, la, isLetter);
-  gl_PointSize = uPx * mix(0.85 + 0.5 * A.x, 1.0 + 0.45 * edge, isLetter);
+  gl_PointSize = uPx * mix(0.85 + 0.5 * A.x, 1.3 - 0.25 * edge, isLetter);
   gl_Position = vec4(P.x / uAspect, P.y, 0.0, 1.0);
 }
 `;
@@ -205,10 +213,19 @@ export const BLIT_FRAG = /* glsl */ `
 uniform sampler2D tTrail;
 uniform vec4 uTextRect; // uv: x0, y0, x1, y1 (a szövegblokk)
 uniform float uAspect;
+uniform vec2 uTexel;
 varying vec2 vUv;
 const vec3 BAZALT = vec3(0.0824, 0.0941, 0.0980);
 void main(){
   vec3 L = texture2D(tTrail, vUv).rgb;
+  // Olcsó fénykoszorú: két gyűrűben 8-8 minta.
+  vec3 g = vec3(0.0);
+  for (int i = 0; i < 8; i++) {
+    float a = float(i) * 0.7854 + 0.39;
+    vec2 d = vec2(cos(a), sin(a)) * uTexel;
+    g += texture2D(tTrail, vUv + d * 5.0).rgb + texture2D(tTrail, vUv + d * 13.0).rgb * 0.6;
+  }
+  L += g * (0.32 / 12.8);
   // A szöveg alatt visszafogjuk a fényt, hogy a cím olvasható maradjon.
   vec2 q = vec2(
     smoothstep(uTextRect.x - 0.03, uTextRect.x + 0.05, vUv.x) * (1.0 - smoothstep(uTextRect.z - 0.06, uTextRect.z + 0.04, vUv.x)),
