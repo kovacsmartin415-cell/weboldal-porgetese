@@ -1,0 +1,129 @@
+---
+import Alap from '../layouts/Alap.astro';
+import Arlista from '../components/Arlista.astro';
+import Foto from '../components/Foto.astro';
+import { uzlet } from '../config';
+
+const kategoriak = uzlet.kinalat.kategoriak.map((k, i) => ({ ...k, azon: `kat-${i + 1}` }));
+const leiras = `${uzlet.szoveg.kinalatCim}: ${uzlet.kinalat.kategoriak.map((k) => k.nev.toLowerCase()).join(', ')}. ${uzlet.nev}, ${uzlet.cim.varos}.`;
+---
+
+<Alap cim={uzlet.szoveg.kinalatCim} leiras={leiras.slice(0, 160)}>
+  <header class="oldalfej keret">
+    <h1>{uzlet.szoveg.kinalatCim}</h1>
+    {uzlet.kinalat.bevezeto && <p class="bevezeto">{uzlet.kinalat.bevezeto}</p>}
+  </header>
+
+  {
+    kategoriak.length > 1 && (
+      <nav class="keret ugro" aria-label="Kategóriák">
+        <ul>
+          {kategoriak.map((k) => (
+            <li>
+              <a href={`#${k.azon}`}>{k.nev}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
+
+  <div class="keret kategoriak">
+    {
+      kategoriak.map((k) => {
+        const kepes = k.tetelek.find((t) => t.foto);
+        return (
+          <section class="kategoria" id={k.azon} aria-labelledby={`${k.azon}-cim`}>
+            <div class="kategoria-fej">
+              <h2 id={`${k.azon}-cim`}>{k.nev}</h2>
+              {k.leiras && <p class="halvany">{k.leiras}</p>}
+              {kepes?.foto && <Foto foto={kepes.foto} class="kategoria-kep" sizes="(min-width: 56rem) 28vw, 100vw" widths={[480, 720, 960]} />}
+            </div>
+            <Arlista tetelek={k.tetelek} />
+          </section>
+        );
+      })
+    }
+    {uzlet.kinalat.megjegyzes && <p class="arlista-megjegyzes">{uzlet.kinalat.megjegyzes}</p>}
+  </div>
+
+  <section class="szakasz szakasz--felulet kinalat-cta" aria-labelledby="cta-cim">
+    <div class="keret">
+      <h2 id="cta-cim">{uzlet.szoveg.urlapCim}</h2>
+      <p>{uzlet.szoveg.urlapBevezeto}</p>
+      <p class="cta-gombok">
+        <a class="gomb" href={uzlet.telefonHref}>Hívás: {uzlet.telefon}</a>
+        <a class="gomb gomb--masodlagos" href="/kapcsolat/#urlap">Írok üzenetet</a>
+      </p>
+    </div>
+  </section>
+</Alap>
+
+<style>
+  .ugro ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+  }
+  .ugro a {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--vonal);
+    border-radius: 3px;
+    color: var(--szoveg);
+    text-decoration: none;
+  }
+  .ugro a:hover {
+    border-color: var(--szoveg);
+  }
+  .kategoriak {
+    padding-bottom: clamp(3rem, 2rem + 4vw, 5rem);
+  }
+  .kategoria {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 1rem clamp(2rem, 1rem + 4vw, 5rem);
+    padding-block: clamp(2rem, 1.5rem + 2vw, 3rem);
+    border-top: 2px solid var(--szoveg);
+    scroll-margin-top: 1rem;
+  }
+  .kategoria:first-child {
+    margin-top: 1.5rem;
+  }
+  .kategoria-fej h2 {
+    font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  }
+  .kategoria-fej :global(.kategoria-kep) {
+    margin-top: 1.25rem;
+  }
+  .kategoria-fej :global(.kategoria-kep img) {
+    aspect-ratio: 4 / 3;
+  }
+  .kategoria :global(.arlista > li:first-child) {
+    border-top: 0;
+    padding-top: 0.2rem;
+  }
+  .arlista-megjegyzes {
+    max-width: 44rem;
+    color: var(--halvany);
+    border-top: 1px solid var(--vonal);
+    padding-top: 1.25rem;
+    margin: 0;
+  }
+  .cta-gombok {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .kinalat-cta p:not(.cta-gombok) {
+    max-width: 40rem;
+  }
+  @media (max-width: 52rem) {
+    .kategoria {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

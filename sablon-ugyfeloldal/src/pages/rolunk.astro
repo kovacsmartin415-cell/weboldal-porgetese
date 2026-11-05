@@ -1,0 +1,113 @@
+---
+import Alap from '../layouts/Alap.astro';
+import Foto from '../components/Foto.astro';
+import { uzlet } from '../config';
+
+const b = uzlet.bemutatkozas;
+const kepek = uzlet.fotok.rolunk;
+const leiras = b.hosszu[0].length > 160 ? `${b.hosszu[0].slice(0, 157).replace(/\s+\S*$/, '')}…` : b.hosszu[0];
+---
+
+<Alap cim="Rólunk" leiras={leiras}>
+  <header class="oldalfej keret">
+    <h1>Rólunk</h1>
+    <p class="bevezeto">{b.rovid}</p>
+  </header>
+
+  <div class:list={['keret rolunk', { 'rolunk--kepek': kepek.length }]}>
+    <div class="szoveghasab">
+      {b.hosszu.map((bekezdes) => <p>{bekezdes}</p>)}
+
+      {
+        b.nemCsinaljuk && (
+          <aside class="nem-csinaljuk" aria-label="Amit nem csinálunk">
+            <h2>Amit nem csinálunk</h2>
+            <p>{b.nemCsinaljuk}</p>
+          </aside>
+        )
+      }
+
+      {
+        (b.csapat.length > 0 || b.alapitva) && (
+          <dl class="tenyek">
+            {b.alapitva && (
+              <>
+                <dt>Nyitottunk</dt>
+                <dd>{b.alapitva}</dd>
+              </>
+            )}
+            {b.csapat.map((t) => (
+              <>
+                <dt>{t.nev}</dt>
+                <dd>{t.szerep ?? ''}</dd>
+              </>
+            ))}
+          </dl>
+        )
+      }
+    </div>
+
+    {
+      kepek.length > 0 && (
+        <div class="rolunk-kepek">
+          {kepek.map((f) => (
+            <Foto foto={f} sizes="(min-width: 56rem) 40vw, 100vw" kredit />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</Alap>
+
+<style>
+  .rolunk {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem clamp(2rem, 1rem + 4vw, 5rem);
+    padding-bottom: clamp(3rem, 2rem + 4vw, 5rem);
+    border-top: 2px solid var(--szoveg);
+    padding-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+  .rolunk--kepek {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  .rolunk-kepek {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+  }
+  .rolunk-kepek :global(img) {
+    aspect-ratio: 3 / 2;
+  }
+  .nem-csinaljuk {
+    border-left: 3px solid var(--kiemelo);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    margin-block: 2rem;
+  }
+  .nem-csinaljuk h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+  .nem-csinaljuk p {
+    margin: 0;
+  }
+  .tenyek {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.4rem 1.5rem;
+    border-top: 1px solid var(--vonal);
+    padding-top: 1.25rem;
+  }
+  .tenyek dt {
+    font-weight: 600;
+  }
+  .tenyek dd {
+    margin: 0;
+    color: var(--halvany);
+  }
+  @media (max-width: 52rem) {
+    .rolunk--kepek {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
