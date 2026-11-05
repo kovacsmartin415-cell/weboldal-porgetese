@@ -195,7 +195,7 @@ Ezek javítását a Vállalkozó külön díjért vállalhatja.
 
 11.6. A Megrendelő Anyagainak jogai a Megrendelőnél maradnak.
 
-11.7. Névfeltüntetés: a Vállalkozó neve vagy „Készítette: Folyam Studio” felirat csak a Megrendelő hozzájárulásával kerül a Weboldalra (lásd 13. pont). A Vállalkozó oldalán közreműködő szerzők erről a szerződés aláírásával a Megrendelővel szemben lemondanak, amennyiben a jog ezt megengedi.
+11.7. Névfeltüntetés: a Vállalkozó neve vagy „Készítette: Folyam Studio” felirat csak a Megrendelő hozzájárulásával kerül a Weboldalra (lásd 13. pont). A Vállalkozó oldalán közreműködő szerzők hozzájárulnak ahhoz, hogy a nevük a Weboldalon ne szerepeljen. (A személyhez fűződő jogokról lemondani nem lehet, de a szerző dönthet úgy, hogy nem kéri a nevének feltüntetését.)
 
 11.8. Átadáskor a Vállalkozó a teljes forráskódot átadja a Megrendelőnek (a Megrendelő tárolójában, vagy letölthető archívumban).
 

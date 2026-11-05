@@ -29,10 +29,12 @@ out vec4 o;
 const FS = {
   advect: HEAD + `
 uniform sampler2D uVel; uniform sampler2D uSrc;
-uniform vec2 uVelT; uniform float uDt; uniform vec4 uDiss;
+uniform vec2 uVelT; uniform float uDt; uniform vec4 uDiss; uniform vec4 uTop;
 void main() {
   vec2 c = vUv - uDt * texture(uVel, vUv).xy * uVelT;
-  o = texture(uSrc, c) / (1.0 + uDiss * uDt);
+  // felfelé haladva a gőz „lecsapódik”: gyorsabban oszlik, így marad hely a sötétnek
+  vec4 diss = uDiss + uTop * smoothstep(0.35, 1.0, vUv.y);
+  o = texture(uSrc, c) / (1.0 + diss * uDt);
 }`,
   buoy: HEAD + `
 uniform sampler2D uVel; uniform sampler2D uDye;
@@ -160,7 +162,8 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
 
   const P = {
     velDiss: 0.2,
-    dyeDiss: 0.09,
+    dyeDiss: 0.1,
+    topFade: 0.5,
     sulfDiss: 0.75,
     curl: 16,
     pressureDecay: 0.8,
@@ -314,7 +317,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
         x: (fx + sway) * cssW, y: cssH - 10,
         vx: Math.sin(time * 0.6 + i * 1.7) * 8 * vs * dt * 60,
         vy: (140 * vs) * dt * puls,
-        dye: 5.5 * dt * puls, sulf: 3.6 * dt * puls,
+        dye: 4.2 * dt * puls, sulf: 2.8 * dt * puls,
         r: cssW < 700 ? 26 : 34,
       });
     });
@@ -364,12 +367,14 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
     tex(pr, 'uVel', vel.read); tex(pr, 'uSrc', vel.read);
     gl.uniform2f(pr.u.uVelT, ...vT); gl.uniform1f(pr.u.uDt, dt);
     gl.uniform4f(pr.u.uDiss, P.velDiss, P.velDiss, 0, 0);
+    gl.uniform4f(pr.u.uTop, 0, 0, 0, 0);
     draw(vel.write); vel.swap();
 
     pr = use('advect');
     tex(pr, 'uVel', vel.read); tex(pr, 'uSrc', dye.read);
     gl.uniform2f(pr.u.uVelT, ...vT); gl.uniform1f(pr.u.uDt, dt);
     gl.uniform4f(pr.u.uDiss, P.dyeDiss, P.sulfDiss, 0, 0);
+    gl.uniform4f(pr.u.uTop, P.topFade, P.topFade, 0, 0);
     draw(dye.write); dye.swap();
   }
 

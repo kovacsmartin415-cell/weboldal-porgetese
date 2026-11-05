@@ -52,7 +52,7 @@ A {{2026. … …}}-án/én küldött tervet (oldalak, szövegvázlat, fotólist
 
 > A fenti összeg a fizetendő végösszeg. Alanyi adómentes adóalanyként áthárított általános forgalmi adót nem számítunk fel, a számlán ÁFA nem szerepel (az általános forgalmi adóról szóló 2007. évi CXXVII. törvény XIII. fejezete).
 
-*Belső megjegyzés, küldés előtt törlendő:* 2026-ban az alanyi adómentesség bevételi értékhatára 20 millió Ft (2025-ben 18 millió Ft volt; a NAV tájékoztatása szerint 2027-ben 22, 2028-ban 24 millió Ft lesz). Ha alanyi mentesek vagyunk, a weboldalon és az ajánlatban se „+ ÁFA” szerepeljen, hanem a végösszeg, mert a „+ ÁFA” megtévesztő. Az ÁFA-körös ügyfélnek mindegy, mert ő az ÁFÁ-t visszaigényelné. Sok kis bolt viszont maga is alanyi mentes, és nem tud levonni: neki a mi alanyi mentességünk 27%-kal kisebb kiadást jelent. A pontos számlaszöveget a könyvelő mondja meg.
+*Belső megjegyzés, küldés előtt törlendő:* 2026-ban az alanyi adómentesség bevételi értékhatára 20 millió Ft (2025-ben 18 millió Ft volt; az adozona.hu szerint 2027-ben 22, 2028-ban 24 millió Ft lesz). Forrás: nav.gov.hu, „Emelkedik az alanyi adómentesség értékhatára”. Ha alanyi mentesek vagyunk, a weboldalon és az ajánlatban se „+ ÁFA” szerepeljen, hanem a végösszeg, mert a „+ ÁFA” megtévesztő. Az ÁFA-körös ügyfélnek mindegy, mert ő az ÁFÁ-t visszaigényelné. Sok kis bolt viszont maga is alanyi mentes, és nem tud levonni: neki a mi alanyi mentességünk 27%-kal kisebb kiadást jelent. A pontos számlaszöveget a könyvelő mondja meg.
 
 ### Amit külön, közvetlenül nektek kell fizetni
 

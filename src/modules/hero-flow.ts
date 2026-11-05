@@ -280,6 +280,7 @@ export async function init(el: HTMLElement): Promise<void> {
       return;
     }
     simTime += dt;
+    (el as HTMLElement & { __folyamIdo?: number }).__folyamIdo = simTime; // teszteléshez: a szimuláció ideje
     updatePointer(dt);
     ptrVel.multiplyScalar(Math.pow(0.04, dt)); // elengedve gyorsan lecseng
     const s = scrollRatio();

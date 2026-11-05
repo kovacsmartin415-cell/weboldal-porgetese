@@ -173,7 +173,7 @@ export class PhoneScene {
     this.scene.add(new THREE.HemisphereLight(0xecead3, 0x18302e, 0.35));
 
     // --- talaj: valós árnyék + kontakt-árnyék ---
-    const groundY = -2.15;
+    const groundY = -1.92;
     const ground = new THREE.Mesh(keep(new THREE.PlaneGeometry(14, 14)), keep(new THREE.ShadowMaterial({ color: 0x030807, opacity: 0.3 })));
     ground.rotation.x = -Math.PI / 2; ground.position.y = groundY; ground.receiveShadow = true;
     this.scene.add(ground);
