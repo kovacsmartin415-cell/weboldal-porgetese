@@ -11,6 +11,6 @@ export function arKiir(t: Tetel): string {
 export function egysegKiir(t: Tetel): string {
   const reszek: string[] = [];
   if (t.egyseg && t.ar !== undefined) reszek.push(`/ ${t.egyseg}`);
-  if (t.idotartam) reszek.push(t.idotartam);
+  if (t.idotartam) reszek.push(reszek.length ? t.idotartam : `· ${t.idotartam}`);
   return reszek.join(' · ');
 }

@@ -164,6 +164,10 @@ async function smtpKuldes(b: SmtpBeallitas, l: KimenoLevel): Promise<void> {
     hiba = e;
     if (hibaKezelo) hibaKezelo(e);
   });
+  socket.on('close', () => {
+    if (!hiba) hiba = new Error('Az SMTP-kapcsolat váratlanul lezárult.');
+    if (hibaKezelo) hibaKezelo(hiba);
+  });
   const idozito = setTimeout(() => socket.destroy(new Error('SMTP időtúllépés')), b.idokorlatMs || 20000);
 
   function valasz(): Promise<{ kod: number; szoveg: string }> {
@@ -196,7 +200,8 @@ async function smtpKuldes(b: SmtpBeallitas, l: KimenoLevel): Promise<void> {
     // „Dot-stuffing”: a ponttal kezdődő sorok elé még egy pont kerül.
     const tartalom = mimeUzenet(l, new Date()).replace(/\r\n\./g, '\r\n..');
     await parancs(tartalom + '\r\n.', [250], 'üzenet átadása');
-    socket.write('QUIT\r\n');
+    // A levél ezen a ponton már átadva; a QUIT válasza (221) csak udvariasság, a hibája nem számít.
+    await parancs('QUIT', [221], 'QUIT').catch(() => undefined);
   } finally {
     clearTimeout(idozito);
     socket.end();

@@ -3,6 +3,7 @@
 // Europe/Budapest időben. JavaScript nélkül a tömör heti összegzés látszik,
 // ami mindig igaz.
 import { uzlet } from '../config';
+import NyitvaSzkript from './NyitvaSzkript.astro';
 import { hetiOsszegzes } from '../lib/nyitvatartas';
 import { nyitvaJson } from '../lib/nyitvaAdat';
 
@@ -34,6 +35,4 @@ const osszegzes = hetiOsszegzes(uzlet.nyitvatartas.het);
   }
 </div>
 
-<script>
-  import '../scripts/nyitva';
-</script>
+<NyitvaSzkript />

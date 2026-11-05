@@ -12,7 +12,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "pelda": "node scripts/pelda.mjs",
-    "ellenoriz": "node scripts/ellenoriz.mjs"
+    "ellenoriz": "node scripts/ellenoriz.mjs",
+    "sema": "node scripts/sema.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

@@ -2,8 +2,8 @@
 // Ha a konfig hibás, a build megáll és pontosan megmondja, melyik mező a rossz.
 
 import { z } from 'zod';
-import { TIPUSOK, TIPUS_NEVEK } from './tipusok';
-import { TEMAK, kontrasztHibak, type Szinek } from './temak';
+import { TIPUSOK, TIPUS_NEVEK } from './tipusok.ts';
+import { TEMAK, kontrasztHibak, type Szinek } from './temak.ts';
 
 export const NAPOK = ['hetfo', 'kedd', 'szerda', 'csutortok', 'pentek', 'szombat', 'vasarnap'] as const;
 export type NapKulcs = (typeof NAPOK)[number];

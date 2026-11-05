@@ -11,7 +11,9 @@ import { arKiir, egysegKiir } from '../lib/szoveg';
 const osszesTetel = uzlet.kinalat.kategoriak.flatMap((k) => k.tetelek);
 const jelolt = osszesTetel.filter((t) => t.kiemelt);
 const kiemelt = jelolt.length ? jelolt : osszesTetel.slice(0, 4);
-const [foTetel, ...tobbiTetel] = kiemelt;
+// A fő tétel az első kiemelt, amelyikhez fotó is tartozik (ha van ilyen).
+const foTetel = kiemelt.find((t) => t.foto) ?? kiemelt[0];
+const tobbiTetel = kiemelt.filter((t) => t !== foTetel);
 const foKep = uzlet.fotok.fo;
 const rolunkKep = uzlet.fotok.rolunk[0];
 const masodlagosGomb = uzlet.foglalas
@@ -91,12 +93,12 @@ const masodlagosGomb = uzlet.foglalas
   </section>
 
   <section class="szakasz" aria-labelledby="rolunk-cim">
-    <div class:list={['keret rolunk-kivonat', { 'rolunk-kivonat--kep': rolunkKep }]}>
+    <div class:list={['keret rolunk-kivonat', { 'rolunk-kivonat--kep': rolunkKep, 'rolunk-kivonat--idezet': !rolunkKep && uzlet.bemutatkozas.nemCsinaljuk }]}>
       <div class="rolunk-szoveg">
         <h2 id="rolunk-cim">Rólunk</h2>
         <p class="rolunk-elso">{uzlet.bemutatkozas.hosszu[0]}</p>
         {
-          uzlet.bemutatkozas.nemCsinaljuk && (
+          rolunkKep && uzlet.bemutatkozas.nemCsinaljuk && (
             <p class="nem-csinaljuk">
               <strong>Amit nem csinálunk:</strong> {uzlet.bemutatkozas.nemCsinaljuk}
             </p>
@@ -105,6 +107,15 @@ const masodlagosGomb = uzlet.foglalas
         <p><a href="/rolunk/">Bővebben rólunk</a></p>
       </div>
       {rolunkKep && <Foto foto={rolunkKep} class="rolunk-kep" sizes="(min-width: 60rem) 45vw, 100vw" />}
+      {
+        !rolunkKep && uzlet.bemutatkozas.nemCsinaljuk && (
+          <div class="nem-csinaljuk-nagy">
+            <h3>Amit nem csinálunk</h3>
+            <p>{uzlet.bemutatkozas.nemCsinaljuk}</p>
+            {uzlet.bemutatkozas.alapitva && <p class="halvany alapitva">{uzlet.bemutatkozas.alapitva} óta, ugyanezen a címen.</p>}
+          </div>
+        )
+      }
     </div>
   </section>
 
@@ -273,8 +284,35 @@ const masodlagosGomb = uzlet.foglalas
     gap: 2rem clamp(2rem, 1rem + 4vw, 5rem);
     align-items: center;
   }
-  .rolunk-kivonat--kep {
+  .rolunk-kivonat--kep,
+  .rolunk-kivonat--idezet {
     grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  }
+  .rolunk-kivonat--idezet {
+    align-items: start;
+  }
+  .nem-csinaljuk-nagy {
+    border-top: 2px solid var(--kiemelo);
+    padding-top: 1.25rem;
+  }
+  .nem-csinaljuk-nagy h3 {
+    font-size: 1.1rem;
+    font-family: var(--betu-torzs);
+    font-stretch: 100%;
+    font-weight: 700;
+    text-transform: none;
+    margin-bottom: 0.75rem;
+  }
+  .nem-csinaljuk-nagy p:first-of-type {
+    font-family: var(--betu-cim);
+    font-weight: var(--cim-suly);
+    font-stretch: var(--cim-szelesseg);
+    font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .alapitva {
+    margin: 0;
   }
   .rolunk-szoveg {
     max-width: 38rem;
@@ -291,7 +329,8 @@ const masodlagosGomb = uzlet.foglalas
     aspect-ratio: 3 / 2;
   }
   @media (max-width: 52rem) {
-    .rolunk-kivonat--kep {
+    .rolunk-kivonat--kep,
+    .rolunk-kivonat--idezet {
       grid-template-columns: minmax(0, 1fr);
     }
   }

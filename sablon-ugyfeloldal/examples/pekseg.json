@@ -1,0 +1,147 @@
+{
+  "$schema": "../uzlet.schema.json",
+  "bemutato": true,
+  "tipus": "pekseg",
+  "nev": "Kovász & Kalász",
+  "domain": "https://kovaszeskalasz.example",
+  "seo": {
+    "cimke": "Kovászos pékség Veszprémben",
+    "leiras": "Kovászos kenyér, kalács és reggeli péksütemény a veszprémi Kovácsi utcában. Kedd–péntek 6:30–18:00, szombaton 6:30–13:00."
+  },
+  "bemutatkozas": {
+    "rovid": "Kovászos kenyér, kalács és reggeli péksütemény a veszprémi Kovácsi utcában. Hajnali négykor kezdünk, és ami délre elfogy, az aznapra elfogyott.",
+    "hosszu": [
+      "Két kemencénk van és egy tizenkét éves kovászunk. Minden kenyér legalább tizennyolc órát kel, ezért nálunk a reggel hétkor kiadott cipó előző nap délután kezdődik.",
+      "A búza- és rozslisztet egy Veszprém megyei malomból hozzuk, a magokat és a diót helyi termelőktől. Adalékanyagot, sütőport, kész keveréket nem használunk; a kenyérben liszt, víz, só és kovász van.",
+      "A pult kicsi, egyszerre ketten férnek be. Ha sorban állsz, az azért van, mert kérésre minden kenyeret előtted szeletelünk."
+    ],
+    "nemCsinaljuk": "Nem sütünk fagyasztott tésztából, és nincs nálunk egész nap friss croissant. Ha valami délben már nincs a pultban, holnap reggel lesz.",
+    "alapitva": 2019
+  },
+  "cim": {
+    "utca": "Kovácsi utca 7.",
+    "iranyitoszam": "8200",
+    "varos": "Veszprém",
+    "utmutato": "A Szabadság tértől két perc gyalog, a zöld kapu mellett.",
+    "parkolas": "a Kovácsi utcában fizetős, szombaton délelőtt a piac miatt nehéz helyet találni.",
+    "geo": { "lat": 47.0929, "lng": 17.9112 }
+  },
+  "telefon": "+36 88 000 000",
+  "email": "rendeles@kovaszeskalasz.example",
+  "nyitvatartas": {
+    "het": {
+      "hetfo": [],
+      "kedd": [{ "tol": "06:30", "ig": "18:00" }],
+      "szerda": [{ "tol": "06:30", "ig": "18:00" }],
+      "csutortok": [{ "tol": "06:30", "ig": "18:00" }],
+      "pentek": [{ "tol": "06:30", "ig": "18:00" }],
+      "szombat": [{ "tol": "06:30", "ig": "13:00" }],
+      "vasarnap": []
+    },
+    "unnepnapokonZarva": true,
+    "kivetelek": [
+      { "datum": "2026-12-21", "nyitva": [{ "tol": "06:30", "ig": "18:00" }], "megjegyzes": "karácsony előtti hétfőn is nyitva" },
+      { "datum": "2026-12-24", "nyitva": [{ "tol": "06:00", "ig": "12:00" }], "megjegyzes": "szenteste, csak előrendelt bejgli és kalács" },
+      { "datum": "2026-12-27", "datumIg": "2027-01-04", "nyitva": [], "megjegyzes": "téli szünet" }
+    ],
+    "megjegyzes": "Bejglit és ünnepi kalácsot december 18-ig lehet előrendelni."
+  },
+  "kinalat": {
+    "bevezeto": "Naponta ennyi fajta kenyér és péksütemény készül. Az árak darabra értendők, ha nincs más írva.",
+    "megjegyzes": "Az árak 2026. november 1-jétől érvényesek. Allergénekről (glutén, tej, tojás, dió, szezám) a pultnál részletes listát adunk. Kártyával és készpénzzel is fizethetsz.",
+    "kategoriak": [
+      {
+        "nev": "Kenyerek",
+        "leiras": "Mind kovásszal, legalább 18 óra kelesztéssel.",
+        "tetelek": [
+          {
+            "nev": "Kovászos fehér cipó",
+            "leiras": "Ropogós, sötétre sütött héj, lyukacsos bél. Három napig jó, a harmadik napon pirítósnak a legjobb.",
+            "ar": 1450,
+            "egyseg": "1 kg",
+            "kiemelt": true
+          },
+          {
+            "nev": "Rozscipó",
+            "leiras": "60% rozsliszt, köménnyel vagy anélkül. Sűrű, nedves bél, egy hétig is eláll.",
+            "ar": 1390,
+            "egyseg": "750 g",
+            "kiemelt": true,
+            "foto": { "fajl": "fotok/rozscipo.jpg", "alt": "Félbevágott rozscipó a deszkán, sűrű, sötét béllel" }
+          },
+          {
+            "nev": "Tönkölyös vekni",
+            "leiras": "Fele tönkölyliszt, fele fehér búzaliszt, formában sütve.",
+            "ar": 1590,
+            "egyseg": "800 g"
+          },
+          {
+            "nev": "Magos kenyér",
+            "leiras": "Napraforgó, len, tökmag és szezám, a héján is.",
+            "ar": 1690,
+            "egyseg": "900 g",
+            "jelolesek": ["szezámot tartalmaz"]
+          },
+          {
+            "nev": "Kovászos bagett",
+            "ar": 590,
+            "egyseg": "db",
+            "jelolesek": ["csak pénteken és szombaton"]
+          }
+        ]
+      },
+      {
+        "nev": "Kalács és édes",
+        "tetelek": [
+          {
+            "nev": "Fonott kalács",
+            "leiras": "Vajjal, tojással, hosszú kelesztéssel.",
+            "ar": 1890,
+            "egyseg": "db",
+            "kiemelt": true
+          },
+          { "nev": "Kakaós csiga", "ar": 490, "egyseg": "db", "kiemelt": true },
+          { "nev": "Túrós batyu", "ar": 520, "egyseg": "db" },
+          {
+            "nev": "Diós és mákos bejgli",
+            "leiras": "Csak december 1. és 24. között, előrendelésre.",
+            "ar": 4200,
+            "egyseg": "db",
+            "jelolesek": ["szezonális", "diót tartalmaz"]
+          }
+        ]
+      },
+      {
+        "nev": "Sós és reggeli",
+        "tetelek": [
+          { "nev": "Tepertős pogácsa", "ar": 3900, "egyseg": "kg" },
+          { "nev": "Sajtos rúd", "ar": 390, "egyseg": "db" },
+          {
+            "nev": "Kenyérlángos",
+            "leiras": "Tejföllel, hagymával, szalonnával.",
+            "ar": 890,
+            "egyseg": "db",
+            "jelolesek": ["csak szombaton"]
+          },
+          {
+            "nev": "Rendezvénytál",
+            "leiras": "Pogácsa, sajtos rúd és mini szendvicsek, 10–12 főre.",
+            "ar": 14900,
+            "arTol": true,
+            "jelolesek": ["két nappal előre kérd"]
+          }
+        ]
+      }
+    ]
+  },
+  "kozosseg": [],
+  "tema": { "keszlet": "meleg" },
+  "fotok": {
+    "fo": { "fajl": "fotok/pult.jpg", "alt": "Kovászos cipók és fonott kalácsok a pult polcain, reggel" },
+    "rolunk": [{ "fajl": "fotok/kemence.jpg", "alt": "A kemence nyitott szája, előtte a hosszú nyelű vetőlapát" }]
+  },
+  "adatkezelo": {
+    "nev": "Kovász & Kalász Kft.",
+    "szekhely": "8200 Veszprém, Kovácsi utca 7."
+  }
+}

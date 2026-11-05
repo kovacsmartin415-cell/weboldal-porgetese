@@ -63,6 +63,10 @@ var BEALLITASOK = {
 
   // Szabályok felülírása (null = alapértelmezés). Pl. { maxUgyanattol: 5, tiltottSzavak: ['kaszinó'] }
   szabalyok: null,
+
+  // Adatmegőrzés (GDPR): ennyi nap után a `regiUzenetekTorlese` törli a sorokat. 0 = nem töröl.
+  // Írd be ugyanazt, ami az adatkezelési tájékoztatóban szerepel! Napi futtatás: `idozitoBeallitasa`.
+  megorzesNap: 365,
 };
 
 // ============================================================================
@@ -170,6 +174,45 @@ function probaUzenet() {
     },
   });
   Logger.log(JSON.stringify(e));
+}
+
+/**
+ * Törli a megőrzési időnél (BEALLITASOK.megorzesNap) régebbi sorokat az Üzenetek és a Hibanapló lapról.
+ * A Netlify felületén tárolt beküldéseket ez NEM törli – azt lásd a README GDPR-részében.
+ */
+function regiUzenetekTorlese() {
+  var nap = Number(BEALLITASOK.megorzesNap) || 0;
+  if (nap <= 0) return;
+  var hatar = new Date().getTime() - nap * 86400000;
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var torolve = 0;
+  [BEALLITASOK.lapNev, BEALLITASOK.naploLapNev].forEach(function (nev) {
+    var lap = ss.getSheetByName(nev);
+    if (!lap || lap.getLastRow() < 2) return;
+    var fejlec = fejlecSor_(lap);
+    var oszlop = Math.max(0, UrlapLogika.fejlecIndexek(fejlec, [{ kulcs: 'idopont', fejlec: 'Időpont' }]).idopont || 0);
+    var ertekek = lap.getRange(2, oszlop + 1, lap.getLastRow() - 1, 1).getValues();
+    // Alulról felfelé, összefüggő blokkokban törlünk (a sorrend így nem csúszik el).
+    var i = ertekek.length - 1;
+    while (i >= 0) {
+      var ms = UrlapLogika.cellaIdopont(ertekek[i][0]);
+      if (ms && ms < hatar) {
+        var veg = i;
+        while (i - 1 >= 0 && UrlapLogika.cellaIdopont(ertekek[i - 1][0]) && UrlapLogika.cellaIdopont(ertekek[i - 1][0]) < hatar) i--;
+        lap.deleteRows(i + 2, veg - i + 1);
+        torolve += veg - i + 1;
+      }
+      i--;
+    }
+  });
+  if (torolve > 0) naplo_('INFO', 'Megőrzési idő lejárt', torolve + ' sor törölve (' + nap + ' napnál régebbi).', '');
+}
+
+/** Napi időzítő a `regiUzenetekTorlese` futtatásához (hajnali 3 és 4 között). Többször futtatva sem duplikál. */
+function idozitoBeallitasa() {
+  var mar = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'regiUzenetekTorlese'; });
+  if (!mar) ScriptApp.newTrigger('regiUzenetekTorlese').timeBased().everyDays(1).atHour(3).create();
+  Logger.log(mar ? 'Az időzítő már be volt állítva.' : 'Időzítő beállítva: naponta 3 és 4 óra között.');
 }
 
 // ============================================================================

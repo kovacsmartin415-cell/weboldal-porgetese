@@ -2,7 +2,7 @@
 // Minden szövegszín-pár legalább 4.5:1 kontrasztú (WCAG 2.2 AA) – ezt a build
 // ellenőrzi akkor is, ha a konfigban felülírod a színeket.
 
-import type { TemaNev } from './tipusok';
+import type { TemaNev } from './tipusok.ts';
 
 export interface Szinek {
   /** Oldal alapszíne. */

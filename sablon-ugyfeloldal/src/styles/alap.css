@@ -500,6 +500,8 @@ textarea {
   padding: 0.65rem 0.75rem;
   min-height: 2.875rem;
   width: 100%;
+  margin: 0;
+  line-height: 1.4;
 }
 textarea {
   min-height: 8rem;

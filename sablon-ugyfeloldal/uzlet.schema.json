@@ -1,0 +1,827 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "bemutato": {
+      "default": false,
+      "type": "boolean"
+    },
+    "tipus": {
+      "type": "string",
+      "enum": [
+        "pekseg",
+        "viragos",
+        "borbely",
+        "asztalos",
+        "szallas",
+        "egyeb"
+      ]
+    },
+    "schemaTipus": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z]+$"
+    },
+    "nev": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domain": {
+      "type": "string",
+      "format": "uri"
+    },
+    "seo": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "cimke": {
+          "type": "string",
+          "minLength": 1
+        },
+        "leiras": {
+          "type": "string",
+          "maxLength": 170
+        }
+      },
+      "additionalProperties": false
+    },
+    "bemutatkozas": {
+      "type": "object",
+      "properties": {
+        "rovid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 260
+        },
+        "hosszu": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "nemCsinaljuk": {
+          "type": "string"
+        },
+        "csapat": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "nev": {
+                "type": "string",
+                "minLength": 1
+              },
+              "szerep": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "nev"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "alapitva": {
+          "type": "integer",
+          "minimum": 1800,
+          "maximum": 2100
+        }
+      },
+      "required": [
+        "rovid",
+        "hosszu"
+      ],
+      "additionalProperties": false
+    },
+    "cim": {
+      "type": "object",
+      "properties": {
+        "utca": {
+          "type": "string",
+          "minLength": 1
+        },
+        "iranyitoszam": {
+          "type": "string",
+          "pattern": "^\\d{4}$"
+        },
+        "varos": {
+          "type": "string",
+          "minLength": 1
+        },
+        "orszag": {
+          "default": "HU",
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2
+        },
+        "utmutato": {
+          "type": "string"
+        },
+        "geo": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "lng": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          "required": [
+            "lat",
+            "lng"
+          ],
+          "additionalProperties": false
+        },
+        "terkepLink": {
+          "type": "string",
+          "format": "uri"
+        },
+        "parkolas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "utca",
+        "iranyitoszam",
+        "varos"
+      ],
+      "additionalProperties": false
+    },
+    "telefon": {
+      "type": "string",
+      "pattern": "^\\+?[\\d\\s/()-]{8,20}$"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+    },
+    "nyitvatartas": {
+      "type": "object",
+      "properties": {
+        "het": {
+          "type": "object",
+          "properties": {
+            "hetfo": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "kedd": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "szerda": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "csutortok": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "pentek": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "szombat": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "vasarnap": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tol": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  },
+                  "ig": {
+                    "type": "string",
+                    "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                  }
+                },
+                "required": [
+                  "tol",
+                  "ig"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "unnepnapokonZarva": {
+          "default": true,
+          "type": "boolean"
+        },
+        "kivetelek": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "datum": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "datumIg": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "nyitva": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "tol": {
+                      "type": "string",
+                      "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                    },
+                    "ig": {
+                      "type": "string",
+                      "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$"
+                    }
+                  },
+                  "required": [
+                    "tol",
+                    "ig"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "megjegyzes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "datum"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "megjegyzes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "het"
+      ],
+      "additionalProperties": false
+    },
+    "kinalat": {
+      "type": "object",
+      "properties": {
+        "cim": {
+          "type": "string"
+        },
+        "bevezeto": {
+          "type": "string"
+        },
+        "megjegyzes": {
+          "type": "string"
+        },
+        "kategoriak": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "nev": {
+                "type": "string",
+                "minLength": 1
+              },
+              "leiras": {
+                "type": "string"
+              },
+              "tetelek": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nev": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "leiras": {
+                      "type": "string"
+                    },
+                    "ar": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "arTol": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "arSzoveg": {
+                      "type": "string"
+                    },
+                    "egyseg": {
+                      "type": "string"
+                    },
+                    "idotartam": {
+                      "type": "string"
+                    },
+                    "jelolesek": {
+                      "default": [],
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "kiemelt": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "foto": {
+                      "type": "object",
+                      "properties": {
+                        "fajl": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "alt": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "szerzo": {
+                          "type": "string"
+                        },
+                        "forras": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "required": [
+                        "fajl",
+                        "alt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "nev"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "nev",
+              "tetelek"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "kategoriak"
+      ],
+      "additionalProperties": false
+    },
+    "foglalas": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "felirat": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "url",
+        "felirat"
+      ],
+      "additionalProperties": false
+    },
+    "kozosseg": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "halozat": {
+            "type": "string",
+            "enum": [
+              "facebook",
+              "instagram",
+              "tiktok",
+              "youtube",
+              "linkedin",
+              "egyeb"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "felirat": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "halozat",
+          "url"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "googleCegprofil": {
+      "type": "string",
+      "format": "uri"
+    },
+    "tema": {
+      "default": {
+        "szinek": {}
+      },
+      "type": "object",
+      "properties": {
+        "keszlet": {
+          "type": "string",
+          "enum": [
+            "meleg",
+            "letisztult",
+            "meresz"
+          ]
+        },
+        "szinek": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "hatter": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "felulet": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "szoveg": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "halvany": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "kiemelo": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "kiemeloSzoveg": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "fotok": {
+      "default": {
+        "rolunk": []
+      },
+      "type": "object",
+      "properties": {
+        "fo": {
+          "type": "object",
+          "properties": {
+            "fajl": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alt": {
+              "type": "string",
+              "minLength": 1
+            },
+            "szerzo": {
+              "type": "string"
+            },
+            "forras": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "fajl",
+            "alt"
+          ],
+          "additionalProperties": false
+        },
+        "rolunk": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fajl": {
+                "type": "string",
+                "minLength": 1
+              },
+              "alt": {
+                "type": "string",
+                "minLength": 1
+              },
+              "szerzo": {
+                "type": "string"
+              },
+              "forras": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "fajl",
+              "alt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "terkep": {
+          "type": "object",
+          "properties": {
+            "fajl": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alt": {
+              "type": "string",
+              "minLength": 1
+            },
+            "szerzo": {
+              "type": "string"
+            },
+            "forras": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "fajl",
+            "alt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "szovegek": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "kiemeltCim": {
+          "type": "string"
+        },
+        "urlapCim": {
+          "type": "string"
+        },
+        "urlapBevezeto": {
+          "type": "string"
+        },
+        "urlapTargyak": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "urlapDatumCimke": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "adatkezelo": {
+      "default": {
+        "megorzes": "a megkeresés lezárásától számított 1 évig"
+      },
+      "type": "object",
+      "properties": {
+        "nev": {
+          "type": "string"
+        },
+        "forma": {
+          "type": "string"
+        },
+        "szekhely": {
+          "type": "string"
+        },
+        "adoszam": {
+          "type": "string"
+        },
+        "nyilvantartasiSzam": {
+          "type": "string"
+        },
+        "nyilvantarto": {
+          "type": "string"
+        },
+        "kepviselo": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+        },
+        "telefon": {
+          "type": "string"
+        },
+        "megorzes": {
+          "default": "a megkeresés lezárásától számított 1 évig",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tarhely": {
+      "default": {
+        "nev": "Netlify, Inc.",
+        "cim": "512 2nd Street, Suite 200, San Francisco, CA 94107, USA",
+        "elerhetoseg": "https://www.netlify.com/support/"
+      },
+      "type": "object",
+      "properties": {
+        "nev": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "elerhetoseg": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "nev",
+        "cim",
+        "elerhetoseg"
+      ],
+      "additionalProperties": false
+    },
+    "keszito": {
+      "default": {
+        "nev": "Folyam Studio"
+      },
+      "type": "object",
+      "properties": {
+        "nev": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "nev"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "tipus",
+    "nev",
+    "domain",
+    "bemutatkozas",
+    "cim",
+    "telefon",
+    "nyitvatartas",
+    "kinalat"
+  ],
+  "additionalProperties": false,
+  "title": "Folyam ügyféloldal – uzlet.json"
+}

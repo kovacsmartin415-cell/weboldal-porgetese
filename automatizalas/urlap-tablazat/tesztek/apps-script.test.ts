@@ -22,6 +22,7 @@ function hamisLap(nev: string) {
     getRange(r: number, c: number, nr = 1, nc = 1) { return tartomany(r, c, nr, nc); },
     setFrozenRows() { return lap; },
     setColumnWidth() { return lap; },
+    deleteRows(kezdet: number, db: number) { cellak.splice(kezdet - 1, db); return lap; },
   };
   function tartomany(r: number, c: number, nr: number, nc: number): any {
     const t: any = new Proxy({}, {
@@ -176,6 +177,17 @@ describe('Apps Script (A változat)', () => {
     assert.equal(k.lapok['Üzenetek'].cellak.length, 1);
     assert.deepEqual(k.post('{nem json'), { ok: false });
     assert.equal(k.lapok['Hibanapló'].cellak.at(-1)[1], 'HIBA');
+  });
+
+  test('megőrzési idő: a régi sorok törlődnek, a frissek maradnak (az időpont-oszlop helyétől függetlenül)', () => {
+    const nap = 86400000;
+    const most = Date.now();
+    const lap = k.lapok['Üzenetek'];
+    lap.cellak[0] = ['Név', 'Időpont', 'Állapot'];
+    lap.cellak.push(['regi1', new Date(most - 400 * nap), 'Új'], ['regi2', new Date(most - 366 * nap), 'Új'], ['friss', new Date(most - 10 * nap), 'Új'], ['regi3', new Date(most - 500 * nap), 'Lezárva'], ['ures', '', 'Új']);
+    (k.ctx as any).regiUzenetekTorlese();
+    assert.deepEqual(lap.cellak.slice(1).map((s: Sor) => s[0]), ['friss', 'ures']);
+    assert.match(String(k.lapok['Hibanapló'].cellak.at(-1)[3]), /^3 sor törölve \(365 napnál régebbi\)/);
   });
 
   test('szigorú mód (NETLIFY_API_TOKEN): ismeretlen beküldés elutasítva, ismertnél az API adata számít', () => {

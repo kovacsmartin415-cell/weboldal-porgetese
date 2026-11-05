@@ -1,5 +1,6 @@
 ---
 import { uzlet } from '../config';
+import NyitvaSzkript from './NyitvaSzkript.astro';
 import { NAP_KULCSOK, NAP_NEV, savokKiir } from '../lib/nyitvatartas';
 import { kozelgoElteresek } from '../lib/nyitvaAdat';
 
@@ -44,6 +45,4 @@ const nagyKezdo = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   {uzlet.nyitvatartas.megjegyzes && <p class="halvany heti-megjegyzes">{uzlet.nyitvatartas.megjegyzes}</p>}
 </div>
 
-<script>
-  import '../scripts/nyitva';
-</script>
+<NyitvaSzkript />

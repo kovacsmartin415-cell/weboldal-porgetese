@@ -1,0 +1,167 @@
+{
+  "$schema": "../../uzlet.schema.json",
+  "bemutato": true,
+  "tipus": "borbely",
+  "nev": "Penge & Pamacs",
+  "domain": "https://pengeespamacs.example",
+  "seo": {
+    "cimke": "Borbély Győrben, a Belvárosban",
+    "leiras": "Férfi hajvágás, szakálligazítás és borotválás forró törölközővel Győr belvárosában. Kedd–péntek 9–19, szombat 8–13. Időpont telefonon."
+  },
+  "bemutatkozas": {
+    "rovid": "Férfi hajvágás, szakáll és borotválás forró törölközővel, Győr belvárosában. Két szék, időpontra dolgozunk, de ha van szabad hely, beülhetsz rögtön.",
+    "hosszu": [
+      "Két székkel dolgozunk, ezért időpontra érdemes jönni. Egy hajvágásra negyven percet számolunk: ennyi idő kell, hogy ollóval is rendesen kidolgozzuk, ne csak géppel.",
+      "A borotválás régi módon megy: forró törölköző, pamaccsal felvert hab, egyenes penge. Az első alkalommal megkérdezzük, milyen a bőröd, és ahhoz választjuk a szappant.",
+      "Gyerekeket is szívesen nyírunk, tizenkét éves korig kedvezményesen. Kutyát hozhatsz, ha nyugodtan kivár."
+    ],
+    "nemCsinaljuk": "Nem festünk hajat, nem csinálunk dauert és női hajvágást. Ha ezt keresed, szívesen ajánlunk valakit a környéken.",
+    "alapitva": 2021
+  },
+  "cim": {
+    "utca": "Kazinczy utca 9.",
+    "iranyitoszam": "9021",
+    "varos": "Győr",
+    "utmutato": "A Széchenyi tér felől a második kapu, a földszinten.",
+    "parkolas": "a Dunakapu téri mélygarázsban, öt perc gyalog.",
+    "geo": {
+      "lat": 47.6869,
+      "lng": 17.6354
+    }
+  },
+  "telefon": "+36 96 000 000",
+  "email": "idopont@pengeespamacs.example",
+  "nyitvatartas": {
+    "het": {
+      "hetfo": [],
+      "kedd": [
+        {
+          "tol": "09:00",
+          "ig": "19:00"
+        }
+      ],
+      "szerda": [
+        {
+          "tol": "09:00",
+          "ig": "19:00"
+        }
+      ],
+      "csutortok": [
+        {
+          "tol": "09:00",
+          "ig": "19:00"
+        }
+      ],
+      "pentek": [
+        {
+          "tol": "09:00",
+          "ig": "20:00"
+        }
+      ],
+      "szombat": [
+        {
+          "tol": "08:00",
+          "ig": "13:00"
+        }
+      ],
+      "vasarnap": []
+    },
+    "unnepnapokonZarva": true,
+    "kivetelek": [
+      {
+        "datum": "2026-12-24",
+        "nyitva": [
+          {
+            "tol": "08:00",
+            "ig": "12:00"
+          }
+        ],
+        "megjegyzes": "szenteste délelőtt"
+      },
+      {
+        "datum": "2026-12-28",
+        "datumIg": "2027-01-02",
+        "nyitva": [],
+        "megjegyzes": "szabadság"
+      }
+    ]
+  },
+  "kinalat": {
+    "bevezeto": "Az árak egy alkalomra szólnak, a hajmosás mindegyikben benne van.",
+    "megjegyzes": "Készpénzzel és kártyával is fizethetsz. Ha nem tudsz eljönni, legalább három órával előtte szólj, hogy más beülhessen.",
+    "kategoriak": [
+      {
+        "nev": "Haj",
+        "tetelek": [
+          {
+            "nev": "Hajvágás",
+            "leiras": "Ollóval és géppel, mosással, a végén formázással.",
+            "ar": 6500,
+            "idotartam": "40 perc",
+            "kiemelt": true
+          },
+          {
+            "nev": "Gépi vágás egy hosszra",
+            "ar": 4000,
+            "idotartam": "20 perc"
+          },
+          {
+            "nev": "Gyerek hajvágás",
+            "leiras": "12 éves korig.",
+            "ar": 4000,
+            "idotartam": "30 perc"
+          }
+        ]
+      },
+      {
+        "nev": "Szakáll és borotválás",
+        "tetelek": [
+          {
+            "nev": "Szakálligazítás",
+            "leiras": "Kontúr, hossz, olaj vagy balzsam.",
+            "ar": 3500,
+            "idotartam": "20 perc",
+            "kiemelt": true
+          },
+          {
+            "nev": "Borotválás forró törölközővel",
+            "leiras": "Egyenes pengével, habbal, utána hideg törölköző.",
+            "ar": 5500,
+            "idotartam": "30 perc",
+            "kiemelt": true
+          }
+        ]
+      },
+      {
+        "nev": "Együtt",
+        "tetelek": [
+          {
+            "nev": "Hajvágás és szakáll",
+            "ar": 9000,
+            "idotartam": "60 perc",
+            "kiemelt": true
+          },
+          {
+            "nev": "Vőlegénycsomag",
+            "leiras": "Hajvágás, borotválás, szemöldök, az esküvő előtti napon vagy reggelén.",
+            "ar": 14000,
+            "arTol": true,
+            "idotartam": "90 perc"
+          }
+        ]
+      }
+    ]
+  },
+  "kozosseg": [
+    {
+      "halozat": "instagram",
+      "url": "https://www.instagram.com/pengeespamacs.teszt/"
+    }
+  ],
+  "szovegek": {
+    "urlapBevezeto": "Írd meg, melyik nap és napszak lenne jó, és mit kérsz. Munkaidőben pár órán belül visszaírunk egy konkrét időponttal."
+  },
+  "adatkezelo": {
+    "forma": "egyéni vállalkozó"
+  }
+}

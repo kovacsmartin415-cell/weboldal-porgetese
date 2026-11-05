@@ -14,7 +14,8 @@ const leiras = b.hosszu[0].length > 160 ? `${b.hosszu[0].slice(0, 157).replace(/
     <p class="bevezeto">{b.rovid}</p>
   </header>
 
-  <div class:list={['keret rolunk', { 'rolunk--kepek': kepek.length }]}>
+  <div class="keret">
+  <div class:list={['rolunk', { 'rolunk--kepek': kepek.length }]}>
     <div class="szoveghasab">
       {b.hosszu.map((bekezdes) => <p>{bekezdes}</p>)}
 
@@ -56,6 +57,7 @@ const leiras = b.hosszu[0].length > 160 ? `${b.hosszu[0].slice(0, 157).replace(/
         </div>
       )
     }
+  </div>
   </div>
 </Alap>
 

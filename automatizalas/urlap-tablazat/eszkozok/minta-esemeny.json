@@ -1,0 +1,20 @@
+{
+  "payload": {
+    "id": "proba-0001",
+    "number": 1,
+    "form_name": "kapcsolat",
+    "site_url": "https://pelda.netlify.app",
+    "created_at": "2026-11-05T13:32:10.000Z",
+    "data": {
+      "form-name": "kapcsolat",
+      "nev": "Próba Péter",
+      "email": "proba@pelda.hu",
+      "telefon": "06 30 123 4567",
+      "uzenet": "Ez egy próbaüzenet a beüzemeléshez.\nHa ezt látod a táblázatban és a postafiókban, minden működik.",
+      "adatkezeles": "elfogadom",
+      "ip": "203.0.113.7",
+      "user_agent": "proba",
+      "referrer": "https://pelda.netlify.app/kapcsolat/"
+    }
+  }
+}
