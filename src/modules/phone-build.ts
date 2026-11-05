@@ -186,12 +186,17 @@ export async function init(el: HTMLElement): Promise<void> {
   // Méretezés
   const ro = new ResizeObserver(() => {
     if (gl) gl.setSize(canvas.clientWidth, canvas.clientHeight);
+    else if (fallback) {
+      const w = fallback.firstElementChild?.clientWidth ?? 0;
+      if (w > 0) screen.setScale(Math.min(3, Math.max(1, (w * (window.devicePixelRatio || 1)) / 360)));
+    }
     onScroll();
     dirtyKey = '';
     loop.renderOnce();
   });
   ro.observe(canvas);
   ro.observe(list);
+  if (fallback) ro.observe(fallback);
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   desktop.addEventListener('change', onScroll);

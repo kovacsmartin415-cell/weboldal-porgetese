@@ -1,0 +1,35 @@
+---
+// „Nyitva most / Zárva, holnap 7:00-kor nyit” – a böngésző számolja ki
+// Europe/Budapest időben. JavaScript nélkül a tömör heti összegzés látszik,
+// ami mindig igaz.
+import { uzlet } from '../config';
+import { hetiOsszegzes } from '../lib/nyitvatartas';
+import { nyitvaJson } from '../lib/nyitvaAdat';
+
+interface Props {
+  osszegzesCimke?: string;
+}
+const { osszegzesCimke = 'Nyitvatartás' } = Astro.props;
+const osszegzes = hetiOsszegzes(uzlet.nyitvatartas.het);
+---
+
+<div class="nyitva" data-nyitvatartas={nyitvaJson}>
+  <p class="allapot" data-allapot hidden>
+    <span class="allapot-cimke" data-allapot-cimke></span>
+    <span class="allapot-reszlet" data-allapot-reszlet></span>
+  </p>
+  <dl class="osszegzes" aria-label={osszegzesCimke}>
+    {
+      osszegzes.map((s) => (
+        <>
+          <dt>{s.napok}</dt>
+          <dd>{s.idok}</dd>
+        </>
+      ))
+    }
+  </dl>
+</div>
+
+<script>
+  import '../scripts/nyitva';
+</script>

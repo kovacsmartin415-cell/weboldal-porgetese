@@ -262,7 +262,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
     curlF = fbo(vw, vh, gl.R16F, gl.RED);
     gl.bindFramebuffer(gl.FRAMEBUFFER, vel.read.fb);
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) throw new Error('[goz] framebuffer');
-    warmed = false; warmLeft = 0;
+    warmed = false; warmLeft = 0; cancelAnimationFrame(stillRaf); stillRaf = 0;
   }
 
   // --- rajzolási segédek ---
@@ -389,10 +389,10 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
 
   // Előmelegítés: hogy a gőz már ott legyen, mire a szekció a képbe ér.
   // Animált módban képkockánként 8 lépésben, hogy ne akadjon; állóképnél egyben.
-  let warmLeft = 0;
-  function warm(n: number) {
+  let warmLeft = 0, stillRaf = 0;
+  function warm(n: number, dt = 1 / 30) {
     const k = Math.min(n, warmLeft);
-    for (let i = 0; i < k; i++) step(1 / 30);
+    for (let i = 0; i < k; i++) step(dt);
     warmLeft -= k;
     if (warmLeft <= 0) warmed = true;
   }
@@ -408,9 +408,23 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
   function frame(_t: number, dt: number) {
     if (!ready || lost) return;
     if (!warmed) {
-      if (warmLeft <= 0) warmLeft = reduced || reducedMotion() ? 170 : 150;
-      warm(reducedMotion() || dt === 0 ? warmLeft : 8);
-      return display(reducedMotion() ? 0.8 : 1);
+      if (reducedMotion() || dt === 0) {
+        // állókép: a csóvát több képkockára elosztva számoljuk ki, és csak a végén rajzoljuk ki egyszer
+        if (stillRaf) return;
+        if (warmLeft <= 0) warmLeft = 110;
+        const chunk = () => {
+          stillRaf = 0;
+          if (!ready || lost) return;
+          warm(12, 1 / 15);
+          if (warmed) display(reducedMotion() ? 0.8 : 1);
+          else stillRaf = requestAnimationFrame(chunk);
+        };
+        stillRaf = requestAnimationFrame(chunk);
+        return;
+      }
+      if (warmLeft <= 0) warmLeft = 150;
+      warm(8);
+      return display(1);
     }
     if (dt > 0) { govern(dt); step(Math.min(dt, 1 / 30)); }
     display(reducedMotion() ? 0.8 : 1);

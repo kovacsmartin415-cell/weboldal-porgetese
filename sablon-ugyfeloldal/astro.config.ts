@@ -69,7 +69,7 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [temaBetuk()],
+    plugins: [tema()],
     build: {
       // 0 = semmilyen kis szkript, stílus vagy kép ne kerüljön inline-ba (data: URI).
       assetsInlineLimit: 0,

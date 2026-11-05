@@ -12,6 +12,7 @@ import { sorFejlecSzerint, fejlecIndexek, msbolSorszam, idoRovid, levag } from '
 export const SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const API = 'https://sheets.googleapis.com/v4/spreadsheets/';
+export const NAPLO_FEJLEC = ['Időpont', 'Szint', 'Esemény', 'Részletek', 'Azonosító'];
 
 type FetchFn = (url: string, init?: RequestInit) => Promise<Response>;
 
@@ -94,17 +95,25 @@ export function googleTablazat(b: TablazatBeallitas): TablazatKliens {
     return szoveg ? JSON.parse(szoveg) : {};
   }
 
-  async function lapId(nev: string, letrehoz: boolean): Promise<number> {
+  /** A lap numerikus azonosítója; ha nincs ilyen lap és kapott `ujFejlec`-et, létrehozza azzal a fejléccel. */
+  async function lapId(nev: string, ujFejlec: string[] | null): Promise<number> {
     if (!lapIdk || !(nev in lapIdk)) {
       const adat = await hivas('GET', '?fields=' + encodeURIComponent('sheets.properties(sheetId,title)'));
       lapIdk = {};
       for (const l of adat.sheets || []) lapIdk[l.properties.title] = l.properties.sheetId;
     }
     if (nev in lapIdk) return lapIdk[nev];
-    if (!letrehoz) throw new Error('Nincs „' + nev + '” nevű lap a táblázatban (GOOGLE_SHEET_TAB).');
-    const v = await hivas('POST', ':batchUpdate', { requests: [{ addSheet: { properties: { title: nev } } }] });
+    if (!ujFejlec) throw new Error('Nincs „' + nev + '” nevű lap a táblázatban (GOOGLE_SHEET_TAB).');
+    const v = await hivas('POST', ':batchUpdate', {
+      requests: [
+        { addSheet: { properties: { title: nev, gridProperties: { frozenRowCount: 1 } } } },
+      ],
+    });
     const id = v.replies[0].addSheet.properties.sheetId;
     lapIdk[nev] = id;
+    await hivas('POST', ':batchUpdate', {
+      requests: [{ appendCells: { sheetId: id, rows: [{ values: ujFejlec.map((h) => cella(h, false)) }], fields: 'userEnteredValue' } }],
+    });
     return id;
   }
 
@@ -116,8 +125,8 @@ export function googleTablazat(b: TablazatBeallitas): TablazatKliens {
     return { userEnteredValue: { stringValue: String(v) } };
   }
 
-  async function sorokHozzaad(nev: string, sorok: Array<Array<string | number>>, datumOszlop: number, letrehoz: boolean): Promise<void> {
-    const id = await lapId(nev, letrehoz);
+  async function sorokHozzaad(nev: string, sorok: Array<Array<string | number>>, datumOszlop: number, ujFejlec: string[] | null): Promise<void> {
+    const id = await lapId(nev, ujFejlec);
     await hivas('POST', ':batchUpdate', {
       requests: [{
         appendCells: {
@@ -144,11 +153,11 @@ export function googleTablazat(b: TablazatBeallitas): TablazatKliens {
       const tenylegesFejlec = fejlec && fejlec.length ? fejlec : oszlopok.map((o) => o.fejlec);
       sorok.push(sorFejlecSzerint(adatok, tenylegesFejlec, oszlopok));
       const ix = fejlecIndexek(tenylegesFejlec, oszlopok);
-      await sorokHozzaad(b.lapNev, sorok, ix.idopont === undefined ? -1 : ix.idopont, false);
+      await sorokHozzaad(b.lapNev, sorok, ix.idopont === undefined ? -1 : ix.idopont, null);
     },
 
     async naplo(szint, esemeny, reszletek, azonosito) {
-      await sorokHozzaad(b.naploLapNev, [[idoRovid(most()), szint, esemeny, levag(reszletek || '', 2000), azonosito || '']], -1, true);
+      await sorokHozzaad(b.naploLapNev, [[idoRovid(most()), szint, esemeny, levag(reszletek || '', 2000), azonosito || '']], -1, NAPLO_FEJLEC);
     },
   };
 }

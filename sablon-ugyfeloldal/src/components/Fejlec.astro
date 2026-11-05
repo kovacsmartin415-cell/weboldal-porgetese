@@ -1,0 +1,31 @@
+---
+import { uzlet } from '../config';
+
+const menu = [
+  { href: '/', felirat: 'Főoldal' },
+  { href: '/kinalat/', felirat: uzlet.tipusAlap.tetelTipus === 'Service' ? 'Árak' : 'Kínálat' },
+  { href: '/rolunk/', felirat: 'Rólunk' },
+  { href: '/kapcsolat/', felirat: 'Kapcsolat' },
+];
+const utvonal = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+---
+
+<header class="fejlec">
+  <div class="keret">
+    <a class="logo" href="/" aria-label={`${uzlet.nev} – főoldal`}>{uzlet.nev}</a>
+    <nav class="fomenu" aria-label="Fő menü">
+      <ul>
+        {
+          menu.map((m) => (
+            <li>
+              <a href={m.href} aria-current={utvonal === m.href ? 'page' : undefined}>
+                {m.felirat}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="fejlec-tel" href={uzlet.telefonHref}><span class="lathatatlan">Telefon: </span>{uzlet.telefon}</a>
+  </div>
+</header>

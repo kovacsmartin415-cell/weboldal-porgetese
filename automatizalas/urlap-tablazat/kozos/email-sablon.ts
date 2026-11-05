@@ -36,7 +36,7 @@ export function tobbsorosHtml(s: string): string {
 
 /** Levél fejlécébe kerülő szöveg: nincs sortörés (fejléc-befecskendezés ellen), max. hossz. */
 export function fejlecBiztos(s: string, max: number): string {
-  return levag(String(s).replace(/[\r\n  ]+/g, ' ').replace(/\s+/g, ' ').trim(), max);
+  return levag(String(s).replace(/[\r\n\u2028\u2029]+/g, ' ').replace(/\s+/g, ' ').trim(), max);
 }
 
 export function biztonsagosSzin(s: string, alap: string): string {
@@ -46,7 +46,7 @@ export function biztonsagosSzin(s: string, alap: string): string {
 /** Megszólításra alkalmas név? (Nincs benne link, szám, @ – különben a visszaigazolás reklámhordozóvá válhatna.) */
 export function megszolithatoNev(nev: string): string {
   const n = String(nev || '').trim();
-  return /^[\p{L}][\p{L} .'’-]{0,59}$/u.test(n) ? n : '';
+  return /^[\p{L}][\p{L} .'\u2019-]{0,59}$/u.test(n) ? n : '';
 }
 
 function telHref(tel: string): string {

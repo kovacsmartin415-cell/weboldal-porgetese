@@ -1,0 +1,15 @@
+{
+  "name": "urlap-tablazat",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Netlify Forms → Google Táblázat + e-mail (Apps Script és Netlify Function változat)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --disable-warning=ExperimentalWarning --test tesztek/*.test.ts",
+    "build:apps-script": "node --disable-warning=ExperimentalWarning eszkozok/apps-script-epites.mjs",
+    "proba": "node eszkozok/proba-bekuldes.mjs"
+  }
+}

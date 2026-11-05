@@ -5,7 +5,7 @@
  * .gs fájlba fűzve – a Google Apps Scriptben (A). Ezért:
  *   - nincs I/O, nincs Node- vagy böngésző-API (nincs crypto, URL, Intl, TextEncoder),
  *   - csak „törölhető” TypeScript (nincs enum, namespace, paraméter-tulajdonság),
- *   - nincs `?.` és `??` (a régebbi Apps Script-futtatók miatt óvatosság),
+ *   - nincs opcionális láncolás és nullish-operátor (a régebbi Apps Script-futtatók miatt óvatosság),
  *   - minden importált/exportált sor egysoros (az Apps Script-építő ezt várja).
  */
 
@@ -190,7 +190,7 @@ export function beallitasokOsszefesul(alap: Beallitasok, felulir: Record<string,
 // ---------------------------------------------------------------------------
 
 // Vezérlőkarakterek (a sortörés és a tab kivételével), nulla szélességű és irányváltó karakterek.
-const TILTOTT_KARAKTEREK = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F​-‏‪-‮⁦-⁩﻿]/g;
+const TILTOTT_KARAKTEREK = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g;
 
 export function szovegge(ertek: unknown): string {
   if (ertek === undefined || ertek === null) return '';

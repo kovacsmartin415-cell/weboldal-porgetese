@@ -1,0 +1,49 @@
+---
+import { uzlet } from '../config';
+import { NAP_KULCSOK, NAP_NEV, savokKiir } from '../lib/nyitvatartas';
+import { kozelgoElteresek } from '../lib/nyitvaAdat';
+
+interface Props {
+  cim?: string;
+  /** A táblázat felirata látható legyen-e (ha fölötte már van címsor, ne). */
+  feliratLathato?: boolean;
+}
+const { cim = 'Nyitvatartás', feliratLathato = true } = Astro.props;
+const elteresek = kozelgoElteresek();
+const nagyKezdo = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+---
+
+<div class="heti-doboz">
+  <table class="heti">
+    <caption class={feliratLathato ? undefined : 'lathatatlan'}>{cim}</caption>
+    <tbody>
+      {
+        NAP_KULCSOK.map((nap) => (
+          <tr data-nap={nap}>
+            <th scope="row">{nagyKezdo(NAP_NEV[nap])}</th>
+            <td>{savokKiir(uzlet.nyitvatartas.het[nap])}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  {
+    elteresek.length > 0 && (
+      <div class="elteres-doboz" data-elteresek>
+        <p class="elteres-cim">
+          <strong>Eltérő nyitvatartás</strong>
+        </p>
+        <ul class="elteresek">
+          {elteresek.map((e) => (
+            <li data-ig={e.ig}>{e.szoveg}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  {uzlet.nyitvatartas.megjegyzes && <p class="halvany heti-megjegyzes">{uzlet.nyitvatartas.megjegyzes}</p>}
+</div>
+
+<script>
+  import '../scripts/nyitva';
+</script>
