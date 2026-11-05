@@ -61,6 +61,25 @@ export const uzlet = {
 
 export type UzletAdat = typeof uzlet;
 
+/** Az impresszumhoz és az adatkezelési tájékoztatóhoz kötelező, de hiányzó adatok. */
+export const hianyzoJogiAdatok = (
+  [
+    ['adatkezelo.nev', cfg.adatkezelo.nev],
+    ['adatkezelo.szekhely', cfg.adatkezelo.szekhely],
+    ['adatkezelo.adoszam', cfg.adatkezelo.adoszam],
+    ['adatkezelo.nyilvantartasiSzam', cfg.adatkezelo.nyilvantartasiSzam],
+    ['adatkezelo.email', cfg.adatkezelo.email ?? cfg.email],
+  ] as const
+)
+  .filter(([, ertek]) => !ertek)
+  .map(([mezo]) => mezo);
+
+if (hianyzoJogiAdatok.length && !cfg.bemutato) {
+  console.warn(
+    `\n[uzlet.json] Hiányzó jogi adatok, az oldalon [TESZT ADAT] jelenik meg helyettük: ${hianyzoJogiAdatok.join(', ')}\n`,
+  );
+}
+
 /** Forint formázás: 1 450 Ft (nem törő szóközzel). */
 export function forint(osszeg: number): string {
   return `${new Intl.NumberFormat('hu-HU', { maximumFractionDigits: 0 }).format(osszeg).replace(/\s/g, ' ')} Ft`;

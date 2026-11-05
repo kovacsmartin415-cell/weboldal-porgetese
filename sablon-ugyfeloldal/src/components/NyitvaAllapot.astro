@@ -8,8 +8,10 @@ import { nyitvaJson } from '../lib/nyitvaAdat';
 
 interface Props {
   osszegzesCimke?: string;
+  /** Ha mellette a teljes heti táblázat is ott van, a tömör összegzés elhagyható. */
+  osszegzes?: boolean;
 }
-const { osszegzesCimke = 'Nyitvatartás' } = Astro.props;
+const { osszegzesCimke = 'Nyitvatartás', osszegzes: osszegzesKell = true } = Astro.props;
 const osszegzes = hetiOsszegzes(uzlet.nyitvatartas.het);
 ---
 
@@ -18,16 +20,18 @@ const osszegzes = hetiOsszegzes(uzlet.nyitvatartas.het);
     <span class="allapot-cimke" data-allapot-cimke></span>
     <span class="allapot-reszlet" data-allapot-reszlet></span>
   </p>
-  <dl class="osszegzes" aria-label={osszegzesCimke}>
-    {
-      osszegzes.map((s) => (
-        <>
-          <dt>{s.napok}</dt>
-          <dd>{s.idok}</dd>
-        </>
-      ))
-    }
-  </dl>
+  {
+    osszegzesKell && (
+      <dl class="osszegzes" aria-label={osszegzesCimke}>
+        {osszegzes.map((s) => (
+          <>
+            <dt>{s.napok}</dt>
+            <dd>{s.idok}</dd>
+          </>
+        ))}
+      </dl>
+    )
+  }
 </div>
 
 <script>

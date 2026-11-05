@@ -236,3 +236,6 @@ a:hover { text-decoration-color: var(--ken); }
 .lab__to { position: absolute; inset: 0; width: 100%; height: 100%; }
 .lab__racs { pointer-events: none; }
 .lab__racs a { pointer-events: auto; }
+
+/* A 3D telefon szekció végső magasságát előre lefoglaljuk, hogy a lusta modulindulás ne okozzon elrendezés-ugrást (CLS). */
+@media (scripting: enabled) { .telefon:not(.modul-hiba) { min-height: 400svh; } }
