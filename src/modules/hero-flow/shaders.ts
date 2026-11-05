@@ -108,10 +108,10 @@ void main(){
   if (age > 0.0 && age < 2.5) {
     vec2 ds = pos - uShock.xy;
     float rs = length(ds);
-    float ring = age * 1.5;
+    float ring = age * 1.25;
     float w = 0.09 + age * 0.08;
     float f = exp(-pow((rs - ring) / w, 2.0)) * exp(-age * 1.8) * uShock.w;
-    acc += (ds / max(rs, 1e-3)) * f * 20.0;
+    acc += (ds / max(rs, 1e-3)) * f * 13.0;
   }
 
   vel += acc * uDt;

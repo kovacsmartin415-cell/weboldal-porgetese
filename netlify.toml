@@ -18,14 +18,31 @@
   for = "/*"
   [headers.values]
     Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+    # HSTS: az includeSubDomains csak a válaszoló host aldomainjeire (*.folyam-aramlas.netlify.app) hat,
+    # a netlify.app más oldalaira és a deploy-preview--… testvércímekre nem; a .app TLD amúgy is HSTS-preloados.
+    # FIGYELEM: saját domainre költözéskor (pl. a gyökérdomainen) az includeSubDomains két évre minden
+    # aldomaint HTTPS-re kényszerít – előtte ellenőrizni kell, hogy minden aldomain tud-e HTTPS-t.
     Strict-Transport-Security = "max-age=63072000; includeSubDomains"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    # (az interest-cohort a megszűnt FLoC-é volt; a böngészők már ismeretlen direktívaként figyelmeztetnek rá)
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
     Cross-Origin-Opener-Policy = "same-origin"
     X-Frame-Options = "DENY"
-    # Tesztoldal: keresők ne indexeljék (a robots.txt és a meta robots mellett).
+    # Tesztoldal: keresők ne indexeljék (a meta robots mellett). A robots.txt szándékosan NEM tiltja
+    # a bejárást, különben a kereső nem látná ezt a noindex jelzést, és a címet tartalom nélkül is indexelhetné.
     X-Robots-Tag = "noindex"
+
+# RFC 9116: a security.txt text/plain, UTF-8; a licencek.txt is ékezetes szöveg.
+[[headers]]
+  for = "/.well-known/security.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+[[headers]]
+  for = "/licencek.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
 
 # A Vite hash-elt nevű fájljai sosem változnak: egy évig gyorsítótárazhatók.
 [[headers]]

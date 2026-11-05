@@ -1,3 +1,5 @@
-# Tesztoldal: kérjük, ne indexeld.
+# Tesztoldal: nem szeretnénk, hogy keresőkben megjelenjen.
+# A bejárást szándékosan nem tiltjuk: a "noindex" jelzést (X-Robots-Tag fejléc és meta robots)
+# a kereső csak akkor látja, ha lekérheti az oldalt. Disallow mellett a cím tartalom nélkül is indexelődhetne.
 User-agent: *
-Disallow: /
+Disallow:

@@ -40,15 +40,19 @@ async function fontReady(): Promise<void> {
 export async function init(el: HTMLElement): Promise<void> {
   const canvas = el.querySelector<HTMLCanvasElement>('.nyito__vaszon');
   if (!canvas || !hasWebGL2()) { fallback(el, canvas); return; }
-
   await fontReady();
-
-  let renderer: THREE.WebGLRenderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance', preserveDrawingBuffer: false });
-  } catch {
-    fallback(el, canvas); return;
+    start(el, canvas);
+  } catch (err) {
+    // Bármilyen GPU-hiba esetén a statikus szó marad, az oldal nem törik el.
+    console.warn('[hero-flow] statikus tartalék', err);
+    fallback(el, canvas);
   }
+}
+
+function start(el: HTMLElement, canvas: HTMLCanvasElement): void {
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance', preserveDrawingBuffer: false });
   renderer.setClearColor(0x151819, 1);
   renderer.autoClear = false;
 
@@ -60,7 +64,7 @@ export async function init(el: HTMLElement): Promise<void> {
 
   const floatOK = renderer.extensions.has('EXT_color_buffer_float');
   const halfOK = floatOK || renderer.extensions.has('EXT_color_buffer_half_float');
-  if (!halfOK) { renderer.dispose(); fallback(el, canvas); return; }
+  if (!halfOK) { renderer.dispose(); throw new Error('nincs lebegőpontos render target'); }
 
   // --- Állapot ---
   let W = 1, H = 1, aspect = 1;
@@ -228,14 +232,14 @@ export async function init(el: HTMLElement): Promise<void> {
   resize();
   fillInitial(reducedMotion());
   const err = gpu.init();
-  if (err) { console.warn('[hero-flow]', err); renderer.dispose(); fallback(el, canvas); return; }
+  if (err) { renderer.dispose(); throw new Error(err); }
 
   // --- Bemenet ---
   const onDown = (e: PointerEvent) => {
     if (!e.isPrimary) return;
     const r = canvas.getBoundingClientRect();
     const [x, y] = [(e.clientX - r.left - r.width / 2) / (r.height / 2), 1 - (2 * (e.clientY - r.top)) / r.height];
-    (vu.uShock.value as THREE.Vector4).set(x, y, simTime, 1);
+    (vu.uShock.value as THREE.Vector4).set(x, y, simTime, coarse ? 0.65 : 1);
   };
   el.addEventListener('pointerdown', onDown, { passive: true });
 

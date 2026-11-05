@@ -206,7 +206,7 @@ export const uzletSema = z
       .strict()
       .default({
         nev: 'Netlify, Inc.',
-        cim: '512 2nd Street, Suite 200, San Francisco, CA 94107, USA',
+        cim: '101 2nd Street, San Francisco, CA 94105, USA',
         elerhetoseg: 'https://www.netlify.com/support/',
       }),
     keszito: z
