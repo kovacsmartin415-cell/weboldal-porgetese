@@ -1,0 +1,120 @@
+/* phone-build – „Hogyan épül egy oldal”.
+   Minden szabály a .telefon.modul-kesz alatt: JS nélkül a sima lépéslista marad. */
+
+.telefon.modul-kesz { height: 400svh; }
+
+.telefon.modul-kesz .telefon__ragad {
+  position: sticky; top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "fej" "telo" "jelzo" "lepes";
+  padding-top: 58px; /* a ragadós fejléc alatt */
+}
+
+.telefon.modul-kesz .telefon__fej { grid-area: fej; padding: 4px var(--gutter) 0; max-width: none; margin: 0; }
+.telefon.modul-kesz .telefon__fej .cim-l { font-size: clamp(1.7rem, 7.4vw, 2.4rem); margin: 0 0 4px; }
+.telefon.modul-kesz .telefon__fej .apro { font-size: 0.8rem; line-height: 1.4; margin: 0; }
+
+.telefon.modul-kesz .telefon__vaszon,
+.telefon.modul-kesz .pb-tartalek { grid-area: telo; width: 100%; height: 100%; min-height: 0; }
+.telefon.modul-kesz.pb-2d .telefon__vaszon { display: none; }
+
+/* Lépések – telefonon egymáson, csak az aktív látszik */
+.telefon.modul-kesz .lepesek {
+  grid-area: lepes;
+  display: grid;
+  margin: 0; max-width: none;
+  padding: 6px var(--gutter) max(18px, env(safe-area-inset-bottom));
+}
+.telefon.modul-kesz .lepes {
+  grid-area: 1 / 1;
+  border-top: 0;
+  padding: 0;
+  opacity: 0; visibility: hidden;
+}
+.telefon.modul-kesz .lepes[aria-current="step"] { opacity: 1; visibility: visible; }
+.telefon.modul-kesz .lepes__ido { margin-bottom: 2px; }
+.telefon.modul-kesz .lepes__cim { font-size: clamp(1.25rem, 5.4vw, 1.6rem); margin: 0 0 4px; }
+.telefon.modul-kesz .lepes p:last-child { font-size: 0.95rem; line-height: 1.5; }
+
+.pb-jelzo { display: none; }
+.telefon.modul-kesz .pb-jelzo {
+  grid-area: jelzo;
+  display: flex; gap: 6px;
+  padding: 6px var(--gutter) 6px;
+}
+.pb-jelzo span { flex: 1; height: 3px; border-radius: 2px; background: var(--vonal); transition: background-color 0.3s; }
+.pb-jelzo span.on { background: var(--ken); }
+
+/* 2D tartalék: CSS-sel rajzolt telefonkeret */
+.pb-tartalek {
+  display: grid; place-items: center;
+  perspective: 1200px;
+  padding: 12px 0;
+}
+.pb-tartalek__kijelzo {
+  height: 100%;
+  max-height: 640px;
+  aspect-ratio: 139 / 299;
+  max-width: 100%;
+  border: 9px solid #0b0d0e;
+  outline: 2px solid #2a3032;
+  border-radius: 38px;
+  overflow: hidden;
+  background: var(--goz);
+  box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.7), 0 6px 18px rgba(0, 0, 0, 0.35);
+  transform: rotateY(var(--pb-ry, 0deg)) rotateX(var(--pb-rx, 0deg));
+}
+.pb-tartalek__vaszon { width: 100%; height: 100%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .telefon.modul-kesz .lepes { transition: opacity 0.35s ease, visibility 0.35s; }
+}
+
+/* ---------- Asztali elrendezés ---------- */
+@media (min-width: 900px) {
+  .telefon.modul-kesz .telefon__ragad {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "fej telo" "lepes telo";
+    column-gap: clamp(24px, 4vw, 64px);
+    padding: 76px max(var(--gutter), (100% - var(--max)) / 2) 0;
+  }
+  .telefon.modul-kesz .telefon__fej { padding: 0; }
+  .telefon.modul-kesz .telefon__fej .cim-l { font-size: clamp(2rem, 4.2vw, 3.6rem); margin-bottom: 10px; }
+  .telefon.modul-kesz .telefon__fej .apro { font-size: 0.9rem; }
+  .telefon.modul-kesz .pb-jelzo { display: none; }
+
+  .telefon.modul-kesz .lepesek {
+    display: block;
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 80%, transparent 100%);
+  }
+  .telefon.modul-kesz .lepes {
+    opacity: 0.62; visibility: visible;
+    padding: 26px 0 26px 22px;
+    border-top: 0;
+    position: relative;
+    transform: translateY(var(--pb-y, 0px));
+  }
+  .telefon.modul-kesz .lepes::before {
+    content: ""; position: absolute; left: 0; top: 30px; bottom: 30px; width: 2px;
+    background: var(--vonal);
+  }
+  .telefon.modul-kesz .lepes[aria-current="step"] { opacity: 1; }
+  .telefon.modul-kesz .lepes[aria-current="step"]::before { background: var(--ken); }
+  .telefon.modul-kesz .lepes__cim { font-size: clamp(1.4rem, 2.4vw, 2rem); }
+  .telefon.modul-kesz .lepes p:last-child { font-size: 1.0625rem; }
+  .pb-tartalek { padding: 40px 0 60px; }
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .telefon.modul-kesz .lepes { transition: opacity 0.4s ease; }
+  .telefon.modul-kesz .lepes::before { transition: background-color 0.4s ease; }
+}

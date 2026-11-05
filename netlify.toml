@@ -1,0 +1,29 @@
+# Folyam Studio – „Áramlás” tesztoldal. Netlify beállítások.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Biztonsági fejlécek minden válaszra (HTML, eszközök, 404).
+# CSP: csak saját szkript és stílus. A JS a CSSOM-on át (el.style.setProperty) állít stílust,
+# ezt a style-src 'self' nem tiltja; HTML style="" attribútum és inline <style>/<script> nincs.
+# worker-src blob: a Three.js / OffscreenCanvas-féle workereknek; img-src data: blob: a kódból generált képeknek.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    X-Frame-Options = "DENY"
+    # Tesztoldal: keresők ne indexeljék (a robots.txt és a meta robots mellett).
+    X-Robots-Tag = "noindex"
+
+# A Vite hash-elt nevű fájljai sosem változnak: egy évig gyorsítótárazhatók.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# 404: a Netlify a gyökérben lévő 404.html-t automatikusan kiszolgálja, átirányítás nem kell.

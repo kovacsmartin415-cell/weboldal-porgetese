@@ -1,0 +1,156 @@
+/* „Mérd meg” – mérőszalag / oszcilloszkóp. Csak a #merd szekción belül hat. */
+
+@media (min-width: 900px) {
+  .merd .keret--ket > :first-child { position: sticky; top: 112px; }
+}
+.merd .gomb--fo:hover { background: var(--goz); border-color: var(--goz); color: var(--bazalt); }
+
+.pm { container-type: inline-size; min-width: 0; }
+
+/* ---------- fejléc-szalag ---------- */
+.pm__fej {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px;
+  margin: 0; padding: 12px 0 14px;
+  border-top: 1.5px solid var(--goz);
+  font: 400 0.75rem/1.4 var(--f-adat); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--fg-2);
+}
+.pm__fej b { font-weight: 600; color: var(--goz); }
+.pm__fej-jel { width: 8px; height: 8px; background: var(--ken); flex: none; }
+
+/* ---------- rács ---------- */
+.pm__racs { display: grid; grid-template-columns: minmax(0, 1fr); }
+/* mérőszalag-osztások a rács tetején */
+.pm__racs::before {
+  content: ''; grid-column: 1 / -1; height: 12px;
+  background:
+    repeating-linear-gradient(90deg, var(--zuzmo) 0 1px, transparent 1px 50px) top left / 100% 12px no-repeat,
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--goz) 28%, transparent) 0 1px, transparent 1px 10px) top left / 100% 6px no-repeat;
+}
+
+.pm__mero, .pm__szkop {
+  min-width: 0;
+  padding: 22px 0 26px;
+  border-bottom: 1px solid var(--vonal);
+}
+@container (min-width: 460px) {
+  .pm__racs { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pm__mero:nth-child(1), .pm__mero:nth-child(3), .pm__mero:nth-child(6), .pm__mero:nth-child(8) {
+    padding-right: clamp(16px, 4cqi, 32px); border-right: 1px solid var(--vonal);
+  }
+  .pm__mero:nth-child(2), .pm__mero:nth-child(4), .pm__mero:nth-child(7), .pm__mero:nth-child(9) {
+    padding-left: clamp(16px, 4cqi, 32px);
+  }
+  .pm__szkop { grid-column: 1 / -1; }
+}
+
+/* ---------- egy mérő ---------- */
+.pm__sor { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.pm__kod { font: 500 0.75rem/1 var(--f-adat); letter-spacing: 0.1em; color: var(--zuzmo); }
+.pm__elo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 0.7rem/1 var(--f-adat); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ken);
+}
+.pm__elo::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ken); }
+
+.pm .pm__nev {
+  margin: 10px 0 0;
+  font: 600 1rem/1.3 var(--f-torzs); letter-spacing: 0; font-variation-settings: normal;
+  color: var(--goz);
+}
+.pm__ertek {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.45em;
+  margin: 6px 0 0; font-family: var(--f-adat);
+}
+.pm__szam {
+  font-size: clamp(2.3rem, 9cqi, 3.7rem); font-weight: 300; line-height: 1.05;
+  letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--goz);
+}
+.pm__egyseg { font-size: 0.95rem; color: var(--zuzmo); }
+
+.pm__allapot {
+  margin: 10px 0 0; font: 400 0.8rem/1.45 var(--f-adat); color: var(--fg-2);
+  overflow-wrap: anywhere;
+}
+.pm__allapot::before {
+  content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 8px;
+  vertical-align: 0.05em; border: 1px solid var(--hamu);
+}
+[data-sav='jo'] > .pm__allapot::before { background: var(--zuzmo); border-color: var(--zuzmo); }
+[data-sav='kozep'] > .pm__allapot::before { background: var(--hamu); }
+[data-sav='rossz'] > .pm__allapot::before { background: var(--goz); border-color: var(--goz); }
+
+.pm__magyar { margin: 8px 0 0; font-size: 0.95rem; line-height: 1.5; color: var(--fg-2); max-width: 46ch; }
+
+/* ---------- küszöbskála ---------- */
+.pm__skala { position: relative; height: 40px; margin-top: 14px; container-type: inline-size; }
+.pm__sav { position: absolute; left: 0; right: 0; top: 9px; height: 6px; display: flex; }
+.pm__sav::after {
+  content: ''; position: absolute; inset: -4px 0 auto; height: 4px;
+  background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--goz) 30%, transparent) 0 1px, transparent 1px 10%);
+}
+.pm__zona { display: block; height: 100%; }
+.pm__zona--jo { width: calc(var(--jo, 0.5) * 100%); background: var(--zuzmo); }
+.pm__zona--kozep { width: calc((var(--rossz, 0.8) - var(--jo, 0.5)) * 100%); background: var(--hamu); }
+.pm__zona--rossz {
+  flex: 1;
+  background: repeating-linear-gradient(135deg, var(--hamu) 0 2px, transparent 2px 5px);
+}
+.pm__cimke {
+  position: absolute; top: 20px; white-space: nowrap;
+  font: 400 0.72rem/1 var(--f-adat); color: var(--fg-2);
+  padding-top: 6px; border-left: 1px solid var(--goz); padding-left: 5px;
+}
+.pm__cimke--jo { left: calc(var(--jo, 0.5) * 100%); color: var(--goz); }
+.pm__cimke--rossz { left: calc(var(--rossz, 0.8) * 100%); }
+
+.pm__tu {
+  position: absolute; top: 0; left: 0; width: 2px; height: 24px; margin-left: -1px;
+  background: var(--ken); opacity: 0;
+  transform: translateX(0);
+  transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s;
+}
+.pm__tu::before {
+  content: ''; position: absolute; top: -6px; left: -5px;
+  border: 6px solid transparent; border-bottom: 0; border-top: 7px solid var(--ken);
+}
+.pm--latszik .pm__mero--van .pm__tu { transform: translateX(calc(var(--x, 0) * 100cqw)); opacity: 1; }
+
+.pm__mero--nincs .pm__szam { color: var(--fg-2); }
+.pm__mero--nincs .pm__skala { opacity: 0.3; }
+
+/* ---------- oszcilloszkóp ---------- */
+.pm__szkop-fej { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px; }
+.pm__szkop .pm__ertek { margin-top: 4px; }
+.pm__szkop .pm__szam { min-width: 3ch; text-align: right; }
+.pm__kepernyo {
+  position: relative; margin-top: 14px;
+  height: clamp(140px, 30cqi, 210px);
+  border: 1px solid var(--vonal);
+  background: color-mix(in oklab, var(--goz) 3%, var(--bazalt));
+}
+.pm__kepernyo::before, .pm__kepernyo::after {
+  content: ''; position: absolute; width: 10px; height: 10px; border: 0 solid var(--zuzmo); pointer-events: none;
+}
+.pm__kepernyo::before { top: -1px; left: -1px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.pm__kepernyo::after { bottom: -1px; right: -1px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+.pm__vaszon { display: block; width: 100%; height: 100%; }
+
+.pm__gomb {
+  margin-top: 14px; min-height: 44px; padding: 10px 16px;
+  font: 500 0.85rem/1 var(--f-adat); letter-spacing: 0.04em;
+  color: var(--goz); background: transparent; border: 1px solid var(--goz); border-radius: var(--sugar);
+  cursor: pointer;
+}
+.pm__gomb:hover { background: var(--goz); color: var(--bazalt); }
+.pm__gomb:disabled { opacity: 0.6; cursor: progress; }
+
+/* ---------- lábrész ---------- */
+.pm__lab { display: grid; gap: 14px; margin-top: 28px; }
+.pm__ujra { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.pm__ujra .apro { margin: 0; flex: 1 1 260px; max-width: 54ch; }
+.pm__forras { margin: 6px 0 0; font: 400 0.75rem/1.5 var(--f-adat); color: var(--fg-2); }
+.pm__privat {
+  margin: 0; padding-left: 12px; border-left: 3px solid var(--ken);
+  font-size: 0.95rem; color: var(--goz);
+}

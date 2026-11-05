@@ -14,6 +14,7 @@ void main() {
              z = 1 ha a híd alatti átfolyóban vagyunk. */
 const LAND = /* glsl */ `
 uniform vec2 uSize;      // a lábléc mérete CSS-pixelben
+uniform float uBridgeY;  // a híd magassága CSS-pixelben (a szövegsorok közti résben)
 float lhash(float n) { return fract(sin(n) * 43758.5453); }
 float lnoise(float x) {
   float i = floor(x), f = fract(x);
@@ -24,11 +25,11 @@ vec3 land(vec2 p) {
   float yn = p.y / uSize.y;
   float sc = clamp(uSize.x / 1100.0, 0.45, 1.0);
   float bx = uSize.x * 0.5 + sin(yn * 2.6 + 0.4) * uSize.x * 0.012 + lnoise(p.y * 0.02) * 4.0 * sc;
-  float by = uSize.y * 0.58;               // a híd magassága
+  float by = uBridgeY;
   float dy = abs(p.y - by);
   // keskeny a hídnál, lent kiszélesedő félsziget, fent kisebb földnyúlvány
-  float hw = 7.0 * sc + pow(dy / uSize.y, 1.4) * (p.y > by ? 150.0 : 70.0) * sc;
-  hw += lnoise(p.y * 0.045 + 3.1) * 3.0 * sc + lnoise(p.y * 0.11) * 1.4;
+  float hw = 5.0 * sc + 1.0 + pow(dy / uSize.y, 1.3) * (p.y > by ? 80.0 : 34.0) * sc;
+  hw += lnoise(p.y * 0.045 + 3.1) * 2.2 * sc + lnoise(p.y * 0.13) * 0.9;
   float d = abs(p.x - bx) - hw;
   float chan = 1.0 - step(9.0 * sc + 2.0, dy); // a híd alatt átfolyik a víz
   return vec3(d, bx, chan);
@@ -55,8 +56,8 @@ void main() {
   float avg = (
     hAt(vUv + vec2(uTexel.x, 0.0)) + hAt(vUv - vec2(uTexel.x, 0.0)) +
     hAt(vUv + vec2(0.0, uTexel.y)) + hAt(vUv - vec2(0.0, uTexel.y))) * 0.25;
-  s.g += (avg - s.r) * 1.9;
-  s.g *= 0.992;
+  s.g += (avg - s.r) * 1.15;
+  s.g *= 0.994;
   s.r += s.g;
   s.r *= 0.9995;
   o = vec4(s.r, s.g, 0.0, 1.0);
@@ -102,9 +103,9 @@ const vec3 ZUZMO = vec3(0.549, 0.596, 0.471);
 const vec3 HAMU = vec3(0.369, 0.380, 0.365);
 // tompa, bazalthoz illő kék és a kalderató zöldje
 const vec3 KEK_MELY = vec3(0.075, 0.140, 0.200);
-const vec3 KEK_SEKELY = vec3(0.150, 0.255, 0.320);
+const vec3 KEK_SEKELY = vec3(0.135, 0.215, 0.262);
 const vec3 ZOLD_MELY = vec3(0.064, 0.150, 0.140);
-const vec3 ZOLD_SEKELY = vec3(0.150, 0.262, 0.225);
+const vec3 ZOLD_SEKELY = vec3(0.130, 0.235, 0.205);
 
 float hash2(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
 float vnoise(vec2 p) {
@@ -128,7 +129,7 @@ void main() {
   float hd = H(uv - vec2(0.0, uTexel.y)), hu = H(uv + vec2(0.0, uTexel.y));
   float hc = H(uv);
   vec2 g = vec2(hr - hl, hd - hu);            // y lefelé
-  vec3 n = normalize(vec3(-g * 2.4, 1.0));
+  vec3 n = normalize(vec3(-g * 3.2, 1.0));
   float lap = hl + hr + hd + hu - 4.0 * hc;
 
   // --- mélység ---
@@ -143,7 +144,8 @@ void main() {
   water *= 0.9 + 0.2 * fbm(p * 0.004 + vec2(uTime * 0.004, 0.0));
 
   // --- fénytörés: a logó a víz alatt ---
-  vec2 off = n.xy * (18.0 + 26.0 * dep);
+  float sc = clamp(uSize.x / 1100.0, 0.45, 1.0);
+  vec2 off = n.xy * (8.0 + 16.0 * dep) * (0.5 + 0.5 * sc);
   vec2 lp = p + off;
   float a = texture(uLogo, vec2(lp.x / uSize.x, 1.0 - lp.y / uSize.y)).r;
   // kromatikus remegés helyett csak enyhe elnyelés: mélyebben tompább
@@ -167,14 +169,19 @@ void main() {
   float sp = pow(max(dot(r, sun), 0.0), 140.0);
   col += sp * 0.75 * GOZ * smoothstep(0.0, 0.004, length(g));
 
+  // szórt fény a hullámok lejtőin: a gyűrű sík vízen is látszik
+  vec3 ld = normalize(vec3(-0.45, -0.55, 0.7));
+  col *= 1.0 + (dot(n, ld) - ld.z) * 2.2;
+
   // a part árnyéka a vízen és nedves sötét sáv
   col *= mix(0.72, 1.0, smoothstep(0.0, 10.0, shore));
 
   // --- szárazföld: bazalt, zuzmó ---
-  float lf = fbm(p * 0.08);
-  vec3 ground = mix(BAZALT * 1.15, mix(BAZALT, ZUZMO, 0.32), smoothstep(0.35, 0.8, lf));
-  ground = mix(ground, HAMU * 0.55, smoothstep(0.75, 0.95, fbm(p * 0.25 + 7.0)) * 0.6);
-  ground *= 0.85 + 0.25 * smoothstep(-14.0, -1.0, shore) * 0.0 + 0.15 * smoothstep(-2.0, -18.0, shore);
+  float lf = fbm(p * 0.05);
+  vec3 ground = mix(BAZALT * 1.1, mix(BAZALT, ZUZMO, 0.22), smoothstep(0.45, 0.85, lf) * 0.8);
+  ground *= 0.9 + 0.2 * vnoise(p * 0.9);                       // finom bazaltszemcse
+  ground = mix(ground, mix(BAZALT, ZUZMO, 0.35), smoothstep(-5.0, -1.5, shore) * 0.5); // zuzmós partszegély
+  ground *= 1.0 - 0.2 * smoothstep(-12.0, -1.0, shore);
   float isLand = (1.0 - smoothstep(-0.8, 0.8, shore)) * (1.0 - L.z);
   col = mix(col, ground, isLand);
   // a logó a földnyelven is olvasható marad (fénytörés nélkül)
@@ -182,8 +189,7 @@ void main() {
   col = mix(col, GOZ * 0.93, a0 * 0.9 * isLand);
 
   // --- a híd: keskeny, világos fedlap a földnyelv két darabja között ---
-  float by = uSize.y * 0.58;
-  float sc = clamp(uSize.x / 1100.0, 0.45, 1.0);
+  float by = uBridgeY;
   float bw = 4.5 * sc + 1.5;
   float bl = 9.0 * sc + 6.0;
   vec2 bq = abs(vec2(p.x - L.y, p.y - by)) - vec2(bw, bl);

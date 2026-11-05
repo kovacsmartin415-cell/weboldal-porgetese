@@ -1,0 +1,3 @@
+# Tesztoldal: kérjük, ne indexeld.
+User-agent: *
+Disallow: /

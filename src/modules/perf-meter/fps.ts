@@ -85,7 +85,7 @@ export function createFps(canvas: HTMLCanvasElement, out: HTMLElement, note: HTM
   const push = (tMs: number) => {
     if (prev) {
       const d = tMs - prev;
-      if (d > 250) frames.length = 0; // szünet után (pl. rejtett fül) ne hamis zuhanást mutasson
+      if (d > 1000) frames.length = 0; // szünet után (pl. rejtett fül) ne hamis zuhanást mutasson
       else if (d > 0) {
         frames.push(d);
         if (frames.length > N) frames.shift();
