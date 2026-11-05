@@ -170,7 +170,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
     iters: 20,
     buoy: 110,
     wind: 18,
-    maxA: 0.22,     // a szöveg mögött legfeljebb ~22% fedés
+    maxA: 0.2,      // a szöveg mögött legfeljebb ~20% fedés
     bottomA: 0.42,  // a legalsó sávban, ahol nincs szöveg
   };
 
@@ -408,7 +408,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
   function frame(_t: number, dt: number) {
     if (!ready || lost) return;
     if (!warmed) {
-      if (warmLeft <= 0) warmLeft = reduced || reducedMotion() ? 170 : 400;
+      if (warmLeft <= 0) warmLeft = reduced || reducedMotion() ? 170 : 150;
       warm(reducedMotion() || dt === 0 ? warmLeft : 8);
       return display(reducedMotion() ? 0.8 : 1);
     }

@@ -106,6 +106,15 @@ export function init(el: HTMLElement): void {
   // Az élő számok (FPS, INP) ne olvastassák fel magukat folyamatosan.
   root.setAttribute('aria-live', 'off');
 
+  // „Mérd újra” után: jelöljük, és tüntessük el a segédparamétert a címsorból.
+  const params = new URLSearchParams(location.search);
+  const ujra = params.get('meres') === 'ujra';
+  if (ujra) {
+    params.delete('meres');
+    const maradek = params.toString();
+    history.replaceState(history.state, '', location.pathname + (maradek ? `?${maradek}` : '') + location.hash);
+  }
+
   root.innerHTML = `
     <div class="pm">
       <p class="pm__fej">
@@ -231,7 +240,7 @@ export function init(el: HTMLElement): void {
 
   const halo = () => {
     const s = netSnapshot();
-    q('[data-navtipus]').textContent = NAV_TIPUS[s.navType] ?? s.navType;
+    q('[data-navtipus]').textContent = ujra ? 'újramérés' : (NAV_TIPUS[s.navType] ?? s.navType);
     const m = meret(s.transfer);
     adatEgyseg = m.u;
     q('[data-egyseg]', adatBox).textContent = m.u;
@@ -279,10 +288,11 @@ export function init(el: HTMLElement): void {
 
   // --- Mérd újra: friss betöltés, vissza erre a szekcióra ---
   q('[data-ujra]').addEventListener('click', () => {
-    // A böngésző ne a régi görgetési pozíciót állítsa vissza (a lusta modulok miatt
-    // az oldal magassága betöltéskor még más), hanem ugorjon a #merd horgonyra.
-    try { history.scrollRestoration = 'manual'; } catch { /* nem támogatott */ }
-    history.replaceState(null, '', '#merd');
-    location.reload();
+    // Új betöltés a #merd horgonyra. Sima reload helyett navigálunk: a reload a régi
+    // görgetési pozíciót állítaná vissza, ami a lustán betöltődő részek miatt rossz helyre esne.
+    const u = new URL(location.href);
+    u.searchParams.set('meres', 'ujra');
+    u.hash = 'merd';
+    location.replace(u.href);
   });
 }
