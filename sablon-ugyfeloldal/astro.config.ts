@@ -16,15 +16,39 @@ const BETUK: Record<string, string[]> = {
   meresz: ['@fontsource-variable/archivo/wdth.css'],
 };
 
-function temaBetuk(): Plugin {
-  const id = 'virtual:tema-betuk';
+// A témakészlet + a konfigban felülírt színek CSS custom property-ként.
+// Virtuális CSS-modulként a fő stíluslapba kerül (hash-elt fájl, nincs inline stílus).
+function temaValtozok(): string {
+  const t = uzlet.temaAdat;
+  const s = uzlet.szinek;
+  return `:root {
+  --hatter: ${s.hatter};
+  --felulet: ${s.felulet};
+  --szoveg: ${s.szoveg};
+  --halvany: ${s.halvany};
+  --kiemelo: ${s.kiemelo};
+  --kiemelo-szoveg: ${s.kiemeloSzoveg};
+  --vonal: ${t.vonal};
+  --betu-cim: ${t.betuCim};
+  --betu-torzs: ${t.betuTorzs};
+  --cim-suly: ${t.cimSuly};
+  --cim-szelesseg: ${t.cimSzelesseg};
+  --cim-atalakitas: ${t.cimNagybetus ? 'uppercase' : 'none'};
+  color-scheme: ${t.nev === 'meresz' ? 'dark' : 'light'};
+}\n`;
+}
+
+function tema(): Plugin {
+  const betuk = 'virtual:tema-betuk';
+  const valtozok = 'virtual:tema-valtozok.css';
   return {
-    name: 'folyam-tema-betuk',
+    name: 'folyam-tema',
     resolveId(forras) {
-      if (forras === id) return '\0' + id;
+      if (forras === betuk || forras === valtozok) return '\0' + forras;
     },
     load(azonosito) {
-      if (azonosito === '\0' + id) return BETUK[uzlet.temaNev].map((f) => `import '${f}';`).join('\n');
+      if (azonosito === '\0' + betuk) return BETUK[uzlet.temaNev].map((f) => `import '${f}';`).join('\n');
+      if (azonosito === '\0' + valtozok) return temaValtozok();
     },
   };
 }
