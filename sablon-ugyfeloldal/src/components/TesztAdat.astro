@@ -1,0 +1,11 @@
+---
+// Ha egy kötelező jogi adat hiányzik a konfigból, feltűnő [TESZT ADAT]
+// jelölés kerül a helyére, hogy átadás előtt ne maradjon benne.
+interface Props {
+  ertek?: string | null;
+  mi: string;
+}
+const { ertek, mi } = Astro.props;
+---
+
+{ertek ? ertek : <mark class="teszt-adat" title={`Hiányzik a konfigból: ${mi}`}>[TESZT ADAT]</mark>}

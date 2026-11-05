@@ -1,0 +1,7 @@
+# Folyam Studio – biztonsági hibák bejelentése (RFC 9116).
+# Kérjük, a hibát a kapcsolatfelvételi űrlapon jelezd, és ne tedd közzé, amíg nem javítottuk.
+# Ez egy tesztoldal; az űrlapon küldött üzenet kezeléséről: /adatkezeles/
+Contact: https://folyam-aramlas.netlify.app/#kapcsolat
+Expires: 2027-10-31T23:00:00.000Z
+Preferred-Languages: hu, en
+Canonical: https://folyam-aramlas.netlify.app/.well-known/security.txt

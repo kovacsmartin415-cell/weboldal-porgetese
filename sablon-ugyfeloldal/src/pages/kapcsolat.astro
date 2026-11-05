@@ -1,0 +1,131 @@
+---
+import Alap from '../layouts/Alap.astro';
+import NyitvaAllapot from '../components/NyitvaAllapot.astro';
+import HetiTabla from '../components/HetiTabla.astro';
+import Urlap from '../components/Urlap.astro';
+import Foto from '../components/Foto.astro';
+import { uzlet } from '../config';
+
+const terkep = uzlet.fotok.terkep;
+---
+
+<Alap cim="Kapcsolat" leiras={`${uzlet.nev}: ${uzlet.teljesCim}. Telefon: ${uzlet.telefon}. Nyitvatartás, útvonal, üzenet.`}>
+  <header class="oldalfej keret">
+    <h1>Kapcsolat</h1>
+    <p class="bevezeto">{uzlet.teljesCim}</p>
+  </header>
+
+  <div class="keret">
+  <div class="kapcsolat">
+    <div class="kapcsolat-adatok">
+      <section aria-labelledby="hivj-cim" class="blokk">
+        <h2 id="hivj-cim">Hívj vagy írj</h2>
+        <p class="nagy"><a href={uzlet.telefonHref}>{uzlet.telefon}</a></p>
+        {uzlet.email && <p class="nagy"><a href={`mailto:${uzlet.email}`}>{uzlet.email}</a></p>}
+        {uzlet.foglalas && <p><a class="gomb" href={uzlet.foglalas.url}>{uzlet.foglalas.felirat}</a></p>}
+      </section>
+
+      <section aria-labelledby="mikor-cim" class="blokk">
+        <h2 id="mikor-cim">Mikor vagyunk nyitva</h2>
+        <NyitvaAllapot osszegzes={false} />
+        <HetiTabla feliratLathato={false} />
+      </section>
+
+      <section aria-labelledby="hol-cim" class="blokk">
+        <h2 id="hol-cim">Hol vagyunk</h2>
+        {
+          terkep ? (
+            <a class="terkep-kep" href={uzlet.terkepLink} rel="noopener">
+              <Foto foto={terkep} sizes="(min-width: 56rem) 40vw, 100vw" widths={[480, 800, 1200]} />
+              <span class="lathatatlan">Megnyitás térképen</span>
+            </a>
+          ) : null
+        }
+        <div class="terkep-kartya">
+          <p class="terkep-cim">
+            {uzlet.cim.utca}<br />
+            {uzlet.cim.iranyitoszam} {uzlet.cim.varos}
+          </p>
+          {uzlet.cim.utmutato && <p>{uzlet.cim.utmutato}</p>}
+          {uzlet.cim.parkolas && <p class="halvany">Parkolás: {uzlet.cim.parkolas}</p>}
+          <p class="terkep-linkek">
+            <a class="gomb" href={uzlet.terkepLink} rel="noopener">Megnyitás térképen</a>
+            <a href={uzlet.osmLink} rel="noopener">OpenStreetMap</a>
+          </p>
+          <p class="halvany apro">
+            A térképet szándékosan nem ágyazzuk be az oldalba: így a térképszolgáltató csak akkor tud rólad, ha rákattintasz.
+          </p>
+        </div>
+        {terkep?.szerzo && <p class="halvany apro">Térkép: {terkep.szerzo}</p>}
+      </section>
+    </div>
+
+    <section class="kapcsolat-urlap" id="urlap" aria-labelledby="urlap-cim">
+      <h2 id="urlap-cim">{uzlet.szoveg.urlapCim}</h2>
+      <p>{uzlet.szoveg.urlapBevezeto}</p>
+      <Urlap />
+    </section>
+  </div>
+  </div>
+</Alap>
+
+<style>
+  .kapcsolat {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 3rem clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+    border-top: 2px solid var(--szoveg);
+    padding-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    padding-bottom: clamp(3rem, 2rem + 4vw, 5rem);
+  }
+  .blokk + .blokk {
+    margin-top: 2.5rem;
+  }
+  .blokk h2,
+  .kapcsolat-urlap h2 {
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+  }
+  .nagy {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .blokk :global(.heti-doboz) {
+    margin-top: 1rem;
+  }
+  .terkep-kep {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .terkep-kartya {
+    background: var(--felulet);
+    border-radius: 3px;
+    padding: 1.25rem;
+  }
+  .terkep-cim {
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+  .terkep-linkek {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+  }
+  .apro {
+    font-size: 0.9rem;
+    margin: 0.75rem 0 0;
+  }
+  .kapcsolat-urlap {
+    background: var(--felulet);
+    border-radius: 3px;
+    padding: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
+    scroll-margin-top: 1rem;
+  }
+  @media (max-width: 56rem) {
+    .kapcsolat {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

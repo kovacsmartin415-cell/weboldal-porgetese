@@ -1,0 +1,69 @@
+---
+import { uzlet } from '../config';
+import { hetiOsszegzes } from '../lib/nyitvatartas';
+
+const HALOZAT_NEV: Record<string, string> = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
+  linkedin: 'LinkedIn',
+  egyeb: 'Link',
+};
+const ev = new Date().getFullYear();
+const osszegzes = hetiOsszegzes(uzlet.nyitvatartas.het);
+---
+
+<footer class="lablec">
+  <div class="keret">
+    <div class="lablec-racs">
+      <div>
+        <p class="lablec-nev">{uzlet.nev}</p>
+        <p>
+          {uzlet.cim.utca}<br />
+          {uzlet.cim.iranyitoszam} {uzlet.cim.varos}
+        </p>
+      </div>
+      <div>
+        <h2>Nyitvatartás</h2>
+        <dl class="osszegzes">
+          {
+            osszegzes.map((s) => (
+              <>
+                <dt>{s.napok}</dt>
+                <dd>{s.idok}</dd>
+              </>
+            ))
+          }
+        </dl>
+      </div>
+      <div>
+        <h2>Elérhetőség</h2>
+        <ul>
+          <li><a href={uzlet.telefonHref}>{uzlet.telefon}</a></li>
+          {uzlet.email && <li><a href={`mailto:${uzlet.email}`}>{uzlet.email}</a></li>}
+          {
+            uzlet.kozosseg.map((k) => (
+              <li>
+                <a href={k.url} rel="me noopener">
+                  {k.felirat ?? HALOZAT_NEV[k.halozat]}
+                </a>
+              </li>
+            ))
+          }
+          {uzlet.googleCegprofil && <li><a href={uzlet.googleCegprofil} rel="noopener">Google Cégprofil, értékelések</a></li>}
+        </ul>
+      </div>
+    </div>
+    <div class="lablec-also">
+      <p>© {ev} {uzlet.adatkezelo.nev ?? uzlet.nev}</p>
+      <ul class="lablec-jogi">
+        <li><a href="/adatkezeles/">Adatkezelési tájékoztató</a></li>
+        <li><a href="/impresszum/">Impresszum</a></li>
+      </ul>
+      <p>
+        Weboldal: {uzlet.keszito.url ? <a href={uzlet.keszito.url}>{uzlet.keszito.nev}</a> : uzlet.keszito.nev}
+      </p>
+    </div>
+  </div>
+</footer>

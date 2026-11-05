@@ -1,0 +1,39 @@
+---
+import type { Tetel } from '../config/schema';
+import { arKiir, egysegKiir } from '../lib/szoveg';
+
+interface Props {
+  tetelek: Tetel[];
+  /** Rövid változat a főoldalra: leírás nélkül. */
+  tomor?: boolean;
+}
+const { tetelek, tomor = false } = Astro.props;
+---
+
+<ul class:list={['arlista', { 'arlista--tomor': tomor }]}>
+  {
+    tetelek.map((t) => {
+      const egyseg = egysegKiir(t);
+      return (
+        <li>
+          <div class="tetel-sor">
+            <span class="tetel-nev">{t.nev}</span>
+            <span class="tetel-pontok" aria-hidden="true" />
+            <span class="tetel-ar">
+              {arKiir(t)}
+              {egyseg && <span class="tetel-egyseg"> {egyseg}</span>}
+            </span>
+          </div>
+          {!tomor && t.leiras && <p class="tetel-leiras">{t.leiras}</p>}
+          {t.jelolesek.length > 0 && (
+            <p class="tetel-jelolesek">
+              {t.jelolesek.map((j) => (
+                <span>{j}</span>
+              ))}
+            </p>
+          )}
+        </li>
+      );
+    })
+  }
+</ul>

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Folyam Studio – weboldalak magyar boltoknak és műhelyeknek (tesztoldal)</title>
+  <meta name="description" content="Két egyetemista magánkezdeményezése az Azori-szigetekről: tesztoldal helyi vállalkozásoknak szánt weboldalakról és ajánlatkérés-automatizálásról." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#151819" />
+  <meta name="color-scheme" content="light dark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="hu_HU" />
+  <meta property="og:title" content="Folyam Studio – tesztoldal helyi boltoknak szánt weboldalakról" />
+  <meta property="og:description" content="Két egyetemista magánkezdeményezése: tesztoldal helyi vállalkozásoknak szánt weboldalakról és ajánlatkérés-automatizálásról." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body class="is-loading">
+  <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+
+  <aside class="teszt-sav" aria-label="Tesztoldal">
+    <strong>Tesztoldal.</strong> Szolgáltatást még nem nyújtunk, megrendelést nem fogadunk, ez nem ajánlat.
+  </aside>
+
+  <header class="fejlec" data-module="header">
+    <a class="logo" href="/" aria-label="Folyam Studio, főoldal">
+      <svg class="logo__jel" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 22c5-9 9 3 14-6s9-4 10-4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="12" r="3" class="logo__mag"/></svg>
+      <span>Folyam</span>
+    </a>
+    <nav class="fonav" aria-label="Fő navigáció">
+      <ul>
+        <li><a href="#kik">Kik vagyunk</a></li>
+        <li><a href="#hogyan">Hogyan épül</a></li>
+        <li><a href="#probald">Próbáld ki</a></li>
+        <li><a href="#arak">Árak</a></li>
+        <li><a class="fonav__cta" href="#kapcsolat">Írj nekünk</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="tartalom">
+
+    <!-- 1. NYITÓKÉP: a részecskefolyam kirajzolja a FOLYAM szót -->
+    <section class="nyito" aria-labelledby="nyito-cim" data-module="hero">
+      <canvas class="nyito__vaszon" aria-hidden="true"></canvas>
+      <div class="nyito__szoveg">
+        <p class="nyito__hely">São Miguel, Azori-szigetek <span aria-hidden="true">·</span> <time data-today></time></p>
+        <h1 id="nyito-cim" class="cim-xl" data-flex>
+          Weboldalt építünk magyar boltoknak és műhelyeknek. Most az Atlanti-óceán közepéről.
+        </h1>
+        <p class="nyito__lead">
+          Két egyetemista vagyunk, cserediákok São Miguel szigetén. Ezt az oldalt is mi terveztük és raktuk össze, minden mozgó részét kódból, AI-eszközök segítségével.
+          Nézd végig, aztán írj.
+        </p>
+        <div class="nyito__orak" data-module="clocks" aria-live="off">
+          <p><span class="ora__cimke">Nálunk most</span> <time class="ora" data-tz="Atlantic/Azores">--:--</time></p>
+          <p><span class="ora__cimke">Nálad most</span> <time class="ora" data-tz="Europe/Budapest">--:--</time></p>
+        </div>
+        <div class="nyito__gombok">
+          <a class="gomb gomb--fo" href="#kapcsolat">Írj nekünk</a>
+          <a class="gomb" href="#probald">Rakd össze a saját oldaladat</a>
+        </div>
+      </div>
+      <p class="nyito__sugo" aria-hidden="true">Mozgasd az egeret a folyam fölött. Görgess.</p>
+    </section>
+
+    <!-- 2. BEMUTATÓTEREM: őszintén arról, hogy ez az oldal mi -->
+    <section class="szekcio bemutato" aria-labelledby="bemutato-cim">
+      <div class="keret keret--ket">
+        <h2 id="bemutato-cim" class="cim-l" data-flex>Ez az oldal a bemutatótermünk.</h2>
+        <div class="folyo">
+          <p>
+            Ami itt mozog, az mind kód: a részecskefolyam, a forgó telefon, a gőz, az élő mérés. Mi terveztük meg, és AI-eszközökkel (Claude) együtt írtuk meg, ahogy az ügyfeleink oldalát is építenénk. Nincs benne sablon, nincs letöltött animáció, és egyetlen fotó sincs: minden kép kódból születik.
+          </p>
+          <p>
+            <strong>A te oldaladra nem tennénk rá mindezt.</strong> Egy pékség oldalán az számít, hogy telefonon egy pillanat alatt kiderüljön: nyitva vagy-e, hol vagy, mit árulsz. Ezt itt azért mutatjuk meg, hogy lásd: a gyors és egyszerű nálunk nem a tudás hiánya, hanem döntés.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. KIK VAGYUNK -->
+    <section id="kik" class="szekcio kik" aria-labelledby="kik-cim">
+      <div class="keret keret--kik">
+        <h2 id="kik-cim" class="cim-l" data-flex>Kik vagyunk</h2>
+        <div class="kik__par">
+          <article class="szemely">
+            <h3 class="szemely__nev">Kovács Martin</h3>
+            <p>Gazdasági informatikus hallgató. A weboldal és az automatizálás az én asztalom: én építem és kötöm össze a dolgokat.</p>
+          </article>
+          <article class="szemely">
+            <h3 class="szemely__nev">Zachar Zekő</h3>
+            <p>A társam. Ő ért jobban ahhoz, hogyan beszélnek az emberek egymással, és mit vár egy vevő egy helyi vállalkozótól.</p>
+          </article>
+        </div>
+        <div class="folyo kik__tortenet">
+          <p>
+            Mindketten az Azori-szigeteken vagyunk cserediákok. Innen, távolról indultunk az X-Challenge 2026 versenyen is (a kőbányai városszimulációs verseny, csapatunk neve: MKZ team). Ugyanezzel a hozzáállással építenénk a te oldaladat: megoldjuk, ahol éppen vagyunk.
+          </p>
+          <p class="apro">Magánkezdeményezés: a Pannon Egyetem, az X-Challenge szervezői és a Pannónia Ösztöndíjprogram nem támogatják, nem hagyták jóvá, és nem felelősek az oldalért.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. HOGYAN ÉPÜL: rögzített 3D telefon, görgetésre épül rajta egy oldal -->
+    <section id="hogyan" class="szekcio telefon" aria-labelledby="hogyan-cim" data-module="phone">
+      <div class="telefon__ragad">
+        <canvas class="telefon__vaszon" aria-hidden="true"></canvas>
+        <div class="telefon__fej">
+          <h2 id="hogyan-cim" class="cim-l" data-flex>Hogyan épül egy oldal</h2>
+          <p class="apro">Az időpontok tájékoztatóak, egy egyszerű oldalra igazak. A telefonon egy kitalált pékség látszik, kitalált árakkal; nem ügyfelünk.</p>
+        </div>
+        <ol class="lepesek">
+          <li class="lepes" data-step="0">
+            <p class="lepes__ido">1. nap</p>
+            <h3 class="lepes__cim">Beszélgetünk</h3>
+            <p>Telefonon vagy videón, ahogy neked jó. Megkérdezzük, mit adsz el, kiknek, és mit kérdeznek tőled a vevők a leggyakrabban.</p>
+          </li>
+          <li class="lepes" data-step="1">
+            <p class="lepes__ido">3. nap</p>
+            <h3 class="lepes__cim">Kapsz egy tervet</h3>
+            <p>Oldalak, szövegvázlat, fotók listája. Ha valami nem a tiéd, itt még ingyen kidobjuk.</p>
+          </li>
+          <li class="lepes" data-step="2">
+            <p class="lepes__ido">1–2. hét</p>
+            <h3 class="lepes__cim">Megépítjük, kitesszük élesbe</h3>
+            <p>Te csak a saját fotóidat és az árakat add át.</p>
+          </li>
+          <li class="lepes" data-step="3">
+            <p class="lepes__ido">Utána</p>
+            <h3 class="lepes__cim">A tiéd</h3>
+            <p>Megmutatjuk, mit hogyan írhatsz át magad. Ha nem akarod, megállapodás szerint mi intézzük.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5. AMIT TERVEZÜNK, ÉS AMIT NEM -->
+    <section class="szekcio tervek" aria-labelledby="tervek-cim">
+      <div class="keret">
+        <h2 id="tervek-cim" class="cim-l" data-flex>Amit tervezünk, és amit nem</h2>
+        <p class="lead">Kevés dolgot tervezünk, és azokat próbáljuk ki rendesen.</p>
+        <div class="tervek__racs">
+          <article class="terv terv--fo">
+            <h3>Weboldal</h3>
+            <p>Egy vagy néhány oldal, telefonon is jól olvasható. Rajta van, amit a vevő keres: mit árulsz, hol vagy, mikor vagy nyitva, hogyan érhet el.</p>
+          </article>
+          <article class="terv">
+            <h3>Ajánlatkérés, ami nem vész el</h3>
+            <p>Tervezett funkció: az űrlapon érkező üzenetből e-mail és táblázatsor lesz. Lent, a kapcsolatfelvételnél élőben megnézheted, hogyan.</p>
+          </article>
+          <article class="terv">
+            <h3>Google-profil rendbetétele</h3>
+            <p>Nyitvatartás, fotók, elérhetőség egyezzen az oldalon és a térképen. Apróság, de sok vevő ott talál meg először.</p>
+          </article>
+          <article class="terv terv--nem">
+            <h3>Amit nem vállalunk</h3>
+            <p>Webshopot, közösségimédia-kezelést és „első helyezés a Google-ben” ígéretet. Az utóbbit senki nem tudja garantálni.</p>
+          </article>
+        </div>
+        <h3 class="cim-m">Merre tartunk</h3>
+        <p class="apro">Ezek tervek, nem ajánlatok. Először a weboldalakat tanuljuk ki rendesen.</p>
+        <ul class="sorok">
+          <li><strong>Automatizálás.</strong> Az ajánlatkéréstől indulunk, aztán jöhet a foglalások, visszaigazoló levelek, emlékeztetők kezelése, hogy ne kézzel kelljen.</li>
+          <li><strong>Digitális termékek vállalkozásoknak.</strong> Kész, jól átgondolt megoldások, amiket nem kell mindig nulláról megrendelni.</li>
+          <li><strong>Amit a vevők kérnek.</strong> Nem akarunk előre mindent tudni. Az első munkákból derül ki, mire van igazán szükség.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6. PRÓBÁLD KI: élő oldalvázlat-generátor -->
+    <section id="probald" class="szekcio probald" aria-labelledby="probald-cim" data-module="configurator">
+      <div class="keret">
+        <h2 id="probald-cim" class="cim-l" data-flex>Rakd össze a saját oldaladat, itt és most</h2>
+        <p class="lead">
+          Annak dolgozunk, aki a saját kezével csinálja a munkát. Válaszd ki, mivel foglalkozol, írd be a neved, és nézd, milyen irányba indulnánk. Ez csak vázlat a böngésződben: semmi nem kerül el hozzánk, amíg nem írsz.
+        </p>
+        <div class="probald__test" data-configurator-root>
+          <!-- a konfigurátor modul tölti ki; JS nélkül ez a szöveg látszik -->
+          <p class="apro">A vázlatkészítőhöz JavaScript kell. Enélkül is írhatsz nekünk lent.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. MÉRD MEG: valódi teljesítménymérés a látogató gépén -->
+    <section id="merd" class="szekcio merd" aria-labelledby="merd-cim" data-module="perf">
+      <div class="keret keret--ket">
+        <div>
+          <h2 id="merd-cim" class="cim-l" data-flex>Ne nekünk hidd el. Mérd meg.</h2>
+          <p class="lead">
+            Ezeket a számokat a te böngésződ mérte most, ennek az oldalnak a betöltésekor. Nem mi írtuk be őket.
+          </p>
+        </div>
+        <div class="merd__test" data-perf-root>
+          <p class="apro">A méréshez JavaScript kell.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. ÁRAK -->
+    <section id="arak" class="szekcio arak" aria-labelledby="arak-cim">
+      <div class="keret">
+        <h2 id="arak-cim" class="cim-l" data-flex>Árak (szemléltető)</h2>
+        <p class="lead">Tájékoztató, szemléltető árak: nem ajánlat, és jelenleg semmit nem lehet megrendelni, mert ez egy tesztoldal, szolgáltatást még nem nyújtunk. A feltüntetett összegek nettó kiinduló árak. Hogy jön-e rájuk ÁFA, az a leendő adózási helyzetünktől függ (alanyi ÁFA-mentesség esetén nem). Az árak az első valódi munkák után változhatnak.</p>
+        <dl class="arlista">
+          <div class="arlista__sor">
+            <dt>Egyoldalas bemutatkozó oldal</dt>
+            <dd>150 000 Ft-tól (nettó, szemléltető)</dd>
+          </div>
+          <div class="arlista__sor">
+            <dt>Több oldal + űrlap + automatizált értesítés</dt>
+            <dd>320 000 Ft-tól (nettó, szemléltető)</dd>
+          </div>
+          <div class="arlista__sor">
+            <dt>Egyedi igények (pl. foglalási rendszer)</dt>
+            <dd>megbeszélés alapján</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 9. REFERENCIÁK -->
+    <section class="szekcio referenciak" aria-labelledby="ref-cim">
+      <div class="keret keret--ket">
+        <h2 id="ref-cim" class="cim-l" data-flex>Referenciák</h2>
+        <div class="folyo">
+          <p class="cim-m">Még nincs.</p>
+          <p>Ez az oldal az első munkánk, és ezen próbáljuk ki mindazt, amit később neked is felajánlunk. Amint lesz kész ügyfélmunka, ide kerül, a tulajdonos engedélyével.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. GYIK -->
+    <section class="szekcio gyik" aria-labelledby="gyik-cim">
+      <div class="keret">
+        <h2 id="gyik-cim" class="cim-l" data-flex>Amit gyakran kérdeznek</h2>
+        <div class="gyik__lista">
+          <details>
+            <summary>Miért az Azori-szigetekről dolgoztok?</summary>
+            <p>Mert most itt vagyunk cserediákként, a Pannónia Ösztöndíjprogram keretében. Az oldalt és a módszert most itt tanuljuk ki, később pedig Magyarországról folytatjuk. A munka ugyanaz, az időeltolódás jelenleg két óra.</p>
+          </details>
+          <details>
+            <summary>Kell hozzá saját fotó?</summary>
+            <p>Nagyon sokat dob rajta, ha a saját boltodról, műhelyedről van kép. Telefonnal is szépet lehet csinálni, megmutatjuk, mire figyelj. Ha nincs, ideiglenesen jó minőségű, szabad felhasználású fotót teszünk be.</p>
+          </details>
+          <details>
+            <summary>Mennyibe kerül a domain és a tárhely?</summary>
+            <p>A domain éves díja pár ezer forint, ezt a te nevedre regisztráljuk, hogy bármikor elvihesd. Maga az egyszerű oldal tárhelye általában ingyenes.</p>
+          </details>
+          <details>
+            <summary>Dolgoztatok már ügyfélnek?</summary>
+            <p>Még nem. Ez az oldal az első munkánk, és szándékosan így csináljuk: előbb kipróbáljuk magunkon, mi működik, és csak utána ajánljuk neked.</p>
+          </details>
+          <details>
+            <summary>Az én oldalam is ilyen mozgós lesz?</summary>
+            <p>Csak ha kéred, és ha van értelme. Egy boltnak általában gyors, egyszerű oldal kell. Ezt az oldalt azért csináltuk ilyenre, hogy lásd, mire vagyunk képesek.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. KAPCSOLAT: űrlap + élő csővezeték (üzenet → e-mail + táblázatsor) -->
+    <section id="kapcsolat" class="szekcio kapcsolat" aria-labelledby="kapcsolat-cim" data-module="contact">
+      <canvas class="kapcsolat__goz" aria-hidden="true" data-steam></canvas>
+      <div class="keret keret--ket">
+        <div>
+          <p class="kapcsolat__cimzett">Címzett: te, aki boltot vagy műhelyt viszel</p>
+          <h2 id="kapcsolat-cim" class="cim-l" data-flex>Írj nekünk bármit.</h2>
+          <p class="lead">Kérdés, ötlet, észrevétel jöhet. Az üzenet Martinhoz érkezik. Ez még egy tesztoldal, megrendelést nem fogadunk.</p>
+
+          <form class="urlap" name="kapcsolat" method="POST" action="/koszonjuk/" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="kapcsolat" />
+            <p class="rejtett"><label>Ne töltsd ki: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+            <p class="mezo">
+              <label for="nev">Neved</label>
+              <input id="nev" name="nev" type="text" autocomplete="name" required maxlength="120" />
+            </p>
+            <p class="mezo">
+              <label for="email">E-mail-címed, hogy válaszolhassunk</label>
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" />
+            </p>
+            <p class="mezo">
+              <label for="uzenet">Üzeneted</label>
+              <textarea id="uzenet" name="uzenet" rows="5" required maxlength="4000"></textarea>
+            </p>
+            <p class="mezo mezo--jelolo">
+              <input id="adatkezeles" name="adatkezeles" type="checkbox" value="elfogadom" required />
+              <label for="adatkezeles">Elolvastam az <a href="/adatkezeles/">adatkezelési tájékoztatót</a>, és hozzájárulok, hogy a megadott adataimat az üzenetem megválaszolása és az ezt követő levelezés céljából, a tájékoztatóban leírtak szerint kezeljétek.</label>
+            </p>
+            <p><button class="gomb gomb--fo" type="submit">Üzenet elküldése</button></p>
+            <p class="urlap__allapot" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="cso" data-pipeline-root aria-hidden="true">
+          <!-- a csővezeték-modul tölti ki: élő előnézet, mi lesz az üzenetből -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lab" data-module="lake">
+    <canvas class="lab__to" aria-hidden="true" data-lake></canvas>
+    <div class="keret lab__racs">
+      <p class="lab__logo">Folyam</p>
+      <ul class="lab__linkek">
+        <li><a href="/adatkezeles/">Adatkezelési tájékoztató</a></li>
+        <li><a href="/impresszum/">Impresszum és felhasznált elemek</a></li>
+        <li><a href="#kapcsolat">Kapcsolat</a></li>
+      </ul>
+      <p class="apro">Tesztoldal, 2026. Szolgáltatást még nem nyújtunk, megrendelést nem fogadunk. Az oldal nem használ sütiket és követőkódot.</p>
+    </div>
+  </footer>
+</body>
+</html>

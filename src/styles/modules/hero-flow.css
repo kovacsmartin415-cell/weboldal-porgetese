@@ -1,0 +1,28 @@
+/* Nyitókép – részecskefolyam (hero-flow modul) */
+.nyito__vaszon { display: block; touch-action: pan-y; }
+.nyito.modul-kesz .nyito__vaszon { cursor: crosshair; }
+
+/* Tartalék: nincs WebGL2 – statikus szó a vászon helyén. */
+.nyito__tartalek {
+  position: absolute;
+  top: clamp(96px, 14vh, 140px);
+  right: var(--gutter);
+  width: min(40vw, 760px);
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+}
+.nyito__tartalek text {
+  font-family: var(--f-cim);
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 200px;
+  letter-spacing: -0.01em;
+  fill: color-mix(in oklab, var(--goz) 88%, var(--bazalt));
+  stroke: var(--ken);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+@media (max-width: 700px) {
+  .nyito__tartalek { top: 92px; left: var(--gutter); right: var(--gutter); width: auto; }
+}

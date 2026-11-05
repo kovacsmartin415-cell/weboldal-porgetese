@@ -1,0 +1,125 @@
+---
+// schema.org LocalBusiness (pontosabb altípussal) JSON-LD a konfigból.
+// Ellenőrzés: npm run ellenoriz (szintaxis + mezőnevek), élesben a
+// https://validator.schema.org/ és a Google Rich Results Test.
+import { getImage } from 'astro:assets';
+import { uzlet } from '../config';
+import { kep } from '../lib/kepek';
+import { budapestiIdo, napotHozzaad, unnepnapok, NAP_KULCSOK, type Nap } from '../lib/nyitvatartas';
+
+const NAP_EN: Record<Nap, string> = {
+  hetfo: 'Monday',
+  kedd: 'Tuesday',
+  szerda: 'Wednesday',
+  csutortok: 'Thursday',
+  pentek: 'Friday',
+  szombat: 'Saturday',
+  vasarnap: 'Sunday',
+};
+const ido = (s: string) => (s === '24:00' ? '23:59' : s);
+const abs = (ut: string) => new URL(ut, uzlet.domain).href;
+
+// Heti rend: azonos idősávú napok egy bejegyzésbe.
+const savok = new Map<string, string[]>();
+for (const nap of NAP_KULCSOK) {
+  for (const s of uzlet.nyitvatartas.het[nap]) {
+    const kulcs = `${ido(s.tol)}|${ido(s.ig)}`;
+    savok.set(kulcs, [...(savok.get(kulcs) ?? []), NAP_EN[nap]]);
+  }
+}
+const openingHoursSpecification = [...savok].map(([kulcs, napok]) => {
+  const [opens, closes] = kulcs.split('|');
+  return { '@type': 'OpeningHoursSpecification', dayOfWeek: napok, opens, closes };
+});
+
+// Eltérések: konfigban megadott kivételek + a következő ~4 hónap munkaszüneti napjai.
+const ma = budapestiIdo().iso;
+const hatar = napotHozzaad(ma, 120);
+const kulonleges: object[] = [];
+for (const k of uzlet.nyitvatartas.kivetelek) {
+  const ig = k.datumIg ?? k.datum;
+  if (ig < ma) continue;
+  if (k.nyitva.length === 0) {
+    kulonleges.push({ '@type': 'OpeningHoursSpecification', validFrom: k.datum, validThrough: ig, opens: '00:00', closes: '00:00' });
+  } else {
+    for (const s of k.nyitva) {
+      kulonleges.push({ '@type': 'OpeningHoursSpecification', validFrom: k.datum, validThrough: ig, opens: ido(s.tol), closes: ido(s.ig) });
+    }
+  }
+}
+if (uzlet.nyitvatartas.unnepnapokonZarva) {
+  for (const ev of new Set([Number(ma.slice(0, 4)), Number(hatar.slice(0, 4))])) {
+    for (const [iso] of unnepnapok(ev)) {
+      const kivetelben = uzlet.nyitvatartas.kivetelek.some((k) => iso >= k.datum && iso <= (k.datumIg ?? k.datum));
+      if (iso >= ma && iso <= hatar && !kivetelben) {
+        kulonleges.push({ '@type': 'OpeningHoursSpecification', validFrom: iso, validThrough: iso, opens: '00:00', closes: '00:00' });
+      }
+    }
+  }
+}
+
+// Képek abszolút URL-lel.
+const kepek: string[] = [];
+for (const f of [uzlet.fotok.fo, ...uzlet.fotok.rolunk].filter((f) => f !== undefined)) {
+  const k = await getImage({ src: kep(f.fajl), width: 1200, format: 'jpg', quality: 80 });
+  kepek.push(abs(k.src));
+}
+
+const arak = uzlet.kinalat.kategoriak.flatMap((k) => k.tetelek.map((t) => t.ar)).filter((a) => a !== undefined);
+const ft = (n: number) => new Intl.NumberFormat('hu-HU').format(n).replace(/\s/g, ' ');
+const priceRange = arak.length ? `${ft(Math.min(...arak))}–${ft(Math.max(...arak))} Ft` : undefined;
+
+const tetelTipus = uzlet.tipusAlap.tetelTipus;
+const hasOfferCatalog = {
+  '@type': 'OfferCatalog',
+  name: uzlet.szoveg.kinalatCim,
+  itemListElement: uzlet.kinalat.kategoriak.map((kat) => ({
+    '@type': 'OfferCatalog',
+    name: kat.nev,
+    itemListElement: kat.tetelek.map((t) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': tetelTipus, name: t.nev, ...(t.leiras ? { description: t.leiras } : {}) },
+      ...(t.ar !== undefined
+        ? t.arTol
+          ? { priceSpecification: { '@type': 'PriceSpecification', minPrice: t.ar, priceCurrency: 'HUF' } }
+          : { price: t.ar, priceCurrency: 'HUF' }
+        : {}),
+    })),
+  })),
+};
+
+const sameAs = [...uzlet.kozosseg.map((k) => k.url), ...(uzlet.googleCegprofil ? [uzlet.googleCegprofil] : [])];
+
+const adat = {
+  '@context': 'https://schema.org',
+  '@type': uzlet.schemaTipus ?? uzlet.tipusAlap.schemaTipus,
+  '@id': `${uzlet.domain}/#uzlet`,
+  name: uzlet.nev,
+  description: uzlet.leiras,
+  url: `${uzlet.domain}/`,
+  telephone: uzlet.telefonHref.replace('tel:', ''),
+  ...(uzlet.email ? { email: uzlet.email } : {}),
+  ...(kepek.length ? { image: kepek } : {}),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: uzlet.cim.utca,
+    addressLocality: uzlet.cim.varos,
+    postalCode: uzlet.cim.iranyitoszam,
+    addressCountry: uzlet.cim.orszag,
+  },
+  ...(uzlet.cim.geo ? { geo: { '@type': 'GeoCoordinates', latitude: uzlet.cim.geo.lat, longitude: uzlet.cim.geo.lng } } : {}),
+  hasMap: uzlet.terkepLink,
+  openingHoursSpecification,
+  ...(kulonleges.length ? { specialOpeningHoursSpecification: kulonleges } : {}),
+  ...(priceRange ? { priceRange } : {}),
+  currenciesAccepted: 'HUF',
+  ...(uzlet.bemutatkozas.alapitva ? { foundingDate: String(uzlet.bemutatkozas.alapitva) } : {}),
+  ...(sameAs.length ? { sameAs } : {}),
+  hasOfferCatalog,
+};
+
+// A „</script>” és társai ne törhessék meg a blokkot.
+const json = JSON.stringify(adat).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" set:html={json} />

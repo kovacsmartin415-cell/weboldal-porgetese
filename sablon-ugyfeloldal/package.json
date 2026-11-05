@@ -1,0 +1,28 @@
+{
+  "name": "folyam-ugyfeloldal-sablon",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Folyam Studio – újrahasznosítható ügyféloldal-sablon helyi kisvállalkozásoknak (Astro, statikus).",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "pelda": "node scripts/pelda.mjs",
+    "ellenoriz": "node scripts/ellenoriz.mjs",
+    "sema": "node scripts/sema.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource-variable/public-sans": "^5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.1",
+    "@fontsource/young-serif": "^5.3.0",
+    "astro": "^7.4.5",
+    "zod": "^4.6.7"
+  }
+}

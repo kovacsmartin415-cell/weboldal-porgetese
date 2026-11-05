@@ -1,0 +1,16 @@
+# Közös brief a modulépítő agenteknek (Folyam Studio – „Áramlás”)
+
+Repo: /home/user/weboldal-porgetese (Vite 8 + vanilla TypeScript + three@0.187.0, már telepítve; NE futtass npm install-t, NE adj hozzá új függőséget).
+Olvasd el: DESIGN.md (paletta, betűk, koncepció), index.html (a szekciód markupja), src/styles/base.css, src/lib/env.ts, src/lib/loop.ts, src/main.ts.
+
+Szabályok:
+- Csak a SAJÁT fájljaidat írd: src/modules/<modulod>.ts (+ ha kell src/modules/<modulod>/*.ts segédfájlok, src/modules/<modulod>/*.glsl NEM – a shadereket TS template stringben tartsd), és src/styles/modules/<modulod>.css (a modulból importáld). Más fájlt (index.html, base.css, main.ts, env.ts, loop.ts) NE módosíts; ha szerinted ott kell változás, írd meg a záró jelentésben pontosan.
+- A modul exportja: `export async function init(el: HTMLElement): Promise<void>` (vagy szinkron), el = a data-module elem.
+- Szigorú CSP lesz: script-src 'self', nincs eval/new Function, nincs inline <script>, nincs külső CDN/betű/kép. HTML style attribútumot ne szúrj be stringként (innerHTML-ben se `style="..."`); a JS-ből el.style.setProperty / CSSOM rendben van. Kép nincs: minden vizuális elem kódból generált.
+- Teljesítmény: renderer pixelRatio = dprCap() (env.ts), a renderhurok a visibleLoop() (loop.ts) – képernyőn kívül és rejtett fülön áll. Telefonon is fusson simán (kisebb részecskeszám/felbontás `isCoarse()` esetén). webglcontextlost kezelése. Ha nincs WebGL2 (hasWebGL2()), legyen tisztességes statikus fallback (pl. CSS/SVG), a tartalom mindig olvasható marad.
+- prefers-reduced-motion: nincs folyamatos mozgás, egyetlen szép állókép (a visibleLoop ezt kezeli: renderOnce). Interakció ettől még működhet (pl. kattintásra egyetlen frissítés).
+- Akadálymentesség: a canvas aria-hidden (már az a markupban), a valódi szöveg a DOM-ban marad, billentyűzettel minden kezelhető, fókusz látszik, kontraszt ≥ 4.5:1 a szöveg alatt.
+- Színek csak a DESIGN.md palettából: gőz #ECEAE3, bazalt #151819, kén #D9B21F (egyetlen kiemelő), zuzmó #8C9878, kalderató #18302E, hamu #5E615D. Nincs lila-kék, nincs színátmenetes szöveg, nincs üveghatás, nincs emoji.
+- Magyar szöveg (ha írsz): rövid, konkrét, őszinte, nincs kitalált szám/ügyfél/vélemény, nincs „emeld új szintre”-féle szlogen. Ez tesztoldal: szolgáltatást még nem nyújtanak.
+- Ellenőrzés: `npx vite build --outDir /tmp/build-<modulod> --emptyOutDir` (SAJÁT outDir, mert mások is buildelnek párhuzamosan!). Utána `npx vite preview --outDir /tmp/build-<modulod> --port <egyedi port 4300-4399>` és Playwright (require('playwright') működik, chromium.launch() opciók nélkül; WebGL-hez add: args: ['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']) képernyőkép 1280 és 390 szélességen a saját szekciódról, konzolhibák ellenőrzése, és reduced-motion emulációval is (page.emulateMedia({ reducedMotion: 'reduce' })). Nézd meg a képeket (Read tool), és javíts, amíg tényleg lenyűgöző és hibátlan. A képernyőképeket a /tmp/claude-0/-home-user-weboldal-porgetese/20141d4d-ba36-5445-be98-0732ff2f76a9/scratchpad/<modulod>/ mappába tedd.
+- Ne commitolj, ne pusholj. A végén rövid jelentés (max 250 szó): mit építettél, milyen fájlokat, ismert korlátok, és ha másik fájlban kellene változás.

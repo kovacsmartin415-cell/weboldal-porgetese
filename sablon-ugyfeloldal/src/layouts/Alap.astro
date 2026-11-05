@@ -1,0 +1,81 @@
+---
+import 'virtual:tema-betuk';
+import 'virtual:tema-valtozok.css';
+import '../styles/alap.css';
+import { getImage } from 'astro:assets';
+import { uzlet } from '../config';
+import { kep } from '../lib/kepek';
+import Fejlec from '../components/Fejlec.astro';
+import Lablec from '../components/Lablec.astro';
+
+interface Props {
+  /** Az oldal saját címe; a főoldalon üresen hagyva a cég neve + címke lesz. */
+  cim?: string;
+  leiras?: string;
+  /** Ne kerüljön keresőbe (köszönjük, 404). */
+  noindex?: boolean;
+}
+
+const { cim, leiras = uzlet.leiras, noindex = false } = Astro.props;
+const teljesCim = cim ? `${cim} – ${uzlet.nev}, ${uzlet.cim.varos}` : `${uzlet.nev} – ${uzlet.cimke}`;
+const kanonikus = new URL(Astro.url.pathname, Astro.site ?? uzlet.domain).href;
+const indexelheto = !noindex && !uzlet.bemutato;
+
+// Megosztási kép (Facebook, Messenger, Viber előnézet): a fő fotóból 1200×630.
+let ogKep: { src: string; width: number; height: number; alt: string } | undefined;
+if (uzlet.fotok.fo) {
+  const k = await getImage({ src: kep(uzlet.fotok.fo.fajl), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+  ogKep = { src: new URL(k.src, uzlet.domain).href, width: 1200, height: 630, alt: uzlet.fotok.fo.alt };
+}
+---
+
+<!doctype html>
+<html lang="hu" data-tema={uzlet.temaNev}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{teljesCim}</title>
+    <meta name="description" content={leiras} />
+    <link rel="canonical" href={kanonikus} />
+    {!indexelheto && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={uzlet.szinek.hatter} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="hu_HU" />
+    <meta property="og:site_name" content={uzlet.nev} />
+    <meta property="og:title" content={teljesCim} />
+    <meta property="og:description" content={leiras} />
+    <meta property="og:url" content={kanonikus} />
+    {
+      ogKep && (
+        <>
+          <meta property="og:image" content={ogKep.src} />
+          <meta property="og:image:width" content={String(ogKep.width)} />
+          <meta property="og:image:height" content={String(ogKep.height)} />
+          <meta property="og:image:alt" content={ogKep.alt} />
+        </>
+      )
+    }
+    <meta name="twitter:card" content={ogKep ? 'summary_large_image' : 'summary'} />
+    <slot name="fej" />
+  </head>
+  <body>
+    <a class="ugras" href="#tartalom">Ugrás a tartalomra</a>
+    {
+      uzlet.bemutato && (
+        <div class="bemutato-sav">
+          <p class="keret">
+            Bemutató oldal: kitalált vállalkozás, a {uzlet.keszito.nev} sablonjával. A nevek, címek és árak nem valósak.
+          </p>
+        </div>
+      )
+    }
+    <Fejlec />
+    <main id="tartalom" tabindex="-1">
+      <slot />
+    </main>
+    <Lablec />
+  </body>
+</html>

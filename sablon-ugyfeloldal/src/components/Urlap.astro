@@ -1,0 +1,84 @@
+---
+// Netlify Forms: a Netlify a deploykor felismeri a data-netlify űrlapot,
+// a beküldött üzenetek a Netlify felületén (Forms) és e-mailben érkeznek.
+// Spam ellen: rejtett csapdamező (honeypot). Nincs reCAPTCHA, nincs külső szkript.
+import { uzlet } from '../config';
+
+const ma = new Date().toISOString().slice(0, 10);
+---
+
+<form
+  class="urlap"
+  name="kapcsolat"
+  method="POST"
+  action="/koszonjuk/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+>
+  <input type="hidden" name="form-name" value="kapcsolat" />
+  <p class="mezes">
+    <label>Ezt a mezőt hagyd üresen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="mezo-par">
+    <div class="mezo">
+      <label for="u-nev">Neved <span class="kotelezo">(kötelező)</span></label>
+      <input id="u-nev" name="nev" type="text" autocomplete="name" required maxlength="120" />
+    </div>
+    <div class="mezo">
+      <label for="u-email">E-mail-címed <span class="kotelezo">(kötelező)</span></label>
+      <input id="u-email" name="email" type="email" autocomplete="email" required maxlength="200" />
+    </div>
+  </div>
+
+  <div class="mezo-par">
+    <div class="mezo">
+      <label for="u-tel">Telefonszámod</label>
+      <input id="u-tel" name="telefon" type="tel" autocomplete="tel" maxlength="30" aria-describedby="u-tel-segit" />
+      <p class="segit" id="u-tel-segit">Ha inkább visszahívást kérsz.</p>
+    </div>
+    <div class="mezo">
+      <label for="u-targy">Miben segíthetünk?</label>
+      <select id="u-targy" name="targy">
+        {uzlet.szoveg.urlapTargyak.map((t) => <option>{t}</option>)}
+      </select>
+    </div>
+  </div>
+
+  {
+    uzlet.szoveg.urlapDatumCimke && (
+      <div class="mezo mezo--datum">
+        <label for="u-datum">{uzlet.szoveg.urlapDatumCimke}</label>
+        <input id="u-datum" name="datum" type="date" min={ma} />
+      </div>
+    )
+  }
+
+  <div class="mezo">
+    <label for="u-uzenet">Üzenet <span class="kotelezo">(kötelező)</span></label>
+    <textarea id="u-uzenet" name="uzenet" rows="6" required maxlength="4000"></textarea>
+  </div>
+
+  <div class="mezo">
+    <label class="jelolo" for="u-hozzajarulas">
+      <input id="u-hozzajarulas" name="hozzajarulas" type="checkbox" value="igen" required />
+      <span>
+        Elolvastam az <a href="/adatkezeles/">adatkezelési tájékoztatót</a>, és hozzájárulok, hogy a fenti adataimat az
+        üzenetem megválaszolásához kezeljétek. <span class="kotelezo">(kötelező)</span>
+      </span>
+    </label>
+  </div>
+
+  <p class="urlap-kuld">
+    <button class="gomb" type="submit">Üzenet küldése</button>
+  </p>
+</form>
+
+<style>
+  .mezo--datum {
+    max-width: 16rem;
+  }
+  .urlap-kuld {
+    margin: 0;
+  }
+</style>
