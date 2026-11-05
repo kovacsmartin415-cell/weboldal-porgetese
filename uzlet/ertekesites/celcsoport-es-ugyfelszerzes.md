@@ -137,7 +137,7 @@ Cél: egy hét alatt 30–40 jól kiválasztott hely a táblázatban, mindegyikn
 
 A Cégprofillal kapcsolatos tudnivalókat a [Google Cégprofil súgójában](https://support.google.com/business/?hl=hu) nézzétek meg. Két szabály, amit mindig tartsatok be, amikor később egy ügyfél profilját kezelitek:
 
-- a profil tulajdonosa az ügyfél legyen, ti csak kezelőként (manager) kapjatok hozzáférést ([Google: tulajdonosok és kezelők](https://support.google.com/business/answer/3403100?hl=hu); gyakorlati leírás: [DEV Community](https://dev.to/getcito/how-to-provide-access-to-a-google-business-profile-owner-manager-agency-troubleshooting-2025-4n50));
+- a profil tulajdonosa az ügyfél legyen, ti csak kezelőként (manager) kapjatok hozzáférést (a Google súgójában a „Felhasználók és hozzáférés” részt keressétek; gyakorlati leírás: [DEV Community](https://dev.to/getcito/how-to-provide-access-to-a-google-business-profile-owner-manager-agency-troubleshooting-2025-4n50), [gbply.net](https://gbply.net/user-guide/granting-gbp-access)). Egy fórumon leírt eset szerint egy ügynökség tulajdonosként kezelte az ügyfél profilját, és amikor megszűnt, az ügyfél nem tudta visszaszerezni a teljes hozzáférést ([Local Search Forum](https://localsearchforum.com/threads/gbp-users-best-practices.63243/post-202986));
 - értékelésért cserébe soha nem adtok és nem javasoltok semmilyen kedvezményt (lásd lent).
 
 ---
