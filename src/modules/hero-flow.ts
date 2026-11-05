@@ -23,9 +23,10 @@ function fallback(el: HTMLElement, canvas: HTMLCanvasElement | null): void {
   svg.setAttribute('aria-hidden', 'true');
   svg.setAttribute('focusable', 'false');
   const t = document.createElementNS(SVG_NS, 'text');
-  t.setAttribute('x', '600');
+  t.setAttribute('x', '2');
   t.setAttribute('y', '128');
-  t.setAttribute('text-anchor', 'end');
+  t.setAttribute('textLength', '596');
+  t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
   t.textContent = WORD;
   svg.append(t);
   el.prepend(svg);
@@ -215,11 +216,11 @@ export async function init(el: HTMLElement): Promise<void> {
     pu.uAspect.value = aspect;
     pointsMat.uniforms.uAspect.value = aspect;
     blitMat.uniforms.uAspect.value = aspect;
-    // Pontméret eszközpixelben: ~10 átfedés pixelenként, hogy a betű belseje sima gőz legyen, ne szemcsés zaj.
+    // Pontméret eszközpixelben: ~16 átfedés pixelenként, hogy a betű belseje sima gőz legyen, ne szemcsés zaj.
     const rho = letterDensity / (dpr * dpr);
-    const S = Math.min(9, Math.max(1.6 * dpr, Math.sqrt(10 / (0.6 * rho))));
+    const S = Math.min(9, Math.max(1.6 * dpr, Math.sqrt(16 / (0.6 * rho))));
     pointsMat.uniforms.uPx.value = S;
-    pointsMat.uniforms.uAlpha.value = Math.min(0.6, 1.25 / (rho * 0.6 * S * S));
+    pointsMat.uniforms.uAlpha.value = Math.min(0.6, 1.4 / (rho * 0.6 * S * S));
     pointsMat.uniforms.uPxStream.value = dpr * (coarse ? 1.9 : 1.6);
     renderer.setRenderTarget(trail); renderer.clear(); renderer.setRenderTarget(null);
   }

@@ -1,66 +1,66 @@
 {
   "$schema": "../../uzlet.schema.json",
   "bemutato": true,
-  "tipus": "borbely",
-  "nev": "Penge & Pamacs",
-  "domain": "https://pengeespamacs.example",
+  "tipus": "pekseg",
+  "nev": "Kovász & Kalász",
+  "domain": "https://kovaszeskalasz.example",
   "seo": {
-    "cimke": "Borbély Győrben, a Belvárosban",
-    "leiras": "Férfi hajvágás, szakálligazítás és borotválás forró törölközővel Győr belvárosában. Kedd–péntek 9–19, szombat 8–13. Időpont telefonon."
+    "cimke": "Kovászos pékség Veszprémben",
+    "leiras": "Kovászos kenyér, kalács és reggeli péksütemény a veszprémi Kovácsi utcában. Kedd–péntek 6:30–18:00, szombaton 6:30–13:00."
   },
   "bemutatkozas": {
-    "rovid": "Férfi hajvágás, szakáll és borotválás forró törölközővel, Győr belvárosában. Két szék, időpontra dolgozunk, de ha van szabad hely, beülhetsz rögtön.",
+    "rovid": "Kovászos kenyér, kalács és reggeli péksütemény a veszprémi Kovácsi utcában. Hajnali négykor kezdünk, és ami délre elfogy, az aznapra elfogyott.",
     "hosszu": [
-      "Két székkel dolgozunk, ezért időpontra érdemes jönni. Egy hajvágásra negyven percet számolunk: ennyi idő kell, hogy ollóval is rendesen kidolgozzuk, ne csak géppel.",
-      "A borotválás régi módon megy: forró törölköző, pamaccsal felvert hab, egyenes penge. Az első alkalommal megkérdezzük, milyen a bőröd, és ahhoz választjuk a szappant.",
-      "Gyerekeket is szívesen nyírunk, tizenkét éves korig kedvezményesen. Kutyát hozhatsz, ha nyugodtan kivár."
+      "Két kemencénk van és egy tizenkét éves kovászunk. Minden kenyér legalább tizennyolc órát kel, ezért nálunk a reggel hétkor kiadott cipó előző nap délután kezdődik.",
+      "A búza- és rozslisztet egy Veszprém megyei malomból hozzuk, a magokat és a diót helyi termelőktől. Adalékanyagot, sütőport, kész keveréket nem használunk; a kenyérben liszt, víz, só és kovász van.",
+      "A pult kicsi, egyszerre ketten férnek be. Ha sorban állsz, az azért van, mert kérésre minden kenyeret előtted szeletelünk."
     ],
-    "nemCsinaljuk": "Nem festünk hajat, nem csinálunk dauert és női hajvágást. Ha ezt keresed, szívesen ajánlunk valakit a környéken.",
-    "alapitva": 2021
+    "nemCsinaljuk": "Nem sütünk fagyasztott tésztából, és nincs nálunk egész nap friss croissant. Ha valami délben már nincs a pultban, holnap reggel lesz.",
+    "alapitva": 2019
   },
   "cim": {
-    "utca": "Kazinczy utca 9.",
-    "iranyitoszam": "9021",
-    "varos": "Győr",
-    "utmutato": "A Széchenyi tér felől a második kapu, a földszinten.",
-    "parkolas": "a Dunakapu téri mélygarázsban, öt perc gyalog.",
+    "utca": "Kovácsi utca 7.",
+    "iranyitoszam": "8200",
+    "varos": "Veszprém",
+    "utmutato": "A Szabadság tértől két perc gyalog, a zöld kapu mellett.",
+    "parkolas": "a Kovácsi utcában fizetős, szombaton délelőtt a piac miatt nehéz helyet találni.",
     "geo": {
-      "lat": 47.6869,
-      "lng": 17.6354
+      "lat": 47.0929,
+      "lng": 17.9112
     }
   },
-  "telefon": "+36 96 000 000",
-  "email": "idopont@pengeespamacs.example",
+  "telefon": "+36 88 000 000",
+  "email": "rendeles@kovaszeskalasz.example",
   "nyitvatartas": {
     "het": {
       "hetfo": [],
       "kedd": [
         {
-          "tol": "09:00",
-          "ig": "19:00"
+          "tol": "06:30",
+          "ig": "18:00"
         }
       ],
       "szerda": [
         {
-          "tol": "09:00",
-          "ig": "19:00"
+          "tol": "06:30",
+          "ig": "18:00"
         }
       ],
       "csutortok": [
         {
-          "tol": "09:00",
-          "ig": "19:00"
+          "tol": "06:30",
+          "ig": "18:00"
         }
       ],
       "pentek": [
         {
-          "tol": "09:00",
-          "ig": "20:00"
+          "tol": "06:30",
+          "ig": "18:00"
         }
       ],
       "szombat": [
         {
-          "tol": "08:00",
+          "tol": "06:30",
           "ig": "13:00"
         }
       ],
@@ -69,99 +69,171 @@
     "unnepnapokonZarva": true,
     "kivetelek": [
       {
+        "datum": "2026-12-21",
+        "nyitva": [
+          {
+            "tol": "06:30",
+            "ig": "18:00"
+          }
+        ],
+        "megjegyzes": "karácsony előtti hétfőn is nyitva"
+      },
+      {
         "datum": "2026-12-24",
         "nyitva": [
           {
-            "tol": "08:00",
+            "tol": "06:00",
             "ig": "12:00"
           }
         ],
-        "megjegyzes": "szenteste délelőtt"
+        "megjegyzes": "szenteste, csak előrendelt bejgli és kalács"
       },
       {
-        "datum": "2026-12-28",
-        "datumIg": "2027-01-02",
+        "datum": "2026-12-27",
+        "datumIg": "2027-01-04",
         "nyitva": [],
-        "megjegyzes": "szabadság"
+        "megjegyzes": "téli szünet"
       }
-    ]
+    ],
+    "megjegyzes": "Bejglit és ünnepi kalácsot december 18-ig lehet előrendelni."
   },
   "kinalat": {
-    "bevezeto": "Az árak egy alkalomra szólnak, a hajmosás mindegyikben benne van.",
-    "megjegyzes": "Készpénzzel és kártyával is fizethetsz. Ha nem tudsz eljönni, legalább három órával előtte szólj, hogy más beülhessen.",
+    "bevezeto": "Naponta ennyi fajta kenyér és péksütemény készül. Az árak darabra értendők, ha nincs más írva.",
+    "megjegyzes": "Az árak 2026. november 1-jétől érvényesek. Allergénekről (glutén, tej, tojás, dió, szezám) a pultnál részletes listát adunk. Kártyával és készpénzzel is fizethetsz.",
     "kategoriak": [
       {
-        "nev": "Haj",
+        "nev": "Kenyerek",
+        "leiras": "Mind kovásszal, legalább 18 óra kelesztéssel.",
         "tetelek": [
           {
-            "nev": "Hajvágás",
-            "leiras": "Ollóval és géppel, mosással, a végén formázással.",
-            "ar": 6500,
-            "idotartam": "40 perc",
+            "nev": "Kovászos fehér cipó",
+            "leiras": "Ropogós, sötétre sütött héj, lyukacsos bél. Három napig jó, a harmadik napon pirítósnak a legjobb.",
+            "ar": 1450,
+            "egyseg": "1 kg",
             "kiemelt": true
           },
           {
-            "nev": "Gépi vágás egy hosszra",
-            "ar": 4000,
-            "idotartam": "20 perc"
+            "nev": "Rozscipó",
+            "leiras": "60% rozsliszt, köménnyel vagy anélkül. Sűrű, nedves bél, egy hétig is eláll.",
+            "ar": 1390,
+            "egyseg": "750 g",
+            "kiemelt": true,
+            "foto": {
+              "fajl": "fotok/rozscipo.jpg",
+              "alt": "Félbevágott rozscipó a deszkán, sűrű, sötét béllel"
+            }
           },
           {
-            "nev": "Gyerek hajvágás",
-            "leiras": "12 éves korig.",
-            "ar": 4000,
-            "idotartam": "30 perc"
+            "nev": "Tönkölyös vekni",
+            "leiras": "Fele tönkölyliszt, fele fehér búzaliszt, formában sütve.",
+            "ar": 1590,
+            "egyseg": "800 g"
+          },
+          {
+            "nev": "Magos kenyér",
+            "leiras": "Napraforgó, len, tökmag és szezám, a héján is.",
+            "ar": 1690,
+            "egyseg": "900 g",
+            "jelolesek": [
+              "szezámot tartalmaz"
+            ]
+          },
+          {
+            "nev": "Kovászos bagett",
+            "ar": 590,
+            "egyseg": "db",
+            "jelolesek": [
+              "csak pénteken és szombaton"
+            ]
           }
         ]
       },
       {
-        "nev": "Szakáll és borotválás",
+        "nev": "Kalács és édes",
         "tetelek": [
           {
-            "nev": "Szakálligazítás",
-            "leiras": "Kontúr, hossz, olaj vagy balzsam.",
-            "ar": 3500,
-            "idotartam": "20 perc",
+            "nev": "Fonott kalács",
+            "leiras": "Vajjal, tojással, hosszú kelesztéssel.",
+            "ar": 1890,
+            "egyseg": "db",
             "kiemelt": true
           },
           {
-            "nev": "Borotválás forró törölközővel",
-            "leiras": "Egyenes pengével, habbal, utána hideg törölköző.",
-            "ar": 5500,
-            "idotartam": "30 perc",
+            "nev": "Kakaós csiga",
+            "ar": 490,
+            "egyseg": "db",
             "kiemelt": true
+          },
+          {
+            "nev": "Túrós batyu",
+            "ar": 520,
+            "egyseg": "db"
+          },
+          {
+            "nev": "Diós és mákos bejgli",
+            "leiras": "Csak december 1. és 24. között, előrendelésre.",
+            "ar": 4200,
+            "egyseg": "db",
+            "jelolesek": [
+              "szezonális",
+              "diót tartalmaz"
+            ]
           }
         ]
       },
       {
-        "nev": "Együtt",
+        "nev": "Sós és reggeli",
         "tetelek": [
           {
-            "nev": "Hajvágás és szakáll",
-            "ar": 9000,
-            "idotartam": "60 perc",
-            "kiemelt": true
+            "nev": "Tepertős pogácsa",
+            "ar": 3900,
+            "egyseg": "kg"
           },
           {
-            "nev": "Vőlegénycsomag",
-            "leiras": "Hajvágás, borotválás, szemöldök, az esküvő előtti napon vagy reggelén.",
-            "ar": 14000,
+            "nev": "Sajtos rúd",
+            "ar": 390,
+            "egyseg": "db"
+          },
+          {
+            "nev": "Kenyérlángos",
+            "leiras": "Tejföllel, hagymával, szalonnával.",
+            "ar": 890,
+            "egyseg": "db",
+            "jelolesek": [
+              "csak szombaton"
+            ]
+          },
+          {
+            "nev": "Rendezvénytál",
+            "leiras": "Pogácsa, sajtos rúd és mini szendvicsek, 10–12 főre.",
+            "ar": 14900,
             "arTol": true,
-            "idotartam": "90 perc"
+            "jelolesek": [
+              "két nappal előre kérd"
+            ]
           }
         ]
       }
     ]
   },
-  "kozosseg": [
-    {
-      "halozat": "instagram",
-      "url": "https://www.instagram.com/pengeespamacs.teszt/"
-    }
-  ],
-  "szovegek": {
-    "urlapBevezeto": "Írd meg, melyik nap és napszak lenne jó, és mit kérsz. Munkaidőben pár órán belül visszaírunk egy konkrét időponttal."
+  "kozosseg": [],
+  "tema": {
+    "keszlet": "meleg"
+  },
+  "fotok": {
+    "fo": {
+      "fajl": "fotok/pult.jpg",
+      "alt": "Kovászos cipók és fonott kalácsok a pult polcain, reggel"
+    },
+    "rolunk": [
+      {
+        "fajl": "fotok/kemence.jpg",
+        "alt": "A kemence nyitott szája, előtte a hosszú nyelű vetőlapát"
+      }
+    ]
   },
   "adatkezelo": {
-    "forma": "egyéni vállalkozó"
+    "nev": "Kovász & Kalász Kft.",
+    "szekhely": "8200 Veszprém, Kovácsi utca 7."
   }
 }

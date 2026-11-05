@@ -111,7 +111,7 @@ void main(){
     float ring = age * 1.5;
     float w = 0.09 + age * 0.08;
     float f = exp(-pow((rs - ring) / w, 2.0)) * exp(-age * 1.8) * uShock.w;
-    acc += (ds / max(rs, 1e-3)) * f * 42.0;
+    acc += (ds / max(rs, 1e-3)) * f * 20.0;
   }
 
   vel += acc * uDt;
@@ -177,11 +177,11 @@ void main(){
   vec2 q = P.xy * vec2(5.0, 7.0);
   float steam = 0.5 + 0.25 * sin(q.x + uTime * 0.9 + sin(q.y * 0.8 - uTime * 0.6) * 1.7)
                     + 0.25 * sin(q.y * 1.3 - uTime * 0.7 + sin(q.x * 0.6 + uTime * 0.4) * 2.0);
-  vec3 inner = mix(GOZ * 0.62, GOZ, steam);
+  vec3 inner = mix(GOZ * 0.55, GOZ, steam * steam * (3.0 - 2.0 * steam));
   vec3 letter = mix(inner, KEN, edge);
-  letter = mix(letter, KEN, smoothstep(0.35, 1.4, spd) * 0.6);
+  letter = mix(letter, KEN, smoothstep(0.4, 1.6, spd) * 0.45);
   // A betű sűrűségéből számolt alap-átlátszóság; mozgásban (folyóként) erősebb.
-  float boost = 1.0 + 3.0 * smoothstep(0.06, 0.45, spd);
+  float boost = 1.0 + 1.8 * smoothstep(0.06, 0.5, spd);
   float la = mix(0.7 + 0.5 * steam, 1.45, edge) * uAlpha * boost;
   float sa = 0.20 + 0.26 * A.y;
   vCol = mix(ZUZMO, letter, isLetter);
@@ -235,7 +235,7 @@ void main(){
     smoothstep(uTextRect.x - 0.12, uTextRect.x + 0.04, vUv.x) * (1.0 - smoothstep(uTextRect.z - 0.10, uTextRect.z + 0.10, vUv.x)),
     smoothstep(uTextRect.y - 0.12, uTextRect.y + 0.06, vUv.y) * (1.0 - smoothstep(uTextRect.w - 0.06, uTextRect.w + 0.12, vUv.y))
   );
-  L *= 1.0 - 0.4 * q.x * q.y;
+  L *= 1.0 - 0.5 * q.x * q.y;
   vec3 c = BAZALT + L;
   float m = max(max(c.r, c.g), c.b);
   const float knee = 0.78;
