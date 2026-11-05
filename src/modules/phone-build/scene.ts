@@ -158,7 +158,7 @@ export class PhoneScene {
 
     // --- fények ---
     const key = new THREE.DirectionalLight(0xfff3dc, 2.0);
-    key.position.set(-2.4, 6, 3.2);
+    key.position.set(-1.1, 7, 2.2);
     key.castShadow = true;
     key.shadow.mapSize.set(opts.coarse ? 512 : 1024, opts.coarse ? 512 : 1024);
     const sc = key.shadow.camera;
@@ -205,10 +205,10 @@ export class PhoneScene {
     cam.aspect = w / h;
     // illesztés: a telefon + árnyék férjen be magasságban és szélességben is
     const t = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
-    const needH = 5.0, needW = 2.6;
+    const needH = 4.25, needW = 2.5;
     const dist = Math.max(needH / 2 / t, needW / 2 / (t * cam.aspect));
-    cam.position.set(0, 0.55, dist);
-    cam.lookAt(0, -0.32, 0);
+    cam.position.set(0, 0.7, dist);
+    cam.lookAt(0, -0.38, 0);
     cam.updateProjectionMatrix();
   }
 

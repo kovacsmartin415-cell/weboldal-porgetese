@@ -157,6 +157,8 @@ uniform sampler2D tTarget;
 uniform sampler2D tAux;
 uniform float uAspect;
 uniform float uPx;
+uniform float uPxStream;
+uniform float uAlpha;
 uniform float uTime;
 varying vec3 vCol;
 varying float vA;
@@ -170,7 +172,7 @@ void main(){
   vec4 A = texture2D(tAux, ref);
   float isLetter = step(0.5, T.w);
   float spd = length(V.xy);
-  float edge = smoothstep(0.45, 0.95, T.z);
+  float edge = smoothstep(0.2, 0.95, T.z);
   // Gőz: lassan sodródó, összefüggő világos-sötét foltok a betű belsejében.
   vec2 q = P.xy * vec2(5.0, 7.0);
   float steam = 0.5 + 0.25 * sin(q.x + uTime * 0.9 + sin(q.y * 0.8 - uTime * 0.6) * 1.7)
@@ -178,11 +180,13 @@ void main(){
   vec3 inner = mix(GOZ * 0.62, GOZ, steam);
   vec3 letter = mix(inner, KEN, edge);
   letter = mix(letter, KEN, smoothstep(0.35, 1.4, spd) * 0.6);
-  float la = mix(0.30 + 0.12 * steam, 0.62, edge);
+  // A betű sűrűségéből számolt alap-átlátszóság; mozgásban (folyóként) erősebb.
+  float boost = 1.0 + 3.0 * smoothstep(0.06, 0.45, spd);
+  float la = mix(0.7 + 0.5 * steam, 1.45, edge) * uAlpha * boost;
   float sa = 0.20 + 0.26 * A.y;
   vCol = mix(ZUZMO, letter, isLetter);
   vA = mix(sa, la, isLetter);
-  gl_PointSize = uPx * mix(0.85 + 0.5 * A.x, 1.3 - 0.25 * edge, isLetter);
+  gl_PointSize = mix(uPxStream * (0.85 + 0.5 * A.x), uPx * (1.0 - 0.3 * edge), isLetter);
   gl_Position = vec4(P.x / uAspect, P.y, 0.0, 1.0);
 }
 `;
@@ -228,10 +232,10 @@ void main(){
   L += g * (0.32 / 12.8);
   // A szöveg alatt visszafogjuk a fényt, hogy a cím olvasható maradjon.
   vec2 q = vec2(
-    smoothstep(uTextRect.x - 0.03, uTextRect.x + 0.05, vUv.x) * (1.0 - smoothstep(uTextRect.z - 0.06, uTextRect.z + 0.04, vUv.x)),
-    smoothstep(uTextRect.y - 0.04, uTextRect.y + 0.04, vUv.y) * (1.0 - smoothstep(uTextRect.w - 0.05, uTextRect.w + 0.05, vUv.y))
+    smoothstep(uTextRect.x - 0.12, uTextRect.x + 0.04, vUv.x) * (1.0 - smoothstep(uTextRect.z - 0.10, uTextRect.z + 0.10, vUv.x)),
+    smoothstep(uTextRect.y - 0.12, uTextRect.y + 0.06, vUv.y) * (1.0 - smoothstep(uTextRect.w - 0.06, uTextRect.w + 0.12, vUv.y))
   );
-  L *= 1.0 - 0.55 * q.x * q.y;
+  L *= 1.0 - 0.4 * q.x * q.y;
   vec3 c = BAZALT + L;
   float m = max(max(c.r, c.g), c.b);
   const float knee = 0.78;

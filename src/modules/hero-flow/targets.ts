@@ -83,7 +83,7 @@ export function place(W: number, H: number, obstacles: Box[], topPad: number, gu
   return { x: W - gutter - w, y: topPad, w, h, fs: 60 };
 }
 
-export interface Samples { pts: Float32Array; edge: Float32Array; count: number; }
+export interface Samples { pts: Float32Array; edge: Float32Array; count: number; /** kitöltött terület, CSS px² */ area: number; }
 
 /** A szó kitöltött pixeleiből `n` pontot vesz (CSS px, szekcióhoz viszonyítva), peremtávolsággal. */
 export function sampleWord(p: Placement, n: number): Samples {
@@ -123,8 +123,8 @@ export function sampleWord(p: Placement, n: number): Samples {
   for (let i = 0; i < W * H; i++) if (d[i] > 0) filled.push(i);
   const pts = new Float32Array(n * 2);
   const edge = new Float32Array(n);
-  if (!filled.length) return { pts, edge, count: 0 };
-  const band = Math.max(2, fs * 0.034);
+  if (!filled.length) return { pts, edge, count: 0, area: 1 };
+  const band = Math.max(2, fs * 0.046);
   let k = 0, guard = 0;
   while (k < n && guard < n * 20) {
     guard++;
@@ -138,5 +138,5 @@ export function sampleWord(p: Placement, n: number): Samples {
     edge[k] = e;
     k++;
   }
-  return { pts, edge, count: k };
+  return { pts, edge, count: k, area: filled.length / (scale * scale) };
 }

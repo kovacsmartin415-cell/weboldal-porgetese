@@ -107,7 +107,7 @@ export async function init(el: HTMLElement): Promise<void> {
     if (!desktop.matches) { list.style.removeProperty('--pb-y'); return; }
     const i = Math.min(2, Math.floor(u)), f = u - i;
     const top = lerp(steps[i].offsetTop, steps[Math.min(3, i + 1)].offsetTop, f);
-    const anchor = list.clientHeight * 0.16;
+    const anchor = list.clientHeight * 0.24;
     list.style.setProperty('--pb-y', `${(anchor - top).toFixed(1)}px`);
   };
 

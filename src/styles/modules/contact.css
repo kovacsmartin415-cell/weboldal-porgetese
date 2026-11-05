@@ -36,7 +36,7 @@
 }
 .cso__folyam {
   position: absolute; left: 0; top: 0; width: 0; height: 0;
-  overflow: visible; pointer-events: none; z-index: 0;
+  overflow: visible; pointer-events: none; z-index: 0; max-width: none;
 }
 .cso__sav { fill: none; stroke: var(--zuzmo); stroke-width: 1.5; opacity: 0.4; transition: opacity 0.3s; }
 .cso__sav.aktiv { opacity: 0.75; }
@@ -145,7 +145,7 @@
 .tabla__c-nev { width: 18%; }
 .tabla__c-mail { width: 23%; }
 .tabla__c-uz { width: auto; }
-.tabla__c-all { width: 52px; }
+.tabla__c-all { width: 70px; }
 .tabla__ures td, .tabla__ures th { height: 2.1em; }
 .tabla__uj { display: inline-block; background: var(--ken); padding: 1px 6px; border-radius: 2px; font-weight: 600; visibility: hidden; }
 .tabla__sor--el .tabla__uj { visibility: visible; }

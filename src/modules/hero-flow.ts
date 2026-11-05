@@ -78,6 +78,7 @@ export async function init(el: HTMLElement): Promise<void> {
   const toWorld = (px: number, py: number): [number, number] => [(px - W / 2) / (H / 2), 1 - (2 * py) / H];
 
   let placement: Placement | null = null;
+  let letterDensity = 1;
   const river = new THREE.Vector4(0.1, 0.16, 1.4, 0.1);
 
   function layoutTargets(): void {
@@ -85,10 +86,11 @@ export async function init(el: HTMLElement): Promise<void> {
     W = Math.max(1, r.width); H = Math.max(1, r.height); aspect = W / H;
     const gutter = parseFloat(getComputedStyle(el).paddingLeft) || 24;
     const head = document.querySelector('.fejlec')?.getBoundingClientRect();
-    const topPad = Math.max(56, head ? head.bottom - r.top + 18 : 90);
+    const topPad = Math.max(56, head ? head.bottom - r.top + 28 : 96);
     const obs = textObstacles(el);
     placement = place(W, H, obs, topPad, gutter);
     const s = sampleWord(placement, nLetter);
+    letterDensity = s.count / Math.max(1, s.area);
 
     // Szövegblokk uv-ban (a kompozit itt visszafogja a fényt).
     if (obs.length) {
@@ -175,7 +177,7 @@ export async function init(el: HTMLElement): Promise<void> {
   geo.setAttribute('ref', new THREE.BufferAttribute(refs, 2));
   const pointsMat = new THREE.ShaderMaterial({
     vertexShader: POINTS_VERT, fragmentShader: POINTS_FRAG,
-    uniforms: { tPos: { value: null }, tVel: { value: null }, tTarget: { value: tTarget }, tAux: { value: tAux }, uAspect: { value: 1 }, uPx: { value: 2 }, uGain: { value: 1 }, uTime: { value: 0 } },
+    uniforms: { tPos: { value: null }, tVel: { value: null }, tTarget: { value: tTarget }, tAux: { value: tAux }, uAspect: { value: 1 }, uPx: { value: 2 }, uPxStream: { value: 1.6 }, uAlpha: { value: 0.1 }, uGain: { value: 1 }, uTime: { value: 0 } },
     blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor,
     depthTest: false, depthWrite: false, transparent: true,
   });
@@ -213,9 +215,12 @@ export async function init(el: HTMLElement): Promise<void> {
     pu.uAspect.value = aspect;
     pointsMat.uniforms.uAspect.value = aspect;
     blitMat.uniforms.uAspect.value = aspect;
-    // Pontméret eszközpixelben: a szó méretével és a sűrűséggel arányos.
-    const fsRef = placement ? placement.fs : 150;
-    pointsMat.uniforms.uPx.value = dpr * Math.min(3.2, Math.max(1.5, (coarse ? 2.1 : 1.65) * Math.sqrt(fsRef / 170)));
+    // Pontméret eszközpixelben: ~10 átfedés pixelenként, hogy a betű belseje sima gőz legyen, ne szemcsés zaj.
+    const rho = letterDensity / (dpr * dpr);
+    const S = Math.min(9, Math.max(1.6 * dpr, Math.sqrt(10 / (0.6 * rho))));
+    pointsMat.uniforms.uPx.value = S;
+    pointsMat.uniforms.uAlpha.value = Math.min(0.6, 1.25 / (rho * 0.6 * S * S));
+    pointsMat.uniforms.uPxStream.value = dpr * (coarse ? 1.9 : 1.6);
     renderer.setRenderTarget(trail); renderer.clear(); renderer.setRenderTarget(null);
   }
 

@@ -605,9 +605,9 @@ export class Screen {
     if (t < 0.15) { const e = smooth(t / 0.15); fx = lerp(startX, LW - PAD - 30, e); fy = lerp(startY, priceVY, e); }
     else if (t < 0.62) { fx = LW - PAD - 30; fy = priceVY; press = t < 0.24 ? Math.sin(((t - 0.15) / 0.09) * Math.PI) : 0; }
     else if (t < 0.72) { const e = smooth((t - 0.62) / 0.1); fx = lerp(LW - PAD - 30, saveX, e); fy = lerp(priceVY, saveY, e); }
-    else if (t < 0.82) { fx = saveX; fy = saveY; press = Math.sin(((t - 0.72) / 0.1) * Math.PI); }
-    else { const e = smooth((t - 0.82) / 0.16); fx = lerp(saveX, startX, e); fy = lerp(saveY, startY, e); }
-    if (t > 0 && t < 0.99) {
+    else if (t < 0.8) { fx = saveX; fy = saveY; press = Math.sin(((t - 0.72) / 0.08) * Math.PI); }
+    else { const e = smooth((t - 0.8) / 0.1); fx = lerp(saveX, startX, e); fy = lerp(saveY, startY, e); }
+    if (t > 0 && t < 0.9) {
       // érintés-hullám
       if (press > 0) {
         ctx.strokeStyle = rgba(KEN, 0.9 * press); ctx.lineWidth = 2;

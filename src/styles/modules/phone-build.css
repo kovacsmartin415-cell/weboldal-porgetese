@@ -92,9 +92,10 @@
     display: block;
     position: relative;
     padding: 0;
+    margin-top: 12px;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 82%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 82%, transparent 100%);
   }
   .telefon.modul-kesz .lepes {
     opacity: 0.62; visibility: visible;

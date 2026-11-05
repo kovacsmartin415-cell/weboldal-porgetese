@@ -205,7 +205,7 @@ export function init(section: HTMLElement): void {
     const open = isOpen(t.week, now.day, now.min);
     blocks.open.classList.toggle('vz-blokk--zarva', !open);
     openState.textContent = open ? 'Nyitva most' : 'Most zárva';
-    openHours.textContent = `Példa nyitvatartás: ${t.hours}`;
+    openHours.textContent = `Példa nyitvatartás: ${t.hours.split(', ').map((x) => x.replace(/ /g, '\u00a0')).join(', ')}`;
     clock.textContent = now.hhmm;
   }
 
@@ -305,15 +305,14 @@ export function init(section: HTMLElement): void {
         nameInput.value = t.defaultName;
         renderName(state.name, 'type');
       }
+      say(describe(), 150);
     }, 'type');
-    say(describe(), 150);
   });
 
   moodChips.addEventListener('change', (e) => {
     const v = (e.target as HTMLInputElement).value as MoodId;
     if (v === state.mood) return;
-    transition(() => { state.mood = v; renderMood(); applyPalette(); }, 'mood');
-    say(describe(), 150);
+    transition(() => { state.mood = v; renderMood(); applyPalette(); say(describe(), 150); }, 'mood');
   });
 
   nameInput.addEventListener('input', () => {

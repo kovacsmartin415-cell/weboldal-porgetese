@@ -259,7 +259,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
     curlF = fbo(vw, vh, gl.R16F, gl.RED);
     gl.bindFramebuffer(gl.FRAMEBUFFER, vel.read.fb);
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) throw new Error('[goz] framebuffer');
-    warmed = false;
+    warmed = false; warmLeft = 0;
   }
 
   // --- rajzolási segédek ---
@@ -382,15 +382,32 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
     draw(null);
   }
 
+  // Előmelegítés: hogy a gőz már ott legyen, mire a szekció a képbe ér.
+  // Animált módban képkockánként 8 lépésben, hogy ne akadjon; állóképnél egyben.
+  let warmLeft = 0;
   function warm(n: number) {
-    for (let i = 0; i < n; i++) step(1 / 60);
-    warmed = true;
+    const k = Math.min(n, warmLeft);
+    for (let i = 0; i < k; i++) step(1 / 30);
+    warmLeft -= k;
+    if (warmLeft <= 0) warmed = true;
+  }
+
+  // Gyenge gépen (a valódi képkocka-idő alapján) kevesebb nyomás-iterációval fut.
+  let avg = 1 / 60, seen = 0;
+  function govern(dt: number) {
+    avg = avg * 0.95 + dt * 0.05;
+    if (++seen < 90) return;
+    if (avg > 1 / 30 && P.iters > 8) { P.iters -= 4; seen = 0; }
   }
 
   function frame(_t: number, dt: number) {
     if (!ready || lost) return;
-    if (!warmed) warm(reduced || reducedMotion() ? 420 : 200);
-    if (dt > 0) step(Math.min(dt, 1 / 30));
+    if (!warmed) {
+      if (warmLeft <= 0) warmLeft = reduced || reducedMotion() ? 170 : 400;
+      warm(reducedMotion() || dt === 0 ? warmLeft : 8);
+      return display(reducedMotion() ? 0.8 : 1);
+    }
+    if (dt > 0) { govern(dt); step(Math.min(dt, 1 / 30)); }
     display(reducedMotion() ? 0.8 : 1);
   }
 
