@@ -389,24 +389,6 @@ const UrlapLogika = (function () {
 // Típusok
 // ---------------------------------------------------------------------------
 
-/** A Netlify beküldés-objektuma (webhookban közvetlenül, a függvényben `payload` alatt). */
-
-/** Egy mezőhöz tartozó lehetséges űrlapmező-nevek. Tömb a tömbben = összefűzendő mezők (pl. vezetéknév + keresztnév). */
-
-   
-
-             
-
-           
-
-         
-
-             
-
-     
-
-                 
-
 // ---------------------------------------------------------------------------
 // Alapbeállítások
 // ---------------------------------------------------------------------------
@@ -937,8 +919,6 @@ function sorszambolMs(sorszam) {
  * Ugyanazok a megkötések érvényesek, mint az urlap-logika.ts-re (Apps Scriptben is fut).
  */
 
-
-               
 
 // ---------------------------------------------------------------------------
 // Escape-elés és biztonságos építőelemek

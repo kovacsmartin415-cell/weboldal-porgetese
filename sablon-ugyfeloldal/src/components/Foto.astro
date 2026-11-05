@@ -1,0 +1,42 @@
+---
+import { Picture } from 'astro:assets';
+import type { Foto } from '../config/schema';
+import { kep } from '../lib/kepek';
+
+interface Props {
+  foto: Foto;
+  /** A `sizes` attribútum: mekkora helyen jelenik meg a kép. */
+  sizes: string;
+  widths?: number[];
+  /** Az első, hajtás feletti kép azonnal töltődjön (LCP). */
+  elso?: boolean;
+  class?: string;
+  /** Fotós neve a kép alatt (ha a konfigban meg van adva). */
+  kredit?: boolean;
+}
+
+const { foto, sizes, widths = [480, 800, 1200, 1600], elso = false, class: osztaly, kredit = false } = Astro.props;
+const forras = kep(foto.fajl);
+const szelessegek = widths.filter((w) => w <= forras.width);
+if (!szelessegek.includes(forras.width) && szelessegek.length < widths.length) szelessegek.push(forras.width);
+---
+
+<figure class:list={['foto', osztaly]}>
+  <Picture
+    src={forras}
+    alt={foto.alt}
+    widths={szelessegek}
+    sizes={sizes}
+    formats={['webp']}
+    loading={elso ? 'eager' : 'lazy'}
+    fetchpriority={elso ? 'high' : undefined}
+    decoding={elso ? 'sync' : 'async'}
+  />
+  {
+    kredit && foto.szerzo && (
+      <figcaption>
+        Fotó: {foto.forras ? <a href={foto.forras}>{foto.szerzo}</a> : foto.szerzo}
+      </figcaption>
+    )
+  }
+</figure>

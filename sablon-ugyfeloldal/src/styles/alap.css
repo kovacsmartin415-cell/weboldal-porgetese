@@ -681,3 +681,8 @@ main:focus {
   margin-top: 0.75rem;
   font-size: 0.95rem;
 }
+.lablec-jogi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
