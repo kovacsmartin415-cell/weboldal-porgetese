@@ -22,7 +22,7 @@ function message(el: Ctrl): string {
       if (v.tooLong) return 'Az üzenet legfeljebb 4000 karakter lehet.';
       break;
     case 'adatkezeles':
-      if (v.valueMissing) return 'A küldéshez fogadd el az adatkezelési tájékoztatót.';
+      if (v.valueMissing) return 'A küldéshez jelöld be, hogy elolvastad a tájékoztatót, és hozzájárulsz az adataid kezeléséhez.';
       break;
   }
   return '';

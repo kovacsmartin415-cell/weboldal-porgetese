@@ -147,7 +147,7 @@ export function init(section: HTMLElement): void {
   const pkgName = h('p', { class: 'kf__csomag' });
   const pkgPrice = h('p', { class: 'kf__ar' });
   const pkgWhy = h('p', { class: 'kf__miert' });
-  const askBtn = h('button', { type: 'button', class: 'gomb gomb--fo kf__kerem' }, 'Ezt kérném, írok nektek');
+  const askBtn = h('button', { type: 'button', class: 'gomb gomb--fo kf__kerem' }, 'Erről kérdeznék, írok nektek');
   const summary = h('aside', { class: 'kf__osszeg', 'aria-labelledby': 'kf-osszeg-cim' },
     h('h3', { id: 'kf-osszeg-cim', class: 'kf__osszeg-cim' }, 'Ebből indulnánk'),
     h('div', { class: 'kf__csomag-doboz' }, pkgName, pkgPrice),

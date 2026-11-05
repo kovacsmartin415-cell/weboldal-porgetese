@@ -94,8 +94,11 @@
     padding: 0;
     margin-top: 12px;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 82%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 82%, transparent 100%);
+    /* Felül az első ~13% teljesen átlátszó: az aktív lépés fölötti (előző) lépés szövege
+       ne szivárogjon halványan a szekciócím és a leírás alá; csak az aktív lépés fölött
+       derengjen elő egy keskeny sávban. Az aktív lépés horgonya 24%-on van (phone-build.ts). */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 13%, #000 24%, #000 82%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, transparent 13%, #000 24%, #000 82%, transparent 100%);
   }
   .telefon.modul-kesz .lepes {
     opacity: 1;

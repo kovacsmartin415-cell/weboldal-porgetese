@@ -45,8 +45,8 @@ export const MOODS: { id: MoodId; label: string; hint: string }[] = [
 ];
 
 export const PACKAGES = [
-  { name: 'Egyoldalas bemutatkozó oldal', price: '150 000 Ft + ÁFA-tól' },
-  { name: 'Több oldal + űrlap + automatizált értesítés', price: '320 000 Ft + ÁFA-tól' },
+  { name: 'Egyoldalas bemutatkozó oldal', price: '150 000 Ft-tól (nettó)' },
+  { name: 'Több oldal + űrlap + automatizált értesítés', price: '320 000 Ft-tól (nettó)' },
 ] as const;
 
 const h = (hh: number, mm = 0) => hh * 60 + mm;

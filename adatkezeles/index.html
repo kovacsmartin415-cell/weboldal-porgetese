@@ -81,14 +81,14 @@
         <tbody>
           <tr><th scope="row">Cél</th><td>Hogy válaszolni tudjunk az üzenetedre, és ha kell, folytassuk veled a levelezést.</td></tr>
           <tr><th scope="row">Kezelt adatok</th><td>Neved, e-mail-címed, az üzeneted szövege (és benne minden, amit magadról leírsz), a hozzájáruló jelölőnégyzet bejelölése, a beküldés időpontja. A Netlify Forms a beküldéskor technikailag rögzíti az IP-címedet, a böngésződ azonosítóját (user agent) és a hivatkozó oldal címét is.</td></tr>
-          <tr><th scope="row">Kéretlen üzenetek szűrése</th><td>A Netlify minden űrlapbeküldést automatikusan átvizsgáltat az Akismet kéretlenüzenet-szűrővel (lásd 3. pont). Ehhez a szűrő megkaphatja az üzenet szövegét, a nevedet, az e-mail-címedet, az IP-címedet és a böngésződ azonosítóját. A szűrő csak annyit dönt el, hogy az üzenet kéretlen-e; a kéretlennek jelölt üzenetet is ember nézi át, mielőtt törölnénk.</td></tr>
+          <tr><th scope="row">Kéretlen üzenetek szűrése</th><td>A Netlify minden űrlapbeküldést automatikusan átvizsgáltat az Akismet kéretlenüzenet-szűrővel (lásd 3. pont). Ehhez a szűrő megkaphatja az üzenet szövegét, a nevedet, az e-mail-címedet, az IP-címedet, a böngésződ azonosítóját és a hivatkozó oldal címét. A szűrő csak annyit dönt el, hogy az üzenet kéretlen-e; a kéretlennek jelölt üzenetet is ember nézi át, mielőtt törölnénk.</td></tr>
           <tr><th scope="row">Jogalap</th><td>Az üzenet fogadására, megválaszolására és megőrzésére: a hozzájárulásod (GDPR 6. cikk (1) bekezdés a) pont), amelyet az űrlap jelölőnégyzetével adsz meg. Bármikor visszavonhatod (lásd 6. pont). A kéretlen üzenetek szűrésére és az ehhez rögzített technikai adatokra: jogos érdekünk (GDPR 6. cikk (1) bekezdés f) pont), hogy az űrlapot ne árasszák el automatizált, kéretlen üzenetek. Ez ellen tiltakozhatsz.</td></tr>
           <tr><th scope="row">Forrás</th><td>Te magad adod meg. Az adatok megadása nem kötelező; ha nem adod meg őket, nem tudunk válaszolni.</td></tr>
           <tr><th scope="row">Megőrzés</th><td>A válaszadástól számított legfeljebb 1 évig, vagy a hozzájárulásod visszavonásáig, ha az korábbi. Ha a levelezésből egyszer valódi megrendelés lenne, az ahhoz szükséges adatokat a vonatkozó jogszabályban (például a számviteli törvényben) előírt ideig őrizzük; erről akkor külön tájékoztatunk.</td></tr>
           <tr><th scope="row">Hol tárolódik</th><td>A Netlify Forms szolgáltatásban, és értesítő e-mailként Kovács Martin postafiókjában (e-mail-szolgáltató: <span class="jeloles">TESZT ADAT</span>).</td></tr>
         </tbody>
       </table>
-      <p class="apro">Kérjük, az üzenetben ne írj le különleges adatot (például egészségügyi adatot), és harmadik személyről se, ha nincs rá szükség. A kéretlen üzenetek kiszűréséhez az űrlapon egy rejtett, látogatók által nem kitöltendő „csapda” mező van; ha egy program kitölti, a Netlify kéretlennek jelöli az üzenetet. Ellenőrző képet (captcha) nem használunk.</p>
+      <p class="apro">Kérjük, az üzenetben ne írj le különleges adatot (például egészségügyi adatot), és harmadik személyről se, ha nincs rá szükség. A kéretlen üzenetek kiszűréséhez az űrlapon egy rejtett, látogatók által nem kitöltendő „csapda” mező van; ha egy program kitölti, a Netlify az üzenetet csendben elutasítja: nem tárolja, és hozzánk sem jut el. Ellenőrző képet (captcha) nem használunk.</p>
 
       <table>
         <caption>2.2. Szerver-naplófájlok (a tárhely működése)</caption>
@@ -148,7 +148,7 @@
 
       <h2 id="gyakorlas">7. Hogyan élhetsz a jogaiddal</h2>
       <ul>
-        <li>Írj nekünk a főoldali <a href="/#kapcsolat">űrlapon</a> (az üzenetben írd meg, mit kérsz), vagy a 1. pontban megadott elérhetőségen.</li>
+        <li>Írj nekünk a főoldali <a href="/#kapcsolat">űrlapon</a> (az üzenetben írd meg, mit kérsz), vagy az 1. pontban megadott elérhetőségen.</li>
         <li>Kérésedre indokolatlan késedelem nélkül, de legkésőbb <strong>egy hónapon belül</strong> válaszolunk. Ez a kérések bonyolultsága vagy száma miatt további két hónappal meghosszabbítható; ilyenkor az első hónapon belül megírjuk, miért (GDPR 12. cikk (3) bekezdés).</li>
         <li>Ha nem teszünk intézkedést, egy hónapon belül megírjuk ennek okát, és azt is, hogy panaszt tehetsz a hatóságnál vagy bírósághoz fordulhatsz (GDPR 12. cikk (4) bekezdés).</li>
         <li>A válasz és az intézkedés ingyenes. Ha kétségünk van a személyazonosságod felől (például más e-mail-címről írsz, mint amelyikről az üzenet jött), további információt kérhetünk, hogy ne adjuk ki más adatát illetéktelennek.</li>
@@ -164,6 +164,7 @@
       <h2 id="egyeb">9. Egyéb tudnivalók</h2>
       <ul>
         <li><strong>16 év alattiak:</strong> kérjük, 16 éves kor alatt ne küldj nekünk üzenetet. Ha mégis kaptunk ilyet, és tudomást szerzünk róla, töröljük.</li>
+        <li><strong>Az üzemeltetők saját adatai:</strong> a főoldalon és az impresszumban szereplő nevünk, tanulmányaink, ösztöndíjunk, versenyrészvételünk és jelenlegi tartózkodási helyünk a saját adataink, amelyeket mindketten saját döntésünk alapján teszünk közzé. Ez a tájékoztató a látogatók adatairól szól.</li>
         <li><strong>Harmadik személy adatai:</strong> ha másról is írsz az üzenetben, csak annyit írj le róla, amennyi feltétlenül szükséges.</li>
         <li><strong>Adatvédelmi incidens:</strong> ha az adataid biztonsága sérül, a GDPR 33–34. cikke szerint járunk el: bejelentjük a NAIH-nak, és ha magas kockázattal jár, téged is értesítünk.</li>
       </ul>
