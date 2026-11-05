@@ -1,0 +1,37 @@
+/* Lábléc: Sete Cidades ikertavai (lake modul). */
+
+/* Statikus kép: WebGL nélkül is két tó – balra kék, jobbra zöld, köztük bazalt földnyelv. */
+.lab {
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 7px), #1d201f calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 7px)),
+    radial-gradient(70% 120% at 18% 60%, #22394a 0%, #1a2d3b 50%, #15222c 100%) left / 50% 100% no-repeat,
+    radial-gradient(70% 120% at 82% 60%, #1f3a35 0%, #18302e 50%, #132422 100%) right / 50% 100% no-repeat,
+    var(--bazalt);
+}
+
+.lab__to {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.lab--to-el .lab__to { opacity: 1; }
+.lab__racs { z-index: 1; }
+
+/* Ha a víz fut, a logót a shader rajzolja a víz alá – a DOM-szöveg megmarad
+   (képernyőolvasó, kijelölés, elrendezés), csak láthatatlan. */
+.lab--to-el .lab__logo { color: transparent; }
+.lab--to-el .lab__logo::selection { color: var(--goz); background: color-mix(in oklab, var(--ken) 45%, transparent); }
+
+.lab__tavak {
+  margin: 0;
+  font: 400 0.82rem/1.5 var(--f-adat);
+  letter-spacing: 0.01em;
+  color: color-mix(in oklab, var(--goz) 72%, var(--bazalt));
+  max-width: 62ch;
+}
+
+/* A linkek a víz fölött is jól olvashatók maradjanak. */
+.lab__linkek a { text-shadow: 0 1px 6px rgb(12 16 17 / 0.7); }
+.lab .apro { text-shadow: 0 1px 6px rgb(12 16 17 / 0.6); }
