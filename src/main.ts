@@ -78,6 +78,20 @@ const io = new IntersectionObserver((entries) => {
   for (const e of entries) if (e.isIntersecting) { io.unobserve(e.target); boot(e.target as HTMLElement); }
 }, { rootMargin: '600px 0px' });
 
-for (const el of document.querySelectorAll<HTMLElement>('[data-module]')) {
+const all = [...document.querySelectorAll<HTMLElement>('[data-module]')];
+for (const el of all) {
   if (el.dataset.module === 'hero') boot(el); else io.observe(el);
 }
+
+// A betöltés után üresjáratban minden modult elindítunk (a renderhurkok képernyőn kívül úgyis állnak).
+// Így a modulok végső magassága már akkor kész, mielőtt a látogató odagörget vagy horgonyra ugrik:
+// nincs elrendezés-ugrás (CLS).
+const idle = (fn: () => void) =>
+  'requestIdleCallback' in window ? (window as any).requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 1200);
+const bootRest = () => {
+  const rest = all.filter((el) => !started.has(el));
+  let i = 0;
+  const next = () => { if (i < rest.length) { boot(rest[i++]); idle(next); } };
+  idle(next);
+};
+if (document.readyState === 'complete') bootRest(); else window.addEventListener('load', bootRest, { once: true });
