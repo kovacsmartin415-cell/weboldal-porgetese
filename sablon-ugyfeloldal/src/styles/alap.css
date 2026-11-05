@@ -599,6 +599,11 @@ textarea:focus-visible {
 
 .jogi {
   max-width: 46rem;
+  border-top: 2px solid var(--szoveg);
+  padding-block: 1rem clamp(3rem, 2rem + 4vw, 5rem);
+}
+.jogi > h2:first-child {
+  margin-top: 1rem;
 }
 .jogi h2 {
   font-size: 1.5rem;
