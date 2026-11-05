@@ -279,8 +279,11 @@ export async function init(el: HTMLElement): Promise<void> {
       draw(1.0, 0);
       return;
     }
+    // Teszthorog: a szimuláció ideje olvasható, és megállítható egy képkocka rögzítéséhez.
+    const hook = el as HTMLElement & { __folyamIdo?: number; __folyamAllj?: boolean };
+    if (hook.__folyamAllj) return;
     simTime += dt;
-    (el as HTMLElement & { __folyamIdo?: number }).__folyamIdo = simTime; // teszteléshez: a szimuláció ideje
+    hook.__folyamIdo = simTime;
     updatePointer(dt);
     ptrVel.multiplyScalar(Math.pow(0.04, dt)); // elengedve gyorsan lecseng
     const s = scrollRatio();
