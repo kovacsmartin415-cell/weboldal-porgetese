@@ -1,0 +1,117 @@
+---
+import Alap from '../layouts/Alap.astro';
+import T from '../components/TesztAdat.astro';
+import { uzlet } from '../config';
+
+const a = uzlet.adatkezelo;
+const email = a.email ?? uzlet.email;
+const telefon = a.telefon ?? uzlet.telefon;
+const hatalyos = new Intl.DateTimeFormat('hu-HU', { dateStyle: 'long', timeZone: 'Europe/Budapest' }).format(new Date());
+---
+
+<Alap cim="Adatkezelési tájékoztató" leiras={`Milyen adatokat kezel a(z) ${uzlet.nev} a weboldalon és az üzenetküldő űrlapon, és milyen jogaid vannak.`}>
+  <header class="oldalfej keret">
+    <h1>Adatkezelési tájékoztató</h1>
+    <p class="bevezeto">Röviden: ez az oldal nem használ sütit és nem követ. Adatot csak akkor kapunk tőled, ha írsz nekünk.</p>
+  </header>
+
+  <article class="keret jogi">
+    <h2>1. Ki kezeli az adataidat?</h2>
+    <dl>
+      <dt>Adatkezelő</dt>
+      <dd><T ertek={a.nev} mi="adatkezelo.nev" />{a.forma && `, ${a.forma}`}</dd>
+      <dt>Székhely</dt>
+      <dd><T ertek={a.szekhely} mi="adatkezelo.szekhely" /></dd>
+      <dt>Adószám</dt>
+      <dd><T ertek={a.adoszam} mi="adatkezelo.adoszam" /></dd>
+      <dt>Nyilvántartási szám</dt>
+      <dd><T ertek={a.nyilvantartasiSzam} mi="adatkezelo.nyilvantartasiSzam" /></dd>
+      {a.kepviselo && (<><dt>Képviselő</dt><dd>{a.kepviselo}</dd></>)}
+      <dt>E-mail</dt>
+      <dd>{email ? <a href={`mailto:${email}`}>{email}</a> : <T mi="adatkezelo.email" />}</dd>
+      <dt>Telefon</dt>
+      <dd>{telefon}</dd>
+    </dl>
+
+    <h2>2. Milyen adatokat, miért és meddig?</h2>
+    <h3>Üzenet az űrlapon, e-mailben vagy telefonon</h3>
+    <p>
+      Ha a kapcsolati űrlapon írsz, ezeket kapjuk meg: neved, e-mail-címed, ha megadod a telefonszámod, a választott témát,
+      {uzlet.szoveg.urlapDatumCimke ? ' a megadott dátumot,' : ''} az üzeneted szövegét, és azt, hogy elfogadtad ezt a tájékoztatót.
+    </p>
+    <ul>
+      <li><strong>Cél:</strong> hogy válaszolni tudjunk, és egyeztessük, amit kérsz (rendelés, időpont, ajánlat).</li>
+      <li>
+        <strong>Jogalap:</strong> a hozzájárulásod (GDPR 6. cikk (1) a) pont), amit az űrlap jelölőnégyzetével adsz meg; ha
+        az üzenet rendelésre vagy ajánlatra vonatkozik, a szerződés előkészítése (GDPR 6. cikk (1) b) pont).
+      </li>
+      <li><strong>Meddig őrizzük:</strong> {a.megorzes}, utána töröljük. Ha előbb kéred, előbb töröljük.</li>
+    </ul>
+
+    <h3>Technikai naplók</h3>
+    <p>
+      A tárhelyszolgáltató szervere, mint minden webszerver, a biztonságos működéshez rövid ideig naplózza a látogatás
+      technikai adatait (IP-cím, böngésző típusa, időpont). Ezeket nem használjuk azonosításra vagy marketingre. Jogalap: jogos
+      érdek (GDPR 6. cikk (1) f) pont) – a weboldal biztonsága.
+    </p>
+
+    <h2>3. Sütik, mérés, külső szolgáltatások</h2>
+    <p>
+      Az oldal <strong>nem használ sütit</strong>, nincs rajta látogatottságmérés, hirdetéskövetés, beágyazott térkép, videó
+      vagy közösségi gomb. A betűtípusok és a képek is erről a domainről töltődnek. Ezért nincs sütifelugró ablak sem.
+    </p>
+    <p>
+      A térkép- és közösségimédia-linkek csak akkor visznek el más szolgáltatóhoz (pl. Google Térkép), ha rájuk kattintasz;
+      onnantól az ő adatkezelési szabályaik érvényesek.
+    </p>
+
+    <h2>4. Kik férnek hozzá? (adatfeldolgozó)</h2>
+    <p>
+      Az adataidat nem adjuk el és nem adjuk át senkinek. Az oldalt és az űrlapüzeneteket a tárhelyszolgáltató tárolja
+      adatfeldolgozóként:
+    </p>
+    <dl>
+      <dt>Tárhelyszolgáltató</dt>
+      <dd>{uzlet.tarhely.nev}</dd>
+      <dt>Cím</dt>
+      <dd>{uzlet.tarhely.cim}</dd>
+      <dt>Elérhetőség</dt>
+      <dd>{uzlet.tarhely.elerhetoseg}</dd>
+    </dl>
+    <p>
+      A szolgáltató az Európai Unión kívül (USA) is tárolhat adatot; az adattovábbítás az adatfeldolgozási szerződése és az
+      Európai Bizottság általános szerződési feltételei (SCC) alapján történik.
+    </p>
+
+    <h2>5. Milyen jogaid vannak?</h2>
+    <ul>
+      <li>tájékoztatást és másolatot kérhetsz a rólad kezelt adatokról (GDPR 15. cikk),</li>
+      <li>kérheted a helyesbítésüket (16. cikk) vagy törlésüket (17. cikk),</li>
+      <li>kérheted a kezelés korlátozását (18. cikk), tiltakozhatsz ellene (21. cikk),</li>
+      <li>kérheted, hogy géppel olvasható formában kiadjuk őket (20. cikk),</li>
+      <li>a hozzájárulásodat bármikor visszavonhatod; ez a korábbi kezelés jogszerűségét nem érinti (7. cikk (3)).</li>
+    </ul>
+    <p>
+      Ehhez elég egy e-mail {email ? <a href={`mailto:${email}`}>{email}</a> : <T mi="adatkezelo.email" />} címre. Legkésőbb
+      egy hónapon belül válaszolunk.
+    </p>
+
+    <h2>6. Panasz</h2>
+    <p>Ha úgy érzed, megsértettük a jogaidat, kérjük, először szólj nekünk. Panaszt tehetsz a hatóságnál is:</p>
+    <dl>
+      <dt>Hatóság</dt>
+      <dd>Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</dd>
+      <dt>Cím</dt>
+      <dd>1055 Budapest, Falk Miksa utca 9–11.</dd>
+      <dt>Postacím</dt>
+      <dd>1363 Budapest, Pf. 9.</dd>
+      <dt>E-mail</dt>
+      <dd>ugyfelszolgalat@naih.hu</dd>
+      <dt>Weboldal</dt>
+      <dd>naih.hu</dd>
+    </dl>
+    <p>Bírósághoz is fordulhatsz; a pert a lakóhelyed szerinti törvényszéknél is megindíthatod.</p>
+
+    <p class="halvany">Hatályos: {hatalyos}.</p>
+  </article>
+</Alap>

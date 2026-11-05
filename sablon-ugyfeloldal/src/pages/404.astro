@@ -1,0 +1,31 @@
+---
+import Alap from '../layouts/Alap.astro';
+import { uzlet } from '../config';
+---
+
+<Alap cim="Nincs ilyen oldal" noindex>
+  <section class="oldalfej keret uzenet-oldal">
+    <h1>Ezt az oldalt nem találjuk.</h1>
+    <p class="bevezeto">Lehet, hogy elírás van a címben, vagy az oldal már nem létezik. Innen biztosan továbbjutsz:</p>
+    <ul class="tovabb">
+      <li><a href="/">Főoldal</a></li>
+      <li><a href="/kinalat/">{uzlet.szoveg.kinalatCim}</a></li>
+      <li><a href="/kapcsolat/">Kapcsolat és nyitvatartás</a></li>
+      <li>Telefon: <a href={uzlet.telefonHref}>{uzlet.telefon}</a></li>
+    </ul>
+  </section>
+</Alap>
+
+<style>
+  .uzenet-oldal {
+    padding-bottom: clamp(4rem, 3rem + 6vw, 8rem);
+  }
+  .tovabb {
+    margin-top: 2rem;
+    padding-left: 1.2rem;
+    font-size: 1.15rem;
+  }
+  .tovabb li {
+    padding-block: 0.2rem;
+  }
+</style>

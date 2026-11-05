@@ -1,0 +1,68 @@
+---
+import Alap from '../layouts/Alap.astro';
+import T from '../components/TesztAdat.astro';
+import { uzlet } from '../config';
+
+const a = uzlet.adatkezelo;
+const email = a.email ?? uzlet.email;
+const fotok = [uzlet.fotok.fo, ...uzlet.fotok.rolunk, uzlet.fotok.terkep, ...uzlet.kinalat.kategoriak.flatMap((k) => k.tetelek.map((t) => t.foto))]
+  .filter((f) => f?.szerzo)
+  .map((f) => f!);
+---
+
+<Alap cim="Impresszum" leiras={`A(z) ${uzlet.nev} weboldalának üzemeltetője és tárhelyszolgáltatója.`}>
+  <header class="oldalfej keret">
+    <h1>Impresszum</h1>
+    <p class="bevezeto">A 2001. évi CVIII. törvény (Ektv.) szerinti adatok.</p>
+  </header>
+
+  <article class="keret jogi">
+    <h2>A weboldal üzemeltetője</h2>
+    <dl>
+      <dt>Név</dt>
+      <dd><T ertek={a.nev} mi="adatkezelo.nev" />{a.forma && `, ${a.forma}`}</dd>
+      <dt>Székhely</dt>
+      <dd><T ertek={a.szekhely} mi="adatkezelo.szekhely" /></dd>
+      <dt>Üzlet címe</dt>
+      <dd>{uzlet.teljesCim}</dd>
+      <dt>Nyilvántartási szám</dt>
+      <dd><T ertek={a.nyilvantartasiSzam} mi="adatkezelo.nyilvantartasiSzam" /></dd>
+      {a.nyilvantarto && (<><dt>Nyilvántartja</dt><dd>{a.nyilvantarto}</dd></>)}
+      <dt>Adószám</dt>
+      <dd><T ertek={a.adoszam} mi="adatkezelo.adoszam" /></dd>
+      {a.kepviselo && (<><dt>Képviselő</dt><dd>{a.kepviselo}</dd></>)}
+      <dt>E-mail</dt>
+      <dd>{email ? <a href={`mailto:${email}`}>{email}</a> : <T mi="adatkezelo.email" />}</dd>
+      <dt>Telefon</dt>
+      <dd><a href={uzlet.telefonHref}>{a.telefon ?? uzlet.telefon}</a></dd>
+    </dl>
+
+    <h2>Tárhelyszolgáltató</h2>
+    <dl>
+      <dt>Név</dt>
+      <dd>{uzlet.tarhely.nev}</dd>
+      <dt>Cím</dt>
+      <dd>{uzlet.tarhely.cim}</dd>
+      <dt>Elérhetőség</dt>
+      <dd>{uzlet.tarhely.elerhetoseg}</dd>
+    </dl>
+
+    <h2>A weboldalt készítette</h2>
+    <p>{uzlet.keszito.url ? <a href={uzlet.keszito.url}>{uzlet.keszito.nev}</a> : uzlet.keszito.nev}</p>
+
+    {
+      fotok.length > 0 && (
+        <>
+          <h2>Fotók</h2>
+          <ul>
+            {fotok.map((f) => (
+              <li>
+                {f.alt}: {f.forras ? <a href={f.forras}>{f.szerzo}</a> : f.szerzo}
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </article>
+</Alap>

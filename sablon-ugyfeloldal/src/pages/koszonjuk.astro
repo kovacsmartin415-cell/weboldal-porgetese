@@ -1,0 +1,24 @@
+---
+import Alap from '../layouts/Alap.astro';
+import { uzlet } from '../config';
+---
+
+<Alap cim="Megkaptuk az üzeneted" noindex>
+  <section class="oldalfej keret uzenet-oldal">
+    <h1>Megkaptuk az üzeneted.</h1>
+    <p class="bevezeto">
+      Köszönjük! Hamarosan válaszolunk a megadott e-mail-címre. Ha sürgős, hívj minket:
+      <a href={uzlet.telefonHref}>{uzlet.telefon}</a>.
+    </p>
+    <p class="vissza"><a class="gomb gomb--masodlagos" href="/">Vissza a főoldalra</a></p>
+  </section>
+</Alap>
+
+<style>
+  .uzenet-oldal {
+    padding-bottom: clamp(4rem, 3rem + 6vw, 8rem);
+  }
+  .vissza {
+    margin-top: 2rem;
+  }
+</style>
