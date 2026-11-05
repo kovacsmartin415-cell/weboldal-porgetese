@@ -66,12 +66,12 @@ const L = {
   prod: 556, rowH: 64,
   hoursHead: 836,
   hours: 870, hourRow: 30,
-  mapHead: 1008,
-  map: 1040, mapH: 176,
-  btn: 1232, btnH: 48,
-  foot: 1304,
+  mapHead: 1034,
+  map: 1052, mapH: 176,
+  btn: 1244, btnH: 48,
+  foot: 1316,
 };
-export const PAGE_H = 1350;
+export const PAGE_H = 1360;
 const MAX_SCROLL = PAGE_H - VIEW_H;
 
 const PRODUCTS = [
@@ -245,7 +245,7 @@ export interface ScreenState {
 export function scrollTarget(s: number): number {
   if (s < 1) return 0;
   if (s < 2) {
-    const wire = clamp01((s - 1) / 0.68);
+    const wire = clamp01((s - 1) / 0.55);
     const front = easeOut(wire) * PAGE_H;
     const follow = Math.min(MAX_SCROLL, Math.max(0, front - 520));
     return follow * (1 - smooth((s - 1.72) / 0.26));
@@ -300,7 +300,7 @@ export class Screen {
       ctx.translate(0, BAR);
       ctx.beginPath(); ctx.rect(0, 0, LW, VIEW_H); ctx.clip();
       ctx.translate(0, -st.scroll);
-      if (s < 2) this.wire(clamp01((s - 1) / 0.68), s < 1 ? 0.25 * chatOut : 1);
+      if (s < 2) this.wire(clamp01((s - 1) / 0.55), s < 1 ? 0.25 * chatOut : 1);
       else if (s < 2.9) {
         const wy = wipeY(s);
         this.wire(1, 1);
@@ -598,13 +598,13 @@ export class Screen {
       ctx.fillText(saved ? 'Mentve' : 'Mentés', LW - PAD - 42, y + 31); ctx.textAlign = 'left';
     }
     // ujj
-    const priceVY = BAR + L.prod - st.scroll + 31;
-    const saveX = LW - PAD - 42, saveY = BAR + 26;
+    const priceVY = BAR + L.prod - st.scroll + 52;
+    const saveX = LW - PAD - 30, saveY = BAR + 44;
     const startX = LW - 40, startY = LH + 30;
     let fx = startX, fy = startY, press = 0;
-    if (t < 0.15) { const e = smooth(t / 0.15); fx = lerp(startX, LW - PAD - 30, e); fy = lerp(startY, priceVY, e); }
-    else if (t < 0.62) { fx = LW - PAD - 30; fy = priceVY; press = t < 0.24 ? Math.sin(((t - 0.15) / 0.09) * Math.PI) : 0; }
-    else if (t < 0.72) { const e = smooth((t - 0.62) / 0.1); fx = lerp(LW - PAD - 30, saveX, e); fy = lerp(priceVY, saveY, e); }
+    if (t < 0.15) { const e = smooth(t / 0.15); fx = lerp(startX, LW - PAD - 16, e); fy = lerp(startY, priceVY, e); }
+    else if (t < 0.62) { fx = LW - PAD - 16; fy = priceVY; press = t < 0.24 ? Math.sin(((t - 0.15) / 0.09) * Math.PI) : 0; }
+    else if (t < 0.72) { const e = smooth((t - 0.62) / 0.1); fx = lerp(LW - PAD - 16, saveX, e); fy = lerp(priceVY, saveY, e); }
     else if (t < 0.8) { fx = saveX; fy = saveY; press = Math.sin(((t - 0.72) / 0.08) * Math.PI); }
     else { const e = smooth((t - 0.8) / 0.1); fx = lerp(saveX, startX, e); fy = lerp(saveY, startY, e); }
     if (t > 0 && t < 0.9) {

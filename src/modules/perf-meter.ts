@@ -279,6 +279,9 @@ export function init(el: HTMLElement): void {
 
   // --- Mérd újra: friss betöltés, vissza erre a szekcióra ---
   q('[data-ujra]').addEventListener('click', () => {
+    // A böngésző ne a régi görgetési pozíciót állítsa vissza (a lusta modulok miatt
+    // az oldal magassága betöltéskor még más), hanem ugorjon a #merd horgonyra.
+    try { history.scrollRestoration = 'manual'; } catch { /* nem támogatott */ }
     history.replaceState(null, '', '#merd');
     location.reload();
   });

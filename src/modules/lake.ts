@@ -283,7 +283,7 @@ export function init(el: HTMLElement): void {
     if (last) {
       const d = Math.hypot(p.x - last.x, p.y - last.y);
       if (d > 1.5) {
-        drops.push({ ax: last.x, ay: last.y, bx: p.x, by: p.y, r: 9, s: -Math.min(0.12, d * 0.006) });
+        drops.push({ ax: last.x, ay: last.y, bx: p.x, by: p.y, r: 9, s: -Math.min(0.08, d * 0.004) });
         last = p;
       }
     } else last = p;

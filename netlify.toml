@@ -2,6 +2,13 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  # Kreditkímélés: csak akkor építünk, ha a weboldal forrása változott.
+  # (Az uzlet/, automatizalas/, sablon-ugyfeloldal/ és a .md fájlok változása nem indít buildet.)
+  # Kilépési kód 0 = kihagyás, 1 = build.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- index.html adatkezeles impresszum koszonjuk 404.html src public package.json package-lock.json vite.config.ts netlify.toml"
+
+[build.environment]
+  NODE_VERSION = "22"
 
 # Biztonsági fejlécek minden válaszra (HTML, eszközök, 404).
 # CSP: csak saját szkript és stílus. A JS a CSSOM-on át (el.style.setProperty) állít stílust,

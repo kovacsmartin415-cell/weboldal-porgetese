@@ -31,7 +31,7 @@ vec3 land(vec2 p) {
   float hw = 5.0 * sc + 1.0 + pow(dy / uSize.y, 1.3) * (p.y > by ? 80.0 : 34.0) * sc;
   hw += lnoise(p.y * 0.045 + 3.1) * 2.2 * sc + lnoise(p.y * 0.13) * 0.9;
   float d = abs(p.x - bx) - hw;
-  float chan = 1.0 - step(9.0 * sc + 2.0, dy); // a híd alatt átfolyik a víz
+  float chan = 1.0 - step(10.0 * sc + 5.0, dy); // a híd alatt átfolyik a víz
   return vec3(d, bx, chan);
 }
 `;
@@ -121,7 +121,8 @@ void main() {
   vec2 uv = vUv;
   vec2 p = vec2(uv.x, 1.0 - uv.y) * uSize;   // CSS-px, y lefelé
   vec3 L = land(p);
-  float shore = L.x;
+  // a híd alatti átfolyóban a víz sekély, de nem part
+  float shore = L.z > 0.5 ? max(L.x, 7.0 + L.x * 0.2) : L.x;
   float yn = p.y / uSize.y;
 
   // --- felület ---
@@ -156,7 +157,7 @@ void main() {
   float shallowK = 1.0 - smoothstep(4.0, 70.0, shore);
   float ca = clamp(-lap * 9.0, 0.0, 1.0);
   float idle = pow(vnoise(p * 0.09 + vec2(uTime * 0.25, -uTime * 0.18)) * vnoise(p * 0.07 - vec2(uTime * 0.15, uTime * 0.21)), 2.0);
-  col += (ca * 0.55 + idle * 0.22) * shallowK * vec3(0.78, 0.86, 0.72);
+  col += (ca * 0.55 + idle * 0.14) * shallowK * vec3(0.78, 0.86, 0.72);
 
   // --- égbolt-tükröződés (fresnel), enyhén döntött nézet: fent távolabb ---
   vec3 v = normalize(vec3(0.0, mix(1.25, 0.25, yn), 1.0));
@@ -171,7 +172,7 @@ void main() {
 
   // szórt fény a hullámok lejtőin: a gyűrű sík vízen is látszik
   vec3 ld = normalize(vec3(-0.45, -0.55, 0.7));
-  col *= 1.0 + (dot(n, ld) - ld.z) * 2.2;
+  col *= clamp(1.0 + (dot(n, ld) - ld.z) * 2.2, 0.6, 1.6);
 
   // a part árnyéka a vízen és nedves sötét sáv
   col *= mix(0.72, 1.0, smoothstep(0.0, 10.0, shore));
@@ -180,9 +181,9 @@ void main() {
   float lf = fbm(p * 0.05);
   vec3 ground = mix(BAZALT * 1.1, mix(BAZALT, ZUZMO, 0.22), smoothstep(0.45, 0.85, lf) * 0.8);
   ground *= 0.9 + 0.2 * vnoise(p * 0.9);                       // finom bazaltszemcse
-  ground = mix(ground, mix(BAZALT, ZUZMO, 0.35), smoothstep(-5.0, -1.5, shore) * 0.5); // zuzmós partszegély
-  ground *= 1.0 - 0.2 * smoothstep(-12.0, -1.0, shore);
-  float isLand = (1.0 - smoothstep(-0.8, 0.8, shore)) * (1.0 - L.z);
+  ground = mix(ground, mix(BAZALT, ZUZMO, 0.35), smoothstep(-5.0, -1.5, L.x) * 0.5); // zuzmós partszegély
+  ground *= 1.0 - 0.2 * smoothstep(-12.0, -1.0, L.x);
+  float isLand = (1.0 - smoothstep(-0.8, 0.8, L.x)) * (1.0 - L.z);
   col = mix(col, ground, isLand);
   // a logó a földnyelven is olvasható marad (fénytörés nélkül)
   float a0 = texture(uLogo, vec2(uv.x, uv.y)).r;
@@ -190,14 +191,15 @@ void main() {
 
   // --- a híd: keskeny, világos fedlap a földnyelv két darabja között ---
   float by = uBridgeY;
-  float bw = 4.5 * sc + 1.5;
-  float bl = 9.0 * sc + 6.0;
+  float bw = 2.0 * sc + 1.2;
+  float bl = 10.0 * sc + 8.0;
   vec2 bq = abs(vec2(p.x - L.y, p.y - by)) - vec2(bw, bl);
   float deck = 1.0 - smoothstep(-0.6, 0.6, max(bq.x, bq.y));
-  float shadowB = (1.0 - smoothstep(-0.5, 3.5, max(bq.x - 2.0, bq.y))) * L.z;
+  vec2 bqs = abs(vec2(p.x - L.y - 2.5, p.y - by - 1.5)) - vec2(bw, bl);
+  float shadowB = (1.0 - smoothstep(-0.5, 2.5, max(bqs.x, bqs.y))) * L.z;
   col *= 1.0 - shadowB * 0.35;
-  vec3 deckCol = mix(HAMU, GOZ, 0.25);
-  deckCol *= 0.82 + 0.18 * step(0.0, -(abs(p.x - L.y) - bw + 1.2)); // korlát-élek
+  vec3 deckCol = mix(HAMU, GOZ, 0.12) * 0.9;
+  deckCol *= 0.78 + 0.22 * step(0.0, -(abs(p.x - L.y) - bw + 0.9)); // korlát-élek
   col = mix(col, deckCol, deck);
 
   // finom szemcse a sávosodás ellen

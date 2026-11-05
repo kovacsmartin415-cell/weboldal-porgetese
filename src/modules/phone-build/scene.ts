@@ -62,7 +62,7 @@ export class PhoneScene {
   private w = 1; private h = 1;
 
   constructor(canvas: HTMLCanvasElement, screenCanvas: HTMLCanvasElement, opts: { coarse: boolean; dpr: number }) {
-    const r = new THREE.WebGLRenderer({ canvas, antialias: !opts.coarse, alpha: true, powerPreference: 'high-performance' });
+    const r = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     r.setPixelRatio(opts.dpr);
     r.setClearColor(0x000000, 0);
     r.outputColorSpace = THREE.SRGBColorSpace;
@@ -158,12 +158,12 @@ export class PhoneScene {
 
     // --- fények ---
     const key = new THREE.DirectionalLight(0xfff3dc, 2.0);
-    key.position.set(-1.1, 7, 2.2);
+    key.position.set(-0.7, 9, 0.9);
     key.castShadow = true;
     key.shadow.mapSize.set(opts.coarse ? 512 : 1024, opts.coarse ? 512 : 1024);
     const sc = key.shadow.camera;
     sc.left = -2.4; sc.right = 2.4; sc.top = 2.4; sc.bottom = -2.4; sc.near = 1; sc.far = 16;
-    key.shadow.radius = 6;
+    key.shadow.radius = 9;
     key.shadow.bias = -0.0004;
     key.shadow.normalBias = 0.02;
     this.scene.add(key);
@@ -174,7 +174,7 @@ export class PhoneScene {
 
     // --- talaj: valós árnyék + kontakt-árnyék ---
     const groundY = -2.15;
-    const ground = new THREE.Mesh(keep(new THREE.PlaneGeometry(14, 14)), keep(new THREE.ShadowMaterial({ color: 0x030807, opacity: 0.42 })));
+    const ground = new THREE.Mesh(keep(new THREE.PlaneGeometry(14, 14)), keep(new THREE.ShadowMaterial({ color: 0x030807, opacity: 0.3 })));
     ground.rotation.x = -Math.PI / 2; ground.position.y = groundY; ground.receiveShadow = true;
     this.scene.add(ground);
     const cTex = keep(contactTexture());
@@ -205,10 +205,10 @@ export class PhoneScene {
     cam.aspect = w / h;
     // illesztés: a telefon + árnyék férjen be magasságban és szélességben is
     const t = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
-    const needH = 4.25, needW = 2.5;
+    const needH = 4.05, needW = 2.45;
     const dist = Math.max(needH / 2 / t, needW / 2 / (t * cam.aspect));
     cam.position.set(0, 0.7, dist);
-    cam.lookAt(0, -0.38, 0);
+    cam.lookAt(0, -0.3, 0);
     cam.updateProjectionMatrix();
   }
 

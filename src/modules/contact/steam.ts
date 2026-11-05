@@ -123,7 +123,7 @@ const vec3 SULF = vec3(0.851, 0.698, 0.122);
 void main() {
   vec2 d = max(texture(uDye, vUv).rg, 0.0);
   float dens = d.r;
-  float k = 1.0 - exp(-dens * 1.35);
+  float k = 1.0 - exp(-dens * 1.6);
   // a szekció alján (a szöveg alatt nincs semmi) a fumarolák sűrűbbek lehetnek
   float cap = mix(uMaxA, uBottomA, 1.0 - smoothstep(0.0, uBottom, vUv.y));
   float a = k * cap;
@@ -159,13 +159,13 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
   const pending: Splat[] = [];
 
   const P = {
-    velDiss: 0.35,
-    dyeDiss: 0.16,
+    velDiss: 0.2,
+    dyeDiss: 0.09,
     sulfDiss: 0.75,
-    curl: 22,
+    curl: 16,
     pressureDecay: 0.8,
     iters: 20,
-    buoy: 70,
+    buoy: 110,
     wind: 18,
     maxA: 0.22,     // a szöveg mögött legfeljebb ~22% fedés
     bottomA: 0.42,  // a legalsó sávban, ahol nincs szöveg
@@ -313,8 +313,8 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
       splat({
         x: (fx + sway) * cssW, y: cssH - 10,
         vx: Math.sin(time * 0.6 + i * 1.7) * 8 * vs * dt * 60,
-        vy: (210 * vs) * dt * puls,
-        dye: 2.6 * dt * puls, sulf: 1.9 * dt * puls,
+        vy: (140 * vs) * dt * puls,
+        dye: 5.5 * dt * puls, sulf: 3.6 * dt * puls,
         r: cssW < 700 ? 26 : 34,
       });
     });
