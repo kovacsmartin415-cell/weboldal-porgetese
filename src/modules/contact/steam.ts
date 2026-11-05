@@ -110,11 +110,11 @@ void main() {
 uniform sampler2D uSrc; uniform float uK;
 void main() { o = uK * texture(uSrc, vUv); }`,
   splat: HEAD + `
-uniform sampler2D uSrc; uniform vec2 uPt; uniform vec2 uCss; uniform float uR; uniform vec4 uVal;
+uniform vec2 uPt; uniform vec2 uCss; uniform float uR; uniform vec4 uVal;
 void main() {
   vec2 d = (vUv - uPt) * uCss;
   float g = exp(-dot(d, d) / (uR * uR));
-  o = texture(uSrc, vUv) + uVal * g;
+  o = uVal * g; // összeadó keveréssel kerül a mezőbe
 }`,
   display: HEAD + `
 uniform sampler2D uDye; uniform float uMaxA; uniform float uBottom; uniform float uBottomA;
@@ -278,21 +278,28 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
   }
   const velScale = () => vel.w / cssW; // rácscella / CSS-pixel
 
+  // Gauss-folt összeadó keveréssel, csak a folt körüli téglalapban (scissor).
+  function splatInto(f: FBO, s: Splat, r: number, val: [number, number]) {
+    const pr = use('splat');
+    gl.uniform2f(pr.u.uPt, s.x / cssW, 1 - s.y / cssH);
+    gl.uniform2f(pr.u.uCss, cssW, cssH);
+    gl.uniform1f(pr.u.uR, r);
+    gl.uniform4f(pr.u.uVal, val[0], val[1], 0, 0);
+    const k = f.w / cssW, ext = r * 3;
+    const x0 = Math.max(0, Math.floor((s.x - ext) * k)), x1 = Math.min(f.w, Math.ceil((s.x + ext) * k));
+    const y0 = Math.max(0, Math.floor((cssH - s.y - ext) * k)), y1 = Math.min(f.h, Math.ceil((cssH - s.y + ext) * k));
+    if (x1 <= x0 || y1 <= y0) return;
+    gl.enable(gl.SCISSOR_TEST);
+    gl.scissor(x0, y0, x1 - x0, y1 - y0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE);
+    draw(f);
+    gl.disable(gl.BLEND);
+    gl.disable(gl.SCISSOR_TEST);
+  }
   function splat(s: Splat) {
-    let pr = use('splat');
-    tex(pr, 'uSrc', vel.read);
-    gl.uniform2f(pr.u.uPt, s.x / cssW, 1 - s.y / cssH);
-    gl.uniform2f(pr.u.uCss, cssW, cssH);
-    gl.uniform1f(pr.u.uR, s.r);
-    gl.uniform4f(pr.u.uVal, s.vx, s.vy, 0, 0);
-    draw(vel.write); vel.swap();
-    pr = use('splat');
-    tex(pr, 'uSrc', dye.read);
-    gl.uniform2f(pr.u.uPt, s.x / cssW, 1 - s.y / cssH);
-    gl.uniform2f(pr.u.uCss, cssW, cssH);
-    gl.uniform1f(pr.u.uR, s.r * 0.9);
-    gl.uniform4f(pr.u.uVal, s.dye, s.sulf, 0, 0);
-    draw(dye.write); dye.swap();
+    splatInto(vel.read, s, s.r, [s.vx, s.vy]);
+    splatInto(dye.read, s, s.r * 0.9, [s.dye, s.sulf]);
   }
 
   // Fumarolák: 2–3 forrás a szekció alján, lüktető erősséggel.

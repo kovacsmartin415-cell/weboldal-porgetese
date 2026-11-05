@@ -77,16 +77,15 @@
 .kf__chipek--hangulat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .kf__chip--hangulat {
   display: grid; grid-template-columns: 1fr; justify-items: start; gap: 10px;
-  border-radius: 10px; padding: 12px 12px 12px; min-height: 0;
+  border-radius: 10px; padding: 12px 12px 12px; min-height: 0; align-content: start;
 }
 .kf__foltok { display: flex; }
 .kf__folt {
   --c: #ccc;
   width: 22px; height: 22px; border-radius: 50%; background: var(--c);
-  border: 2px solid color-mix(in oklab, var(--goz) 55%, #fff);
+  border: 2px solid #fff;
   margin-right: -7px; transition: background-color .5s;
 }
-.kf__chip--hangulat:has(.kf__radio:checked) .kf__folt { border-color: var(--bazalt); }
 .kf__chip-szoveg { display: grid; gap: 2px; line-height: 1.25; }
 .kf__chip-szoveg > span:first-child { font-weight: 600; }
 .kf__chip-sugo { font-size: 0.8rem; color: var(--hamu); }
@@ -113,8 +112,8 @@
   padding: clamp(20px, 4vw, 48px) clamp(8px, 3vw, 40px);
   border-radius: 6px;
   background:
-    radial-gradient(120% 80% at 50% 0%, color-mix(in oklab, var(--vz-hero) 55%, transparent), transparent 70%),
-    color-mix(in oklab, var(--vz-bg) 45%, var(--goz));
+    radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--vz-hero) 45%, transparent), transparent 75%),
+    color-mix(in oklab, var(--vz-hero) 22%, var(--goz));
   border: 1px solid color-mix(in oklab, var(--bazalt) 10%, transparent);
   overflow: hidden;
 }
