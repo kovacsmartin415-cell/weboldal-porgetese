@@ -416,7 +416,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
           stillRaf = 0;
           if (!ready || lost) return;
           warm(12, 1 / 15);
-          if (warmed) display(reducedMotion() ? 0.8 : 1);
+          if (warmed) display(reducedMotion() ? 0.55 : 1);
           else stillRaf = requestAnimationFrame(chunk);
         };
         stillRaf = requestAnimationFrame(chunk);
@@ -427,7 +427,7 @@ export function createSteam(canvas: HTMLCanvasElement, section: HTMLElement): St
       return display(1);
     }
     if (dt > 0) { govern(dt); step(Math.min(dt, 1 / 30)); }
-    display(reducedMotion() ? 0.8 : 1);
+    display(reducedMotion() ? 0.55 : 1);
   }
 
   // --- beállítás ---

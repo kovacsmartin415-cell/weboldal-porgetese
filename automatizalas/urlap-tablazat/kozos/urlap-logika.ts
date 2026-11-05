@@ -281,12 +281,14 @@ export function bekuldesKinyer(torzs: unknown): NetlifyBekuldes {
   return obj as NetlifyBekuldes;
 }
 
+/** Normalizált mezőnév → az első NEM ÜRES eredeti mezőnév (pl. „Név” és „nev” közül a kitöltött). */
 function adatIndex(adat: Record<string, unknown>): Record<string, string> {
   const ered: Record<string, string> = {};
   const kulcsok = Object.keys(adat);
   for (let i = 0; i < kulcsok.length; i++) {
     const n = kulcsNormal(kulcsok[i]);
-    if (!(n in ered)) ered[n] = kulcsok[i];
+    const ures = szovegge(adat[kulcsok[i]]).trim() === '';
+    if (!(n in ered) || (!ures && szovegge(adat[ered[n]]).trim() === '')) ered[n] = kulcsok[i];
   }
   return ered;
 }

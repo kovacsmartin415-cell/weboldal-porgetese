@@ -1,0 +1,323 @@
+---
+import Alap from '../layouts/Alap.astro';
+import JsonLd from '../components/JsonLd.astro';
+import NyitvaAllapot from '../components/NyitvaAllapot.astro';
+import HetiTabla from '../components/HetiTabla.astro';
+import Foto from '../components/Foto.astro';
+import Arlista from '../components/Arlista.astro';
+import { uzlet } from '../config';
+import { arKiir, egysegKiir } from '../lib/szoveg';
+
+const osszesTetel = uzlet.kinalat.kategoriak.flatMap((k) => k.tetelek);
+const jelolt = osszesTetel.filter((t) => t.kiemelt);
+const kiemelt = jelolt.length ? jelolt : osszesTetel.slice(0, 4);
+const [foTetel, ...tobbiTetel] = kiemelt;
+const foKep = uzlet.fotok.fo;
+const rolunkKep = uzlet.fotok.rolunk[0];
+const masodlagosGomb = uzlet.foglalas
+  ? { href: uzlet.foglalas.url, felirat: uzlet.foglalas.felirat }
+  : { href: '/kapcsolat/#urlap', felirat: uzlet.szoveg.urlapCim };
+---
+
+<Alap>
+  <JsonLd slot="fej" />
+
+  <section class:list={['hero keret', { 'hero--kep': foKep }]} aria-labelledby="hero-cim">
+    <div class="hero-szoveg">
+      <p class="hero-hol">
+        {uzlet.tipusAlap.megnevezes} · {uzlet.cim.varos}, {uzlet.cim.utca}
+      </p>
+      <h1 id="hero-cim">{uzlet.nev}</h1>
+      <p class="hero-lead">{uzlet.bemutatkozas.rovid}</p>
+    </div>
+
+    <div class="hero-info">
+      <div class="hero-info-nyitva">
+        <h2 class="lathatatlan">Nyitvatartás</h2>
+        <NyitvaAllapot />
+      </div>
+      <div class="hero-info-cim">
+        <h2 class="lathatatlan">Cím</h2>
+        <p>
+          {uzlet.cim.utca}<br />
+          {uzlet.cim.iranyitoszam} {uzlet.cim.varos}
+          {uzlet.cim.utmutato && <span class="halvany hero-utmutato">{uzlet.cim.utmutato}</span>}
+        </p>
+        <p><a href={uzlet.terkepLink} rel="noopener">Útvonal a térképen</a></p>
+      </div>
+      <div class="hero-gombok">
+        <a class="gomb" href={uzlet.telefonHref}>Hívás: {uzlet.telefon}</a>
+        <a class="gomb gomb--masodlagos" href={masodlagosGomb.href}>{masodlagosGomb.felirat}</a>
+      </div>
+    </div>
+
+    {
+      foKep ? (
+        <Foto foto={foKep} class="hero-kep" elso sizes="(min-width: 60rem) 40vw, 100vw" widths={[480, 720, 960, 1280]} />
+      ) : (
+        <div class="hero-tabla">
+          <HetiTabla />
+        </div>
+      )
+    }
+  </section>
+
+  <section class="szakasz szakasz--felulet" aria-labelledby="kiemelt-cim">
+    <div class="keret">
+      <div class="szakasz-fej">
+        <h2 id="kiemelt-cim">{uzlet.szoveg.kiemeltCim}</h2>
+        <a href="/kinalat/">Teljes árlista</a>
+      </div>
+      <div class:list={['kiemelt', { 'kiemelt--kep': foTetel.foto }]}>
+        <article class="fo-tetel">
+          {foTetel.foto && <Foto foto={foTetel.foto} class="fo-tetel-kep" sizes="(min-width: 60rem) 30vw, 100vw" widths={[480, 720, 960]} />}
+          <div class="fo-tetel-szoveg">
+            <h3>{foTetel.nev}</h3>
+            {foTetel.leiras && <p>{foTetel.leiras}</p>}
+            <p class="fo-tetel-ar">
+              {arKiir(foTetel)}
+              {egysegKiir(foTetel) && <span class="tetel-egyseg"> {egysegKiir(foTetel)}</span>}
+            </p>
+            {foTetel.jelolesek.length > 0 && <p class="tetel-jelolesek">{foTetel.jelolesek.join(' · ')}</p>}
+          </div>
+        </article>
+        {tobbiTetel.length > 0 && (
+          <div class="kiemelt-lista">
+            <Arlista tetelek={tobbiTetel} />
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="szakasz" aria-labelledby="rolunk-cim">
+    <div class:list={['keret rolunk-kivonat', { 'rolunk-kivonat--kep': rolunkKep }]}>
+      <div class="rolunk-szoveg">
+        <h2 id="rolunk-cim">Rólunk</h2>
+        <p class="rolunk-elso">{uzlet.bemutatkozas.hosszu[0]}</p>
+        {
+          uzlet.bemutatkozas.nemCsinaljuk && (
+            <p class="nem-csinaljuk">
+              <strong>Amit nem csinálunk:</strong> {uzlet.bemutatkozas.nemCsinaljuk}
+            </p>
+          )
+        }
+        <p><a href="/rolunk/">Bővebben rólunk</a></p>
+      </div>
+      {rolunkKep && <Foto foto={rolunkKep} class="rolunk-kep" sizes="(min-width: 60rem) 45vw, 100vw" />}
+    </div>
+  </section>
+
+  <section class="szakasz szakasz--felulet" aria-labelledby="hol-cim">
+    <div class="keret info-sav">
+      <div>
+        <h2 id="hol-cim">Hol és mikor</h2>
+        <p class="info-cim">
+          {uzlet.cim.utca}<br />
+          {uzlet.cim.iranyitoszam} {uzlet.cim.varos}
+        </p>
+        {uzlet.cim.utmutato && <p>{uzlet.cim.utmutato}</p>}
+        {uzlet.cim.parkolas && <p class="halvany">Parkolás: {uzlet.cim.parkolas}</p>}
+        <p class="info-linkek">
+          <a href={uzlet.terkepLink} rel="noopener">Megnyitás térképen</a>
+          <a href="/kapcsolat/">Kapcsolat, üzenet</a>
+        </p>
+      </div>
+      {foKep ? <HetiTabla /> : <div class="info-elerhetoseg">
+        <h3>Elérhetőség</h3>
+        <p><a href={uzlet.telefonHref}>{uzlet.telefon}</a>{uzlet.email && <><br /><a href={`mailto:${uzlet.email}`}>{uzlet.email}</a></>}</p>
+      </div>}
+    </div>
+  </section>
+</Alap>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      'szoveg oldal'
+      'info oldal';
+    align-items: start;
+    column-gap: clamp(2rem, 1rem + 4vw, 5rem);
+    row-gap: 2rem;
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  }
+  .hero-szoveg {
+    grid-area: szoveg;
+  }
+  .hero-hol {
+    color: var(--halvany);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    margin-bottom: 1.5rem;
+    font-size: clamp(3rem, 1.4rem + 7vw, 7rem);
+    line-height: 0.95;
+  }
+  :global([data-tema='meresz']) .hero h1 {
+    font-size: clamp(3.4rem, 1.2rem + 9.5vw, 9rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+  }
+  .hero-lead {
+    font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+    line-height: 1.5;
+    max-width: 34rem;
+    margin: 0;
+  }
+  .hero-info {
+    grid-area: info;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1.25rem 2rem;
+    border-top: 2px solid var(--szoveg);
+    padding-top: 1.25rem;
+  }
+  .hero-info p {
+    margin-bottom: 0.4rem;
+  }
+  .hero-utmutato {
+    display: block;
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+  }
+  .hero-gombok {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .hero :global(.hero-kep),
+  .hero-tabla {
+    grid-area: oldal;
+  }
+  .hero :global(.hero-kep img) {
+    aspect-ratio: 4 / 5;
+  }
+  .hero-tabla {
+    background: var(--felulet);
+    padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    border-radius: 3px;
+  }
+  .hero-tabla :global(.heti caption) {
+    font-family: var(--betu-cim);
+    font-weight: var(--cim-suly);
+    font-stretch: var(--cim-szelesseg);
+    text-transform: var(--cim-atalakitas);
+    font-size: 1.6rem;
+    line-height: 1.1;
+    padding-bottom: 0.75rem;
+  }
+
+  @media (max-width: 56rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'szoveg' 'info' 'oldal';
+    }
+    .hero :global(.hero-kep img) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  @media (max-width: 30rem) {
+    .hero-info {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hero-gombok .gomb {
+      flex: 1 1 100%;
+    }
+  }
+
+  /* kiemelt kínálat: egy fő tétel + sorok */
+  .kiemelt {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+    align-items: start;
+  }
+  .fo-tetel {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .kiemelt:not(.kiemelt--kep) .fo-tetel {
+    border-top: 2px solid var(--szoveg);
+    padding-top: 1.25rem;
+  }
+  .fo-tetel :global(.fo-tetel-kep img) {
+    aspect-ratio: 4 / 3;
+  }
+  .fo-tetel h3 {
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.3rem);
+    margin-bottom: 0.4rem;
+  }
+  .fo-tetel-ar {
+    font-size: 1.35rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 0.25rem;
+  }
+  .kiemelt-lista :global(.arlista > li:first-child) {
+    border-top: 2px solid var(--szoveg);
+  }
+  @media (max-width: 52rem) {
+    .kiemelt {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* rólunk kivonat */
+  .rolunk-kivonat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: center;
+  }
+  .rolunk-kivonat--kep {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  }
+  .rolunk-szoveg {
+    max-width: 38rem;
+  }
+  .rolunk-elso {
+    font-size: 1.2rem;
+  }
+  .nem-csinaljuk {
+    border-left: 3px solid var(--kiemelo);
+    padding-left: 1rem;
+    margin-block: 1.5rem;
+  }
+  .rolunk-kivonat :global(.rolunk-kep img) {
+    aspect-ratio: 3 / 2;
+  }
+  @media (max-width: 52rem) {
+    .rolunk-kivonat--kep {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* hol és mikor */
+  .info-sav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
+  .info-cim {
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+  .info-linkek {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+  .info-elerhetoseg p {
+    font-size: 1.3rem;
+  }
+  @media (max-width: 48rem) {
+    .info-sav {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -8,7 +8,7 @@
     "node": ">=22.18"
   },
   "scripts": {
-    "test": "node --disable-warning=ExperimentalWarning --test tesztek/*.test.ts",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec tesztek/*.test.ts",
     "build:apps-script": "node --disable-warning=ExperimentalWarning eszkozok/apps-script-epites.mjs",
     "proba": "node eszkozok/proba-bekuldes.mjs"
   }

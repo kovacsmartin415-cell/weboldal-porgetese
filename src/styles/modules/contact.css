@@ -102,7 +102,7 @@
   padding: 5px 10px; border-radius: 2px;
   opacity: 0; transform: rotate(-4deg) scale(1.5); pointer-events: none;
 }
-.cso__kartya--tabla .kartya__pecset { bottom: 6px; }
+.cso__kartya--tabla .kartya__pecset { bottom: 5px; font-size: 0.66rem; padding: 3px 8px; }
 .kartya__pecset--terv { background: var(--goz); border: 1.5px solid var(--bazalt); letter-spacing: 0.06em; }
 .cso--elkuldve .kartya__pecset { animation: cso-pecset 0.42s cubic-bezier(.2,.9,.3,1.2) forwards; }
 .cso--elkuldve .kartya__pecset--terv { animation-delay: 0.2s; }

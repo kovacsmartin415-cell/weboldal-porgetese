@@ -154,3 +154,7 @@
   margin: 0; padding-left: 12px; border-left: 3px solid var(--ken);
   font-size: 0.95rem; color: var(--goz);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pm__szkop .pm__elo { display: none; }
+}
