@@ -19,12 +19,12 @@ function fallback(el: HTMLElement, canvas: HTMLCanvasElement | null): void {
   if (el.querySelector('.nyito__tartalek')) return;
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.setAttribute('class', 'nyito__tartalek');
-  svg.setAttribute('viewBox', '0 0 600 140');
+  svg.setAttribute('viewBox', '0 0 600 160');
   svg.setAttribute('aria-hidden', 'true');
   svg.setAttribute('focusable', 'false');
   const t = document.createElementNS(SVG_NS, 'text');
   t.setAttribute('x', '2');
-  t.setAttribute('y', '128');
+  t.setAttribute('y', '150');
   t.setAttribute('textLength', '596');
   t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
   t.textContent = WORD;

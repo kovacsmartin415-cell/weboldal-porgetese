@@ -7,7 +7,7 @@
   position: absolute;
   top: clamp(96px, 14vh, 140px);
   right: var(--gutter);
-  width: min(56vw, 760px);
+  width: min(40vw, 760px);
   height: auto;
   overflow: visible;
   pointer-events: none;
@@ -16,7 +16,7 @@
   font-family: var(--f-cim);
   font-weight: 800;
   font-stretch: 75%;
-  font-size: 168px;
+  font-size: 200px;
   letter-spacing: -0.01em;
   fill: color-mix(in oklab, var(--goz) 88%, var(--bazalt));
   stroke: var(--ken);
