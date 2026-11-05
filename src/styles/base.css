@@ -26,7 +26,11 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 72px; }
+/* A ragadós fejléc alá ne kerüljön a billentyűzettel fókuszált elem (WCAG 2.4.11): a scroll-padding
+   miatt a böngésző a fejléc alá eső elemet lejjebb görgeti. A szekcióhorgonyokra ugrás ettől ne
+   csússzon el (a szekciók saját felső térköze már számol a fejléccel). */
+main section[id] { scroll-margin-top: -72px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0;
@@ -86,7 +90,7 @@ a:hover { text-decoration-color: var(--ken); }
 .logo__jel { width: 30px; height: 30px; }
 .logo__mag { fill: currentColor; }
 .fonav ul { display: flex; gap: clamp(10px, 2vw, 28px); list-style: none; margin: 0; padding: 0; }
-.fonav a { text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+.fonav a { display: inline-block; padding-block: 4px; text-decoration: none; font-weight: 500; font-size: 0.95rem; } /* ≥24px célméret (2.5.8) */
 .fonav a:hover { text-decoration: underline; }
 @media (max-width: 760px) {
   .fonav li:not(:last-child) { display: none; }
@@ -124,7 +128,7 @@ a:hover { text-decoration-color: var(--ken); }
 .nyito__vaszon { position: absolute; inset: 0; width: 100%; height: 100%; }
 .nyito__szoveg { position: relative; max-width: 1100px; pointer-events: none; }
 .nyito__szoveg a { pointer-events: auto; }
-.nyito__hely { font: 500 0.9rem/1.4 var(--f-adat); color: var(--fg-2); margin: 0 0 1.2em; }
+.nyito__hely { font: 500 0.9rem/1.4 var(--f-adat); color: color-mix(in oklab, var(--goz) 84%, var(--bazalt)); margin: 0 0 1.2em; text-shadow: 0 0 3px var(--bazalt), 0 0 14px rgba(21,24,25,.9); } /* mobilon a részecskék fölött */
 .nyito .cim-xl { max-width: 16ch; text-shadow: 0 0 24px rgba(21,24,25,.6); }
 .nyito__lead { font-size: clamp(1.05rem, 1.5vw, 1.25rem); max-width: 52ch; color: var(--fg); text-shadow: 0 0 18px rgba(21,24,25,.8); }
 .nyito__orak { display: flex; gap: 28px; flex-wrap: wrap; margin: 24px 0; font-family: var(--f-adat); }
@@ -133,7 +137,8 @@ a:hover { text-decoration-color: var(--ken); }
 .ora { font-size: 1.6rem; font-variant-numeric: tabular-nums; font-weight: 600; }
 .nyito__gombok { display: flex; gap: 12px; flex-wrap: wrap; }
 .nyito__gombok .gomb:not(.gomb--fo):hover { background: var(--goz); color: var(--bazalt); }
-.nyito__sugo { position: absolute; right: var(--gutter); bottom: 20px; margin: 0; font: 0.8rem var(--f-adat); color: var(--fg-2); }
+/* A súgó a folyam sűrűjében ül: saját sötét alapot kap, hogy a fényes részecskék fölött is ≥4.5:1 maradjon. */
+.nyito__sugo { position: absolute; right: var(--gutter); bottom: 20px; margin: 0; padding: 3px 8px; border-radius: var(--sugar); background: color-mix(in oklab, var(--bazalt) 84%, transparent); font: 0.8rem var(--f-adat); color: var(--fg-2); }
 @media (max-width: 700px) { .nyito__sugo { display: none; } }
 
 /* ---------- Bemutatóterem ---------- */
@@ -204,11 +209,12 @@ a:hover { text-decoration-color: var(--ken); }
 .mezo label { font-weight: 500; font-size: 0.95rem; }
 .mezo input, .mezo textarea {
   font: inherit; color: var(--fg); background: color-mix(in oklab, var(--bazalt) 80%, var(--goz));
-  border: 1.5px solid var(--vonal); border-radius: var(--sugar); padding: 12px 14px; min-height: 48px; width: 100%;
+  /* a mező határa ≥3:1 a sötét háttér mellett (WCAG 1.4.11) */
+  border: 1.5px solid color-mix(in oklab, var(--goz) 48%, var(--bazalt)); border-radius: var(--sugar); padding: 12px 14px; min-height: 48px; width: 100%;
 }
 .mezo input:focus, .mezo textarea:focus { border-color: var(--ken); outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ken) 40%, transparent); }
 .mezo--jelolo { grid-template-columns: auto 1fr; align-items: start; gap: 12px; }
-.mezo--jelolo input { width: 22px; height: 22px; min-height: 0; margin-top: 2px; accent-color: var(--ken); }
+.mezo--jelolo input { width: 24px; height: 24px; min-height: 0; margin-top: 1px; accent-color: var(--ken); }
 .mezo--jelolo label { font-weight: 400; }
 .urlap__allapot { min-height: 1.6em; font-family: var(--f-adat); font-size: 0.9rem; }
 
@@ -217,9 +223,21 @@ a:hover { text-decoration-color: var(--ken); }
 .lab__racs { display: grid; gap: 20px; position: relative; }
 .lab__logo { font: 800 clamp(3rem, 14vw, 11rem)/0.85 var(--f-cim); letter-spacing: -0.04em; margin: 0; }
 .lab__linkek { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.lab__linkek a { display: inline-block; padding-block: 2px; } /* ≥24px célméret (2.5.8) */
 .lab .apro { color: color-mix(in oklab, var(--goz) 65%, var(--bazalt)); }
 
 /* ---------- Aloldalak (jogi oldalak) ---------- */
+/* Hosszú olvasnivalónál a keverési módú, átlátszó fejléc minden görgetésnél rácsúszik a táblázatok és
+   bekezdések szövegére (mobilon szinte folyamatosan), és ott mindkettő olvashatatlan. Az aloldalakon
+   ezért tömör, keverés nélküli a fejléc. */
+body:has(> main.aloldal) .fejlec {
+  mix-blend-mode: normal;
+  background: var(--bg); color: var(--fg);
+  border-bottom: 1px solid var(--vonal);
+}
+/* A fejléc magasságát a html scroll-padding-top már kezeli; a jogi oldalak címsor-horgonyainak
+   saját 80px-es margója erre rakódna (152px), ezért itt csak egy kis levegő marad. */
+main.aloldal h2[id] { scroll-margin-top: 12px; }
 .aloldal { padding: clamp(56px, 8vw, 120px) 0; }
 .aloldal .keret { max-width: 820px; }
 .aloldal h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
@@ -227,6 +245,13 @@ a:hover { text-decoration-color: var(--ken); }
 .aloldal table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95rem; }
 .aloldal th, .aloldal td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--vonal); }
 .aloldal th { width: 34%; font-weight: 600; }
+/* Keskeny kijelzőn a 34%-os fejlécoszlop ~110px: a hosszú magyar szavak a szó közepén törtek
+   („adatfeldolgoz/ó”). Itt a kulcs–érték sorok egymás alá kerülnek (a táblázatok mind th[scope=row] + td). */
+@media (max-width: 560px) {
+  .aloldal th, .aloldal td { display: block; width: auto; padding: 0; border-bottom: 0; }
+  .aloldal th { padding-top: 12px; }
+  .aloldal td { padding: 2px 0 12px; border-bottom: 1px solid var(--vonal); }
+}
 .jeloles { background: var(--ken); color: var(--bazalt); padding: 0 4px; border-radius: 2px; font: 600 0.8em var(--f-adat); white-space: nowrap; }
 .kozlemeny { border-left: 4px solid var(--ken); padding: 12px 16px; background: color-mix(in oklab, var(--ken) 12%, var(--bg)); }
 

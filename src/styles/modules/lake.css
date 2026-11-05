@@ -28,10 +28,12 @@
   margin: 0;
   font: 400 0.82rem/1.5 var(--f-adat);
   letter-spacing: 0.01em;
-  color: color-mix(in oklab, var(--goz) 72%, var(--bazalt));
+  color: color-mix(in oklab, var(--goz) 80%, var(--bazalt));
+  text-shadow: 0 0 2px rgb(12 16 17 / 0.9), 0 1px 8px rgb(12 16 17 / 0.8); /* a tó világosabb foltjai fölött is ≥4.5:1 */
   max-width: 62ch;
 }
 
 /* A linkek a víz fölött is jól olvashatók maradjanak. */
 .lab__linkek a { text-shadow: 0 1px 6px rgb(12 16 17 / 0.7); }
-.lab .apro { text-shadow: 0 1px 6px rgb(12 16 17 / 0.6); }
+/* A világosabb partvonal fölött is ≥4.5:1 maradjon (képernyőképből mérve 4.25 volt). */
+.lab .apro { color: color-mix(in oklab, var(--goz) 78%, var(--bazalt)); text-shadow: 0 0 2px rgb(12 16 17 / 0.9), 0 1px 8px rgb(12 16 17 / 0.8); }

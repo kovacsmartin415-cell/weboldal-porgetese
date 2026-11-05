@@ -71,7 +71,8 @@
 .kf__chip:has(.kf__radio:checked)::after {
   content: ''; position: absolute; top: 6px; right: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--ken);
 }
-.kf__chip:has(.kf__radio:focus-visible) { outline: 3px solid var(--ken); outline-offset: 3px; }
+/* mint az alap :focus-visible: kén gyűrű + sötét belső gyűrű, hogy a világos alapon is ≥3:1 legyen */
+.kf__chip:has(.kf__radio:focus-visible) { outline: 3px solid var(--ken); outline-offset: 2px; box-shadow: 0 0 0 5px var(--bazalt); }
 .kf__ikon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
 .kf__chipek--hangulat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -99,10 +100,10 @@
 .kf__mezo input {
   font: 500 1.05rem/1.3 var(--f-torzs); color: var(--bazalt);
   background: color-mix(in oklab, var(--goz) 45%, #fff);
-  border: 1.5px solid color-mix(in oklab, var(--bazalt) 35%, transparent);
+  border: 1.5px solid color-mix(in oklab, var(--bazalt) 50%, var(--goz)); /* ≥3:1 határ (1.4.11) */
   border-radius: var(--sugar); padding: 12px 14px; min-height: 48px; width: 100%;
 }
-.kf__mezo input:focus { outline: none; border-color: var(--bazalt); box-shadow: 0 0 0 3px var(--ken); }
+.kf__mezo input:focus { outline: none; border-color: var(--bazalt); box-shadow: 0 0 0 3px var(--ken), 0 0 0 5px var(--bazalt); }
 
 /* ---------- Színpad és telefon ---------- */
 .kf__elonezet-cim { margin: 0 0 10px; font: 500 0.82rem/1 var(--f-adat); color: var(--hamu); letter-spacing: 0.04em; text-transform: uppercase; }
