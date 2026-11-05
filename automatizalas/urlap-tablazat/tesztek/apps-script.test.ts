@@ -18,7 +18,7 @@ function hamisLap(nev: string) {
     getLastRow: () => cellak.length,
     getLastColumn: () => cellak.reduce((m, r) => Math.max(m, r.length), 0),
     getMaxRows: () => 1000,
-    appendRow(sor: Sor) { cellak.push(sor.slice()); return lap; },
+    appendRow(sor: Sor) { cellak.push(Array.from(sor)); return lap; }, // Array.from: a vm-ből jött tömb főrealm-beli másolata
     getRange(r: number, c: number, nr = 1, nc = 1) { return tartomany(r, c, nr, nc); },
     setFrozenRows() { return lap; },
     setColumnWidth() { return lap; },
@@ -151,7 +151,7 @@ describe('Apps Script (A változat)', () => {
 
   test('spam → „Spam?” sor, levél nélkül; visszaigazolás csak bekapcsolva és rendes üzenetnél', () => {
     k.futtat('BEALLITASOK.visszaigazolas = true; BEALLITASOK.ertesitesCimzett = "iroda@pelda.hu";');
-    assert.equal(k.post(mintaBekuldes({ id: 'spam1' }, { 'bot-field': 'x' })).eredmeny, 'spam');
+    assert.equal(k.post(mintaBekuldes({ id: 'spam1' }, { 'bot-field': 'x', uzenet: 'Olcsó linkek' })).eredmeny, 'spam');
     assert.equal(k.lapok['Üzenetek'].cellak[1][6], 'Spam?');
     assert.equal(k.levelek.length, 0);
 
